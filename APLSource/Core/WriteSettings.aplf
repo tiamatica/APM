@@ -1,0 +1,9 @@
+ WriteSettings←{
+     cfg_file←(AppData''),'/settings.json'
+     tmp←cfg_file,'.tmp'
+     cfg←⍵
+     rc←(⊂⎕JSON cfg)⎕NPUT tmp
+     del←3 ⎕NDELETE cfg_file
+     rc←cfg_file ⎕NMOVE tmp
+     0 cfg
+ }

@@ -1,0 +1,10 @@
+ ReadSettings←{
+     cfg_file←(AppData''),'/settings.json'
+     cfg←#.⎕NS''
+     ⍝ set up defaults
+     cfg.registries←⍬
+     ~⎕NEXISTS cfg_file:0 cfg⊣(⊂⎕JSON cfg)⎕NPUT cfg_file
+     ⍝ load in actual
+     _←'cfg'⎕NS ⎕JSON⊃⎕NGET cfg_file
+     0 cfg
+ }

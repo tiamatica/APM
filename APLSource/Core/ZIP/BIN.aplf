@@ -1,0 +1,11 @@
+ BIN←{
+     ⍺←''
+     os←##.OS''
+     cd←⍺{
+         0∊⍴⍺:''
+         ⍵≡'W':'cd /d ',⍺,' && '
+         'cd ',⍺,'&&'
+     }os
+     os∊'LW':cd,##.PROJECT_HOME,'/bin/',os,'64/',⍵
+     cd,⍵ ⍝ Assume pre-installed on others?
+ }

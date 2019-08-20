@@ -1,0 +1,24 @@
+ test_pack_single_file←{
+     apm flags←⍺ ⍵
+     dir←tempDir ⍬
+     _←3 ⎕MKDIR⊢src dist←(⊂dir,'/'),¨'src' 'dist'
+     lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
+     _←(⊂lines)⎕NPUT src,'/Test.apln'
+     cfg←⎕NS''
+     cfg.group←'Example'
+     cfg.name←'Test'
+     cfg.version←'0.1.0'
+     cfg.source←'Test.apln'
+     _←(⊂⎕JSON⍠'Compact' 0⊢cfg)⎕NPUT src,'/apl-package.json'
+
+     rc zipfile←apm.Pack src dist  ⍝ now Pack it
+     assert 0=rc:
+
+     assert zipfile≡dist,'/',cfg.group,'-',cfg.name,'-v',cfg.version,'.zip':
+
+     assert ⎕NEXISTS zipfile:
+     res←apm.ZIP.list zipfile
+
+     _←3 ⎕NDELETE dir
+     0
+ }

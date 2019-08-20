@@ -1,0 +1,16 @@
+ GetViaFileRegistry←{
+     reg_root←UriToPath ⍺
+     g n v←⍵
+     0≠⊃rc ind←GetRegistryIndex reg_root:rc ind
+     mask←ind{
+         0∊⍴⊃⍵:⍺.(group name)∊⊂1↓⍵
+         ⍺.(version group name)∊⊂⍵
+     }v g n
+     0∊⍴pkgs←mask/ind:1 'Package not found'
+
+     pkg←pkgs⊃⍨⊃⍋{'.'(≠⊆⊢)⍵}¨pkgs.version
+     zippath←reg_root,'/packages/',pkg.group,'/',pkg.name,'/'
+     zipfile←zippath,,pkg.group,'-',pkg.name,'-v',pkg.version,'.zip'
+     GetViaFile PathToUri zipfile
+    ⍝ Load PathToUri zipfile
+ }

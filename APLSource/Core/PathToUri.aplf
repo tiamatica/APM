@@ -1,0 +1,4 @@
+ PathToUri←{
+     ⍝ TODO : percentencode etc.
+     'file://',⍵
+ }

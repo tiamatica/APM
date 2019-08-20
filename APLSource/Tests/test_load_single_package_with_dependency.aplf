@@ -1,0 +1,41 @@
+ test_load_single_package_with_dependency←{
+     apm flags←⍺ ⍵
+     ⍝ test loading PackageA that depends on packageB
+     dir←tempDir ⍬
+     _←3 ⎕MKDIR⊢srcA srcB dist←(⊂dir,'/'),¨'srcA' 'srcB' 'dist'
+
+     ⍝ create PackageB
+     lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
+     _←(⊂lines)⎕NPUT srcB,'/Test.apln'
+     cfg←⎕NS''
+     cfg.group←'Example'
+     cfg.name←'PackageB'
+     cfg.version←'0.1.0'
+     cfg.source←'Test.apln'
+     _←(⊂⎕JSON cfg)⎕NPUT srcB,'/apl-package.json'
+     rc zipfileB←apm.Pack srcB dist  ⍝ now Pack it
+     assert 0=rc:
+
+     ⍝ create PackageA
+     lines←':Namespace Test' 'foo←##.PackageB.Test.foo' ':EndNamespace'
+     _←(⊂lines)⎕NPUT srcA,'/Test.apln'
+     cfg←⎕NS''
+     cfg.group←'Example'
+     cfg.name←'PackageA'
+     cfg.version←'0.1.0'
+     cfg.source←'Test.apln'
+     cfg.dependencies←,⊂'file://',zipfileB
+     _←(⊂⎕JSON cfg)⎕NPUT srcA,'/apl-package.json'
+     rc zipfileA←apm.Pack srcA dist  ⍝ now Pack it
+     assert 0=rc:
+
+
+     rc cfg←apm.Load'file://',zipfileA
+     assert 0=rc:
+     ns←⍎cfg.nspath
+     assert'PackageB' 'Test'≡ns.⎕NL-⍳10:
+     assert'ok'≡ns.Test.foo'ok':
+     _←⎕EX⍕ns
+     _←3 ⎕NDELETE dir
+     0
+ }

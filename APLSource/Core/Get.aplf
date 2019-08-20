@@ -1,0 +1,7 @@
+ Get←{
+     uri←⍵
+     ⊃'file://'⍷uri:GetViaFile uri
+     ⊃'http'⍷uri:GetViaHTTP uri
+     0 1 2 3∊⍨+/'-'=uri:GetViaRegistry uri
+     1 'URI pattern not supported'
+ }

@@ -1,0 +1,19 @@
+ InitPackage←{
+     path←⊃1 ⎕NPARTS ⍵,'/'
+     ⎕NEXISTS path,CFG_NAME:1 'Package definition already exists'
+     cfg←⎕NS''
+     ⍝ set up defaults
+     ⎕←'Group:'
+     cfg.group←⍞
+     ⎕←'Name:'
+     cfg.name←⍞
+     ⎕←'Version:'
+     ⍞←'0.1.0'
+     cfg.version←⍞
+     ⎕←'Source:'
+     cfg.source←⍞
+     cfg.dependencies←⍬
+     json←⎕JSON⍠'Compact' 0⊢cfg
+     r←(⊂json)⎕NPUT path,CFG_NAME
+     json
+ }

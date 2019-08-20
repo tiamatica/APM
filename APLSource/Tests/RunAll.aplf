@@ -1,0 +1,11 @@
+ RunAll←{
+     ⍺←##.Core
+     debug←flags←⍵
+     fns←⎕NL-3
+     tests←fns/⍨⊣/'test_'⍷↑fns
+     rc←⍺{
+         (0/⍨debug=0)::1
+         ⍺(⍎⍵)flags  ⍝ execute test
+     }¨tests
+     'Passed (',(⍕+/rc=0),'/',(⍕≢tests),') tests'
+ }

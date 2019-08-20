@@ -1,0 +1,12 @@
+ GetViaRegistry←{
+     uri←⍵
+     group name version←3↑('/'(≠⊆⊢)uri),⊂''
+     0≠⊃rc cfg←ReadSettings'':rc cfg
+     0∊⍴cfg.registries:1 'No registries defined in APM settings file'
+     cfg.registries{
+         0∊⍴⍺:1 'Package not found in any of the registries defined'
+         registry←⊃⍺
+         'file://'≡7↑registry:registry GetViaFileRegistry ⍵
+         (1↓⍺)∇ ⍵
+     }group name version
+ }

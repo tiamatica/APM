@@ -1,0 +1,14 @@
+ LoadSource←{
+     dir←⍵
+     rc cfg←ReadConfig dir
+     rc≠0:0 ⍬
+
+     cfg.nspath←PackageSpacePath cfg
+     9=⎕NC cfg.nspath:0 cfg
+
+     rc←LoadDependencies cfg
+
+     src←dir,'/',cfg.source
+     msg←⎕SE.Link.Import cfg.nspath src
+     0 cfg
+ }

@@ -1,0 +1,18 @@
+ Pack←{
+     source target←⍵
+     ⍝ source → folder to create package from
+     ⍝ target → folder to put package in
+     ⍝ rc  ← 0 if OK, error otherwise
+     ⍝ pkg ← path to package file created
+
+     ⍝ Check source for required files.
+     cfgfile←source,'/',CFG_NAME
+     0=⎕NEXISTS cfgfile:1 'Config file missing'
+     cfg←⎕JSON⊃⎕NGET cfgfile
+
+     zipfile←target,'/',cfg.group,'-',cfg.name,'-v',cfg.version,'.zip'
+
+     ⍝ Pack into target folder.
+     r←source ZIP.zip zipfile
+     0 zipfile
+ }

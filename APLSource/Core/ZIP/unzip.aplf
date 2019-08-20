@@ -1,0 +1,3 @@
+ unzip←{
+     ⎕SH BIN,'unzip -o -q ',⍵,' -d ',⍺
+ }

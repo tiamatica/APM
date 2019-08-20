@@ -1,0 +1,21 @@
+ GetViaFile←{
+     uri←⍵
+     0=⊃'file://'⍷uri:1 'Only file URI supported.'
+
+     path←7↓uri
+     key←GetMD5 path
+
+     cache←CacheDir
+     pkg_dir←cache,'/',key
+
+     ⍝ unzip in temp folder and validate package content
+     temp←GetTempDir,'/',key
+     rc←temp ZIP.unzip path
+
+     ⍝ if all well, move to cache
+     _←3 ⎕MKDIR cache
+     _←3 ⎕NDELETE pkg_dir
+     rc2←pkg_dir ⎕NMOVE temp
+
+     0 pkg_dir
+ }

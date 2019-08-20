@@ -1,0 +1,7 @@
+ PutRegistryIndex←{
+     tmp tgt←(⊂⍵,'/index.'),¨'tmp' 'json'
+     rc←(⊂⎕JSON ⍺)⎕NPUT tmp
+     rc←3 ⎕NDELETE tgt
+     rc←tgt ⎕NMOVE tmp
+     0
+ }
