@@ -24,12 +24,11 @@
      tgt←path,'/packages/',cfg.group,'/',cfg.name,'/'
      rc←3 ⎕MKDIR tgt
      rc←tgt ⎕NMOVE zipfile
-     pcfg←⎕NS''
-     pcfg.(group name version)←cfg.(group name version)
-     pcfg.dependencies←{
-         0∊⍴⍵:⍬
-         ⍵.(group,'/',name,'/',version)
-     }cfg.dependencies
+     pcfg←cfg.⎕NS'group' 'name' 'version' 'dependencies'
+⍝     pcfg.dependencies←{
+⍝         0∊⍴⍵:⍬
+⍝         ⍵.(group,'/',name,'/',version)
+⍝     }cfg.dependencies
      0≠rc←(ind,pcfg)PutRegistryIndex path:rc'Failed updating index'
 
      0

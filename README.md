@@ -96,15 +96,15 @@ The folder structure of the registry is as follows:
 ```bash
 registry/
   index.json
-    packages/
-      GroupA/
-        PackageA/
-          GroupA-PackageA-v1.0.0.zip
-          GroupA-PackageA-v1.0.1.zip
-      GroupB/
-        PackageB/
-          GroupB-PackageB-v0.9.0.zip
-          GroupB-PackageB-v0.9.1.zip
+  packages/
+    GroupA/
+      PackageA/
+        GroupA-PackageA-v1.0.0.zip
+        GroupA-PackageA-v1.0.1.zip
+    GroupB/
+      PackageB/
+        GroupB-PackageB-v0.9.0.zip
+        GroupB-PackageB-v0.9.1.zip
 ```
 
 ### index.json
@@ -118,9 +118,9 @@ The index file is a structured list of a subset of the content of each of the `a
     "name": "PackageA",
     "version": "1.0.0",
     "dependencies": [
-      "GroupB/PackageB/v0.9.10",
-      "GroupC/PackageC/v4.3.9",
-      "GroupC/PackageC/v5.0.0"
+      "GroupB-PackageB-0.9.10",
+      "GroupC-PackageC-4.3.9",
+      "GroupC-PackageC-5.0.0"
     ]
   },
   {
@@ -134,7 +134,7 @@ The index file is a structured list of a subset of the content of each of the `a
     "name": "PackageC",
     "version": "4.3.9",
     "dependencies": [
-      "GroupB/PackageB/v0.9.8"
+      "GroupB-PackageB-0.9.8"
     ]
   },
   {

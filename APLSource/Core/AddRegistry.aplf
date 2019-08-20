@@ -1,0 +1,6 @@
+ AddRegistry←{
+     ⍺←⊢
+     0≠⊃rc cfg←⍺ ReadSettings'':rc cfg
+     cfg.registries←∪(⊂⍵),cfg.registries
+     ⍺ WriteSettings cfg
+ }

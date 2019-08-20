@@ -1,0 +1,26 @@
+ test_serverless_registry_list_packages←{
+     apm flags←⍺ ⍵
+     dir←tempDir ⍬
+     rc registry←apm CreateTestRegistry dir
+     assert rc=0:
+
+     rc msg←apm.AddRegistry apm.PathToUri registry
+     assert rc=0:
+
+     rc packs←apm.List'Example'
+     assert rc=0:
+     assert 3=≢packs:
+
+     rc packs←apm.List'v0.1'
+     assert rc=0:
+     assert 1=≢packs:
+     assert'0.1.0'≡⊃packs.version:
+
+     rc packs←apm.List'v0.2'
+     assert rc=0:
+     assert 2=≢packs:
+     assert'0.2.1'≡⊃⌽packs.version:
+
+     _←3 ⎕NDELETE dir
+     0
+ }

@@ -1,5 +1,6 @@
  ReadSettings←{
-     cfg_file←(AppData''),'/settings.json'
+     ⍺←(AppData''),'/settings.json'
+     cfg_file←⍺
      cfg←#.⎕NS''
      ⍝ set up defaults
      cfg.registries←⍬

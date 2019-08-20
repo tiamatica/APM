@@ -1,0 +1,10 @@
+ ListViaFile←{
+     uri pattern←⍺ ⍵
+     0=⊃'file://'⍷uri:1 'Only file URI supported.'
+
+     path←7↓uri
+     0≠⊃rc ind←GetRegistryIndex path:rc ind
+     mask←∨/pattern⍷⍕↑ind.(group,'-',name,'-v',version)
+     pkgs←mask/ind
+     0 pkgs
+ }

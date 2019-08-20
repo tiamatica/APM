@@ -1,0 +1,11 @@
+ List←{
+     rc cfg←ReadSettings''
+     rc≠0:rc cfg
+     res←cfg.registries{
+         ⊃'file://'⍷⍺:⍺ ListViaFile ⍵
+         ⊃'http'⍷⍺:⍺ ListViaHTTP ⍵
+     }¨⊂⍵
+     rcs←⊃¨res
+     packs←⊃,/(rcs=0)/2⊃¨res
+     0 packs
+ }

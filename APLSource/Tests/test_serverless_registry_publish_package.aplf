@@ -1,4 +1,4 @@
- test_publish_to_serverless_registry←{
+ test_serverless_registry_publish_package←{
      apm flags←⍺ ⍵
      dir←tempDir ⍬
      _←3 ⎕MKDIR⊢src registry←(⊂dir,'/'),¨'src' 'registry'

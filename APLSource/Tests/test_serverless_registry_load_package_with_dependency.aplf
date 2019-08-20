@@ -1,0 +1,21 @@
+ test_serverless_registry_load_package_with_dependency←{
+     apm flags←⍺ ⍵
+     ⍝ test loading PackageA that depends on packageB
+     dir←tempDir ⍬
+     rc registry←apm CreateTestRegistry dir
+     assert rc=0:
+     uri←apm.PathToUri registry
+     rc msg←apm.AddRegistry uri
+     assert rc=0:
+
+     rc cfg←apm.Load'GroupX-Tool-2.0.0'
+     assert 0=rc:
+     ns←⍎cfg.nspath
+     assert('Math' 'Tool')≡ns.⎕NL-⍳10:
+     assert 42≡ns.Tool.inc 41:
+
+     _←⎕EX⍕ns
+     rc msg←apm.RemoveRegistry uri
+     _←3 ⎕NDELETE dir
+     0
+ }

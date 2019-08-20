@@ -21,5 +21,6 @@
      assert(,⊂'Test')≡ns.⎕NL-⍳10:
      assert'ok'≡ns.Test.foo'ok':
      _←⎕EX⍕ns
+     _←3 ⎕NDELETE dir
      0
  }
