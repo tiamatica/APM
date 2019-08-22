@@ -1,4 +1,4 @@
- tempDir←{
+ getTempDir←{
      dir←(739⌶0),'/',⊃1↓⎕SI
      r1←3 ⎕NDELETE dir
      r2←3 ⎕MKDIR dir

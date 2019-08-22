@@ -9,11 +9,11 @@
      w:lad,d            ⍝ windows
 
      as←'/Library/Application Support'  ⍝ special mac folder
-     l∧~0∊⍴h:h,d        ⍝ linux
-     ~0∊⍴h:h,as,d       ⍝ mac
+     l∧0≠≢h:h,d         ⍝ linux
+     0≠≢h:h,as,d        ⍝ mac
 
      u←⊃~∘∊⍨2 ⎕NQ'.' 'GetEnvironment'('LOGNAME' 'USER' 'LNAME' 'USERNAME')
-     0∊⍴u:d ⍝ ? what if no user found
+     0=≢u:d             ⍝ ? what if no user found  ⍝TODO⍝
      l:'/home/',u,d     ⍝ linux
      '/Users/',u,as,d   ⍝ mac
  }

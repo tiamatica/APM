@@ -1,6 +1,6 @@
  UriToPath←{
-     ⍝ TODO : percent decode uri
-     ⍝ TODO : for windows, convert drive paths (/c/ → c:/)
+     ⍝⍝ TODO : percent decode uri
+     ⍝⍝ TODO : for windows, convert drive paths (/c/ → c:/)
      'file://'≡7↑⍵:7↓⍵
      ∘∘∘
  }

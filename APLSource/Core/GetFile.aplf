@@ -2,7 +2,7 @@
      uri←⍵
      0=⊃'file://'⍷uri:1 'Only file URI supported.'
 
-     path←7↓uri
+     path←(≢'file://')↓uri
      key←⊃⎕SH'md5 -q ',path
 
      cache←CacheDir

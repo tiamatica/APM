@@ -1,17 +1,17 @@
  test_add_registry←{
      apm flags←⍺ ⍵
-     dir←tempDir ⍬
-     cfg_file←dir,'/settings.json'
-     rc cfg←cfg_file apm.ReadSettings''
+     dir←getTempDir ⍬
+     rc msg cfg←apm.ReadSettings''
      assert rc=0:
+     assert 0=≢cfg.registries:
 
      uri←'https://apl.registry.com'
-     rc cfg←cfg_file apm.AddRegistry uri
+     rc msg cfg←apm.AddRegistry'MyAlias'uri
      assert rc=0:
 
-     rc cfg←cfg_file apm.ReadSettings''
+     rc msg cfg←apm.ReadSettings''
      assert rc=0:
-     assert uri≡⊃cfg.registries:
+     assert uri≡⊃,/cfg.registries.uri:
 
      _←3 ⎕NDELETE dir
      0

@@ -2,7 +2,7 @@
      path←⍵
      rc←3 ⎕MKDIR path
      files←⊃⎕NINFO⍠1⊢path,'/*'
-     ~0∊⍴files:1 'Path provided must be empty'
+     0≠≢files:1 'Path provided must be empty'
      rc←(⊂'[]')⎕NPUT path,'/index.json'
      rc←3 ⎕MKDIR path,'/packages'
      0

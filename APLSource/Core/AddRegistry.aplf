@@ -1,6 +1,24 @@
- AddRegistry←{
-     ⍺←⊢
-     0≠⊃rc cfg←⍺ ReadSettings'':rc cfg
-     cfg.registries←∪(⊂⍵),cfg.registries
-     ⍺ WriteSettings cfg
- }
+ (rc msg cfg)←AddRegistry(alias uri);reg
+ ⍝ Adds registry ⍵ to config file.\\
+ ⍝ Returns hree-item vector with\\
+ ⍝ 1. return code, 0=okay
+ ⍝ 2. empty vector or possibly additonal information
+ ⍝ 3. namespace or, in case rc is not 0, and error message
+ rc msg cfg←ReadSettings''
+ :If 0=rc
+     reg←⎕NS''
+     reg.(alias uri)←alias uri
+ ⍝TODO⍝      reg.⎕DF'Registry:',alias   Bug <01656>
+     :If 0=≢cfg.registries
+         cfg.registries←,reg
+     :Else
+         :If ~(⊂reg.alias)∊cfg.registries.alias
+             cfg.registries,←reg
+         :Else
+             rc←1
+             msg←'Duplicate alias'
+         :EndIf
+     :EndIf
+     rc msg cfg←WriteSettings cfg
+ :EndIf
+⍝Done

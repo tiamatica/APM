@@ -1,21 +1,25 @@
  GetViaFile←{
+     ⍺←''
+     alias←⍺
      uri←⍵
-     0=⊃'file://'⍷uri:1 'Only file URI supported.'
+     type←'file://'
+     0=⊃type⍷uri:1 'Only file URI supported.' ''
 
-     path←7↓uri
-     key←GetMD5 path
-
-     cache←CacheDir
-     pkg_dir←cache,'/',key
+     path←UriToPath uri
+     filename←2⊃⎕NPARTS path
 
      ⍝ unzip in temp folder and validate package content
-     temp←GetTempDir,'/',key
+     temp←GetTempDir,'/',filename,'-',GetMD5 path
      rc←temp ZIP.unzip path
+     ⍝ rc ?!   ⍝TODO⍝
+     0=≢alias:0 ''temp
 
+     cache←CacheDir
+     pkg_dir←cache,'/',alias,'/',{⍵/⍨2>+\'-'=⍵}filename
      ⍝ if all well, move to cache
      _←3 ⎕MKDIR cache
      _←3 ⎕NDELETE pkg_dir
      rc2←pkg_dir ⎕NMOVE temp
 
-     0 pkg_dir
+     0 ''pkg_dir
  }

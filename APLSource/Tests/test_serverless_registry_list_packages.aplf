@@ -1,13 +1,13 @@
  test_serverless_registry_list_packages←{
      apm flags←⍺ ⍵
-     dir←tempDir ⍬
-     rc registry←apm CreateTestRegistry dir
+     dir←getTempDir ⍬
+     rc registry←CreateTestRegistry apm dir
      assert rc=0:
 
-     rc msg←apm.AddRegistry apm.PathToUri registry
+     rc msg cfg←apm.AddRegistry'TestReg'(apm.PathToUri registry)
      assert rc=0:
 
-     rc packs←apm.List'Example'
+     rc msg packs←'TestReg'apm.List'Example'
      assert rc=0:
      assert 3=≢packs:
 

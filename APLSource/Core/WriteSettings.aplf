@@ -1,9 +1,9 @@
  WriteSettings←{
-     ⍺←(AppData''),'/settings.json'
+     ⍺←(AppData''),'/apm_config.json'
      cfg_file cfg←⍺ ⍵
      tmp←cfg_file,'.tmp'
      rc←(⊂⎕JSON cfg)⎕NPUT tmp
      del←3 ⎕NDELETE cfg_file
      rc←cfg_file ⎕NMOVE tmp
-     0 cfg
+     0 ''cfg
  }

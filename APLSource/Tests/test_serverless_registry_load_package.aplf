@@ -1,6 +1,6 @@
  test_serverless_registry_load_package←{
      apm flags←⍺ ⍵
-     dir←tempDir ⍬
+     dir←getTempDir ⍬
      rc registry←apm CreateTestRegistry dir
      assert rc=0:
 

@@ -1,11 +1,13 @@
  List←{
-     rc cfg←ReadSettings''
-     rc≠0:rc cfg
-     res←cfg.registries{
-         ⊃'file://'⍷⍺:⍺ ListViaFile ⍵
-         ⊃'http'⍷⍺:⍺ ListViaHTTP ⍵
+     regName←⍺
+     rc msg cfg←ReadSettings''
+     0≠rc:rc msg
+     registry←cfg.registries⊃⍨cfg.registries.alias⍳⊂regName
+     res←registry{
+         ⊃'file://'⍷⍺.uri:⍺ ListViaFile ⍵
+         {≢'^http[s]*://'⎕S 0⊣⍵}⍺:⍺ ListViaHTTP ⍵
      }¨⊂⍵
      rcs←⊃¨res
      packs←⊃,/(rcs=0)/2⊃¨res
-     0 packs
+     0 ''packs
  }

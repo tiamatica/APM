@@ -1,7 +1,7 @@
  test_serverless_registry_load_package_with_dependency←{
      apm flags←⍺ ⍵
      ⍝ test loading PackageA that depends on packageB
-     dir←tempDir ⍬
+     dir←getTempDir ⍬
      rc registry←apm CreateTestRegistry dir
      assert rc=0:
      uri←apm.PathToUri registry

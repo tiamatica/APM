@@ -1,18 +1,20 @@
  Pack←{
+ ⍝ source → folder to create package from\\
+ ⍝ target → folder to put package in\\
+ ⍝ ← is two element vector:\\
+ ⍝ 1. rc  ← 0 if OK, error otherwise
+ ⍝ 2. pkg ← path to package file created or potentially error message in case rc≠0
+
      source target←⍵
-     ⍝ source → folder to create package from
-     ⍝ target → folder to put package in
-     ⍝ rc  ← 0 if OK, error otherwise
-     ⍝ pkg ← path to package file created
 
      ⍝ Check source for required files.
      cfgfile←source,'/',CFG_NAME
-     0=⎕NEXISTS cfgfile:1 'Config file missing'
+     0=⎕NEXISTS cfgfile:1 'Config file missing' ''
      cfg←⎕JSON⊃⎕NGET cfgfile
 
      zipfile←target,'/',cfg.group,'-',cfg.name,'-v',cfg.version,'.zip'
 
      ⍝ Pack into target folder.
      r←source ZIP.zip zipfile
-     0 zipfile
+     0 ''zipfile
  }

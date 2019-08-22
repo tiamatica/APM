@@ -1,11 +1,11 @@
  LoadDependencies←{
      cfg←⍵
-     0∊⍴d←cfg.dependencies:0
+     0=≢cfg.dependencies:0
      ns←⍎cfg.nspath ⎕NS''
      _←ns{
-         rc dc←Load ⍵
-         rc≠0:∘∘∘
+         rc msg dc←Load ⍵
+         rc≠0:∘∘∘   ⍝TODO⍝
          ⍺⍎dc.(name,'←',nspath)
-     }¨d
+     }¨cfg.dependencies
      0
  }

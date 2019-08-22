@@ -1,5 +1,6 @@
  Load←{
-     ⍵≡0:1 ''
-     0≠⊃rc dir←Get ⍵:rc dir
+     ⍵≡0:1 '' ''        ⍝ ¨⍬ case
+     rc msg dir←Get ⍵
+     0≠rc:rc''dir
      LoadSource dir
  }

@@ -1,12 +1,11 @@
  ReadConfig←{
      cfg_file←⍵,'/',CFG_NAME
-     ~⎕NEXISTS cfg_file:1 ⍬
+     ~⎕NEXISTS cfg_file:1 ''⍬
      cfg←#.⎕NS''
      ⍝ set up defaults
      cfg.source←''
      cfg.dependencies←⍬
-     cfg.md5←⊃1↓⎕NPARTS ⍵
      ⍝ load in actual
      _←'cfg'⎕NS ⎕JSON⊃⎕NGET cfg_file
-     0 cfg
+     0 ''cfg
  }

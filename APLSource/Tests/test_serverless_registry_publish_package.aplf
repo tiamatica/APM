@@ -1,6 +1,6 @@
  test_serverless_registry_publish_package←{
      apm flags←⍺ ⍵
-     dir←tempDir ⍬
+     dir←getTempDir ⍬
      _←3 ⎕MKDIR⊢src registry←(⊂dir,'/'),¨'src' 'registry'
 
      ⍝ initialise new serverless registry

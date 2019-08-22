@@ -1,5 +1,5 @@
  CreateTestRegistry←{
-     apm dir←⍺ ⍵
+     apm dir←⍵
      _←3 ⎕MKDIR⊢src registry←(⊂dir,'/'),¨'src' 'registry'
 
      ⍝ initialise new serverless registry
@@ -67,7 +67,6 @@
      _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
      rc msg←apm.Publish src uri
      assert 0=rc:
-
 
      0 registry
  }

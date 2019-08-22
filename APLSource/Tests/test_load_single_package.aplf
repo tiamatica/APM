@@ -1,7 +1,8 @@
  test_load_single_package←{
      apm flags←⍺ ⍵
-     dir←tempDir ⍬
-     _←3 ⎕MKDIR⊢src dist←(⊂dir,'/'),¨'src' 'dist'
+     dir←getTempDir ⍬
+     src dist←(⊂dir,'/'),¨'src' 'dist'
+     _←3 ⎕MKDIR src dist
 
      ⍝ create Package
      lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
@@ -12,10 +13,11 @@
      cfg.version←'0.1.0'
      cfg.source←'Test.apln'
      _←(⊂⎕JSON cfg)⎕NPUT src,'/apl-package.json'
-     rc zipfile←apm.Pack src dist  ⍝ now Pack it
+     rc msg zipfile←apm.Pack src dist  ⍝ now Pack it
      assert 0=rc:
+     assert 0<≢zipfile:
 
-     rc cfg←apm.Load'file://',zipfile
+     rc msg cfg←apm.Load'file://',zipfile
      assert 0=rc:
      ns←⍎cfg.nspath
      assert(,⊂'Test')≡ns.⎕NL-⍳10:

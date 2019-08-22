@@ -1,6 +1,5 @@
  PackageSpacePath←{
-    ⍝APM_ROOT,'.',⍵.group,'.',⍵.name,'.v','_'@{⍵∊'.-'}⍵.version
      name←⍵.group,'.',⍵.name
-     version←'_'@{⍵∊'.-'}⍵.version,'_',⍵.md5
+     version←'_'@{⍵∊'.-'}⍵.version
      APM_ROOT,'.',name,'.v',version
  }
