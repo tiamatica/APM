@@ -1,6 +1,6 @@
  WriteSettings←{
-     ⍺←(AppData''),'/apm_config.json'
-     cfg_file cfg←⍺ ⍵
+     cfg_file←GetGlobalConfigFile
+     cfg←⍵
      tmp←cfg_file,'.tmp'
      rc←(⊂⎕JSON cfg)⎕NPUT tmp
      del←3 ⎕NDELETE cfg_file

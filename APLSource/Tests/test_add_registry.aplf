@@ -1,16 +1,20 @@
  test_add_registry←{
      apm flags←⍺ ⍵
-     rc msg cfg←apm.ReadSettings GetTestRegFilename
+     rc msg cfg←apm.ReadGlobalConfig''
      assert rc=0:
      assert 0=≢cfg.registries:
 
      uri←'https://apl.registry.com'
-     rc msg cfg←GetTestRegFilename apm.AddRegistry'MyAlias'uri
+     rc msg cfg←apm.AddRegistry'MyAlias'uri
      assert rc=0:
 
-     rc msg cfg←apm.ReadSettings GetTestRegFilename
+     rc msg cfg←apm.ReadGlobalConfig''
      assert rc=0:
      assert uri≡⊃,/cfg.registries.uri:
+
+     rc msg cfg←apm.RemoveRegistry'MyAlias'
+     assert rc=0:
+     assert 0=≢cfg.registries:
 
      0
  }

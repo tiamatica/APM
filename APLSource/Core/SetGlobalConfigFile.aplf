@@ -1,0 +1,11 @@
+ r←SetGlobalConfigFile new
+ :If 2=⎕NC'GLOBAL_CONFIG_FILE'
+     r←GLOBAL_CONFIG_FILE
+ :Else
+     r←''
+ :EndIf
+ :If 0=≢new
+     ⎕EX'GLOBAL_CONFIG_FILE'
+ :Else
+     GLOBAL_CONFIG_FILE←new
+ :EndIf

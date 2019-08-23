@@ -15,11 +15,12 @@
      0=≢alias:0 ''temp
 
      cache←CacheDir
-     pkg_dir←cache,'/',alias,'/',{⍵/⍨2>+\'-'=⍵}filename
+     reg_dir←cache,'/',alias,'/'
+     pkg_dir←reg_dir,{('/',⍵),⍨⍵/⍨2>+\'-'=⍵}filename
+
      ⍝ if all well, move to cache
-     _←3 ⎕MKDIR cache
-     _←3 ⎕NDELETE pkg_dir
      _←3 ⎕MKDIR pkg_dir
+     _←3 ⎕NDELETE pkg_dir
      rc2←pkg_dir ⎕NMOVE temp
 
      0 ''pkg_dir

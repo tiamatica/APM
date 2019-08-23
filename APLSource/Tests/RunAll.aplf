@@ -1,15 +1,15 @@
  RunAll←{
      ⍺←##.Core
+     apm←⍺
      debug←flags←⍵
+     new_cfg←(getTempDir''),'/apm_config.json'
+     old_cfg←apm.SetGlobalConfigFile new_cfg
      fns←⎕NL-3
      tests←fns/⍨⊣/'test_'⍷↑fns
-     _←3 ⎕NDELETE GetTestRegPath
-     rc←3 ⎕MKDIR GetTestRegPath
-     assert 1=rc:
      rc←⍺{
          (0/⍨debug=0)::1
          ⍺(⍎⍵)flags  ⍝ execute test
      }¨tests
-     rc←3 ⎕MKDIR GetTestRegPath
+     _←apm.SetGlobalConfigFile old_cfg
      'Passed (',(⍕+/rc=0),'/',(⍕≢tests),') tests'
  }

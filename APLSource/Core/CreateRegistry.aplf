@@ -5,5 +5,5 @@
      0≠≢files:1 'Path provided must be empty'
      rc←(⊂'[]')⎕NPUT path,'/index.json'
      rc←3 ⎕MKDIR path,'/packages'
-     0
+     0 ''
  }

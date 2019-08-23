@@ -1,14 +1,15 @@
  List←{
-     x←⊆,⍺
-     regFilename←⊂(AppData''),'/apm_config.json'
-     alias regFilename←2↑x,(≢x)↓regFilename
-     rc msg cfg←ReadSettings regFilename
+     ⍺←''
+     alias pattern←⍺ ⍵
+     rc msg cfg←ReadGlobalConfig''
      0≠rc:rc msg''
-     registry←cfg.registries⊃⍨cfg.registries.alias⍳⊂alias
-     res←registry{
+     0=≢cfg.registries:1 'No registries configured' ⍬
+     registries←alias{0=≢⍺:⍵ ⋄ ⍵/⍨⍵.alias∊⊂⍺}cfg.registries
+     0=≢registries:1 'Registry alias not found' ⍬
+     res←registries{
          ⊃'file://'⍷⍺.uri:⍺.uri ListViaFile ⍵
          {≢'^http[s]*://'⎕S 0⊣⍵}⍺:⍺ ListViaHTTP ⍵
-     }¨⊂⍵
+     }¨⊂pattern
      rcs←⊃¨res
      packs←⊃,/(0=⊃¨res)/3⊃¨res    ⍝TODO⍝  ????  Errors are just silently ignored
      0 ''packs

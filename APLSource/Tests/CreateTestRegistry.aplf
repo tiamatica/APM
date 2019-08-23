@@ -1,5 +1,5 @@
  CreateTestRegistry←{
-     apm dir←⍵
+     apm dir←⍺ ⍵
      _←3 ⎕MKDIR⊢src registry←(⊂dir,'/'),¨'src' 'registry'
 
      ⍝ initialise new serverless registry

@@ -1,0 +1,6 @@
+ r←GetGlobalConfigFile
+ :If 2=⎕NC'GLOBAL_CONFIG_FILE'
+     r←GLOBAL_CONFIG_FILE
+ :Else
+     r←(AppData''),'/apm_config.json'
+ :EndIf

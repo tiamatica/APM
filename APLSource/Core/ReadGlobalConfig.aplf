@@ -1,5 +1,5 @@
- ReadSettings←{
-     cfg_file←{(AppData''),'/apm_config.json'}⍣(0=≢⍵)⊣⍵
+ ReadGlobalConfig←{
+     cfg_file←GetGlobalConfigFile
      cfg←#.⎕NS''
      ⍝ set up defaults
      cfg.registries←⍬
