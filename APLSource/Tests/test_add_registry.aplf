@@ -1,18 +1,16 @@
  test_add_registry←{
      apm flags←⍺ ⍵
-     dir←getTempDir ⍬
-     rc msg cfg←apm.ReadSettings''
+     rc msg cfg←apm.ReadSettings GetTestRegFilename
      assert rc=0:
      assert 0=≢cfg.registries:
 
      uri←'https://apl.registry.com'
-     rc msg cfg←apm.AddRegistry'MyAlias'uri
+     rc msg cfg←GetTestRegFilename apm.AddRegistry'MyAlias'uri
      assert rc=0:
 
-     rc msg cfg←apm.ReadSettings''
+     rc msg cfg←apm.ReadSettings GetTestRegFilename
      assert rc=0:
      assert uri≡⊃,/cfg.registries.uri:
 
-     _←3 ⎕NDELETE dir
      0
  }

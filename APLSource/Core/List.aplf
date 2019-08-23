@@ -1,13 +1,15 @@
  List←{
-     regName←⍺
-     rc msg cfg←ReadSettings''
-     0≠rc:rc msg
-     registry←cfg.registries⊃⍨cfg.registries.alias⍳⊂regName
+     x←⊆,⍺
+     regFilename←⊂(AppData''),'/apm_config.json'
+     alias regFilename←2↑x,(≢x)↓regFilename
+     rc msg cfg←ReadSettings regFilename
+     0≠rc:rc msg''
+     registry←cfg.registries⊃⍨cfg.registries.alias⍳⊂alias
      res←registry{
-         ⊃'file://'⍷⍺.uri:⍺ ListViaFile ⍵
+         ⊃'file://'⍷⍺.uri:⍺.uri ListViaFile ⍵
          {≢'^http[s]*://'⎕S 0⊣⍵}⍺:⍺ ListViaHTTP ⍵
      }¨⊂⍵
      rcs←⊃¨res
-     packs←⊃,/(rcs=0)/2⊃¨res
+     packs←⊃,/(0=⊃¨res)/3⊃¨res    ⍝TODO⍝  ????  Errors are just silently ignored
      0 ''packs
  }

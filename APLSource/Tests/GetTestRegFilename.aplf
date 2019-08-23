@@ -1,0 +1,3 @@
+ filename←GetTestRegFilename
+ filename←GetTestRegPath,'\apm_config.json'
+⍝Done

@@ -1,0 +1,12 @@
+ path←GetTestRegPath;os;ExpandEnvironmentStrings;rc
+ os←⊃##.Core.OS ⍬
+ :Select os
+ :Case 'W'
+     path←'%USERPROFILE%','\AppData\Local\Temp\APM_Tests'
+     'ExpandEnvironmentStrings'⎕NA'I4 KERNEL32.C32|ExpandEnvironmentStrings* <0T >0T I4'
+     (rc path)←ExpandEnvironmentStrings path 2048 2048
+     ⎕SIGNAL 42≠rc
+ :Else
+     ∘∘∘  ⍝TODO⍝
+ :EndSelect
+⍝D

@@ -1,7 +1,7 @@
  LoadSource←{
      dir←⍵
      rc msg cfg←ReadConfig dir
-     rc≠0:0 msg''
+     rc≠0:1 msg ⍬
 
      cfg.nspath←PackageSpacePath cfg
      9=⎕NC cfg.nspath:0 ''cfg

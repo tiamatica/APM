@@ -4,19 +4,19 @@
      rc registry←CreateTestRegistry apm dir
      assert rc=0:
 
-     rc msg cfg←apm.AddRegistry'TestReg'(apm.PathToUri registry)
+     rc msg cfg←GetTestRegFilename apm.AddRegistry'TestReg'(apm.PathToUri registry)
      assert rc=0:
 
-     rc msg packs←'TestReg'apm.List'Example'
+     rc msg packs←('TestReg'GetTestRegFilename)apm.List'Example'
      assert rc=0:
      assert 3=≢packs:
 
-     rc packs←apm.List'v0.1'
+     rc msg packs←('TestReg'GetTestRegFilename)apm.List'v0.1'
      assert rc=0:
      assert 1=≢packs:
      assert'0.1.0'≡⊃packs.version:
 
-     rc packs←apm.List'v0.2'
+     rc msg packs←('TestReg'GetTestRegFilename)apm.List'v0.2'
      assert rc=0:
      assert 2=≢packs:
      assert'0.2.1'≡⊃⌽packs.version:

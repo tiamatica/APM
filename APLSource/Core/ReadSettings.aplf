@@ -1,8 +1,9 @@
  ReadSettings←{
-     cfg_file←(AppData''),'/apm_config.json'
+     cfg_file←{(AppData''),'/apm_config.json'}⍣(0=≢⍵)⊣⍵
      cfg←#.⎕NS''
      ⍝ set up defaults
      cfg.registries←⍬
+     cfg.filename←cfg_file
      ~⎕NEXISTS cfg_file:0 ''cfg⊣(⊂⎕JSON cfg)⎕NPUT cfg_file
      ⍝ load in actual
      _←'cfg'⎕NS ⎕JSON⊃⎕NGET cfg_file

@@ -1,10 +1,11 @@
- (rc msg cfg)←AddRegistry(alias uri);reg
+ (rc msg cfg)←{reg_cfg_filename}AddRegistry(alias uri);reg
  ⍝ Adds registry ⍵ to config file.\\
  ⍝ Returns hree-item vector with\\
  ⍝ 1. return code, 0=okay
  ⍝ 2. empty vector or possibly additonal information
  ⍝ 3. namespace or, in case rc is not 0, and error message
- rc msg cfg←ReadSettings''
+ reg_cfg_filename←{0<⎕NC ⍵:⍎⍵ ⋄ (AppData''),'/apm_config.json'}'reg_cfg_filename'
+ rc msg cfg←ReadSettings reg_cfg_filename
  :If 0=rc
      reg←⎕NS''
      reg.(alias uri)←alias uri
@@ -19,6 +20,8 @@
              msg←'Duplicate alias'
          :EndIf
      :EndIf
-     rc msg cfg←WriteSettings cfg
+     :If 0=rc
+         rc msg cfg←reg_cfg_filename WriteSettings cfg
+     :EndIf
  :EndIf
 ⍝Done

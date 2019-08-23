@@ -4,9 +4,9 @@
      0=⊃type⍷uri:1 'Only file URI supported.'
 
      path←(≢type)↓uri
-     rc ind←GetRegistryIndex path
-     0≠rc:rc ind
-     mask←∨/pattern⍷⍕↑ind.(group,'-',name,'-v',version)
-     pkgs←mask/ind
-     0 pkgs
+     rc msg index←GetRegistryIndex path
+     0≠rc:rc msg index
+     mask←∨/pattern⍷⍕↑index.(group,'-',name,'-v',version)
+     pkgs←mask/index
+     0 ''pkgs
  }

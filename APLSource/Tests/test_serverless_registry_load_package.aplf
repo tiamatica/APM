@@ -1,16 +1,17 @@
  test_serverless_registry_load_package←{
      apm flags←⍺ ⍵
      dir←getTempDir ⍬
-     rc registry←apm CreateTestRegistry dir
+     rc registry←CreateTestRegistry apm dir
      assert rc=0:
 
      uri←apm.PathToUri registry
-     rc msg←apm.AddRegistry uri
+     rc msg cfg←GetTestRegFilename apm.AddRegistry'Firlefanz'uri
      assert rc=0:
 
-     rc msg←apm.Load'Example-Test-0.1.0'
+     rc msg cfg←apm.Load'Example-Test-0.1.0'
+     assert 0=rc:
 
-     rc msg←apm.RemoveRegistry uri
+     rc msg cfg←apm.RemoveRegistry uri
      assert rc=0:
 
      _←3 ⎕NDELETE dir
