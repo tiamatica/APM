@@ -176,6 +176,50 @@ The `apl-project.json` file is a structured file describing the package and its 
   ]
 }
 ```
+## Cache
+
+When loading a package it is:
+
+1. fetched (from registry) if not already in cache
+1. unpacked into temp folder
+1. content validated?
+1. moved to cache
+1. if installing in acre project, linked to project folder
+
+```bash
+/path/to/appdata/apm
+  /cache
+    /registry_alias
+      /Group-Package-Version
+```
+Example: Cache with packages from registry with alias "public"
+
+```bash
+/usr/me/apm
+  /cache
+    /public
+      /Carlisle-Rumba-4.0.0
+      /Carlisle-Rumba-4.0.1
+      /Carlisle-Rumba-4.1.0
+```
+
+
+Example: An Acre Project with dependency on Rumba package:
+
+```bash
+/usr/me/projectX
+  /packages
+    /Carlisle-Rumba-4.0.1 -> /usr/me/apm/cache/public/Carlisle-Rumba-4.0.1
+```
+
+Example: An Acre Project with dependency on Rumba package and FlipDB Acre Project:
+
+```bash
+/usr/me/projectX
+  /packages
+    /Carlisle-Rumba-4.0.1 -> /usr/me/apm/cache/public/Carlisle-Rumba-4.0.1
+    /Carlisle-FlipDB-2.9.1-beta -> /usr/me/Carlisle/FlipDB
+```
 
 ## Registry server
 
