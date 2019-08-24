@@ -1,0 +1,16 @@
+ BumpVersion←{
+     ⍝ Bump version of package in dir ⍵
+     ⍝ bump major if ⍺ = 2
+     ⍝ bump minor if ⍺ = 1
+     ⍝ bump patch if ⍺ = 0 (default)
+     ⍺←0
+     ~⍺∊0 1 2:1 '⍺ must be in 0 1 2'
+     rc msg cfg←ReadConfig ⍵
+     rc≠0:rc msg cfg
+     ⍝ ⍝TODO⍝ should version with suffix be auto bumped?
+     vn sfx←{(i↑⍵)(⍵↓⍨i←¯1+⍵⍳'-')}cfg.version
+     nvn←(3↑(-⍺)↓2⊃'.'⎕VFI vn)+⍺⌽0 0 1
+     nvns←1↓∊'.',¨⍕¨nvn
+     cfg.version←nvns,sfx
+     cfg WriteConfig ⍵
+ }
