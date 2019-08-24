@@ -1,14 +1,19 @@
  Publish←{
-     source registry_uri←⍵
+     source registry←⍵
      ⍝ source → folder to create package from.\\
-     ⍝ registry_uri → registry to publish package to.\\
+     ⍝ registry → registry to publish package to (alias or uri).\\
      ⍝ Result:
      ⍝ 1. rc  ← 0 if OK, error otherwise
      ⍝ 2. msg ← result
 
+     rc msg cfg←ReadGlobalConfig''
+     uri←cfg{
+         0=≢⍺.registries:⍵
+         ⍺.registries.uri⊃⍨⍺.registries.alias⍳⊂⍵
+     }registry
      type←'file://'
-     type≢(≢type)↑registry_uri:1 'Only file URI supported'
-     path←UriToPath registry_uri
+     type≢(≢type)↑uri:1 'Only file URI supported'
+     path←UriToPath uri
 
      ⍝ Package
      rc msg zipfile←Pack source(GetTempDir)

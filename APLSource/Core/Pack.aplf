@@ -5,16 +5,20 @@
  ⍝ 1. rc  ← 0 if OK, error otherwise
  ⍝ 2. pkg ← path to package file created or potentially error message in case rc≠0
 
-     source target←⍵
+     source target←⊃¨1 ⎕NPARTS ⍵,¨'/'
 
-     ⍝ Check source for required files.
-     cfgfile←source,'/',CFG_NAME
-     0=⎕NEXISTS cfgfile:1 'Config file missing' ''
-     cfg←⎕JSON⊃⎕NGET cfgfile
+     ⍝ Check source has config
+     rc msg cfg←ReadConfig source
+     rc≠0:rc msg cfg
 
-     zipfile←target,'/',cfg.group,'-',cfg.name,'-v',cfg.version,'.zip'
+     ⍝ validate config
+     rc msg←ValidateConfig cfg
+     rc≠0:rc msg
 
      ⍝ Pack into target folder.
-     r←source ZIP.zip zipfile
+     zipfile←target,cfg.group,'-',cfg.name,'-v',cfg.version,'.zip'
+     files←∪cfg.files,cfg.source CFG_NAME
+
+     r←source files ZIP.zip zipfile
      0 ''zipfile
  }
