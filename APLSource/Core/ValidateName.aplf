@@ -1,0 +1,6 @@
+ ValidateName←{
+     ~0 2∊⍨10|⎕DR ⍵:1 'Expected string'
+     0≠(⎕NS'').⎕NC ⍵:1 'Invalid APL name'
+     ∨/127<⎕UCS ⍵:1 'Must be ASCII'
+     0 ''
+ }

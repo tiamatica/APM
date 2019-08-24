@@ -1,0 +1,13 @@
+ InitPackageConfig←{
+     ⍝ Initialise a package config
+     cfg←#.⎕NS''
+     cfg.group←''
+     cfg.name←''
+     cfg.version←'0.1.0'
+     cfg.api←''
+     cfg.files←''
+     cfg.source←''
+     cfg.dependencies←⍬
+     cfg.devDependencies←⍬
+     cfg
+ }
