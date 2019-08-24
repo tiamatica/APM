@@ -3,5 +3,5 @@
      0≠rc:rc msg cfg
      0=≢cfg.registries:0 ''⍬
      cfg.registries/⍨←cfg.registries.alias≢¨⊂⍵
-     WriteSettings cfg
+     WriteGlobalConfig cfg
  }

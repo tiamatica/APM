@@ -20,7 +20,7 @@
          :EndIf
      :EndIf
      :If 0=rc
-         rc msg cfg←WriteSettings cfg
+         rc msg cfg←WriteGlobalConfig cfg
      :EndIf
  :EndIf
 ⍝Done

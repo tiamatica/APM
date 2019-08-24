@@ -1,4 +1,4 @@
- WriteSettings←{
+ WriteGlobalConfig←{
      cfg_file←GetGlobalConfigFile
      cfg←⍵
      tmp←cfg_file,'.tmp'
