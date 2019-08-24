@@ -1,3 +1,10 @@
  zip←{
-     ⎕SH ⍺ BIN'zip ',⍵,' -r .'
+     root_dir src_files←⍺
+     zip_file←⍵
+     tmp←##.(GetTempDir,'/',UUID4'')
+     rc←(⊂src_files)⎕NPUT tmp
+     cd←CD root_dir
+     r←⎕SH cd,BIN'zip -r ',zip_file,' . -i@',tmp
+     _←3 ⎕NDELETE tmp
+     0 ''
  }
