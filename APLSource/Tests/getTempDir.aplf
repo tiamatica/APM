@@ -1,6 +1,8 @@
  getTempDir←{
-     dir←(739⌶0),'/',⊃1↓⎕SI
+     dir←(739⌶0),'/',(⊃1↓⎕SI)
+     dir,←{0=≢⍵:⍵ ⋄ '_',⍵}⍵
      r1←3 ⎕NDELETE dir
      r2←3 ⎕MKDIR dir
+     assert r2:
      dir
  }

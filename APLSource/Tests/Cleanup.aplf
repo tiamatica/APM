@@ -1,0 +1,4 @@
+ Cleanup
+ APM.SetGlobalConfigFile ∆OLD_REG_CONFIG
+ ⎕EX'∆OLD_REG_CONFIG'
+⍝Done

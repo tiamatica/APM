@@ -1,4 +1,8 @@
- r←SetGlobalConfigFile new
+ {r}←SetGlobalConfigFile new
+⍝ Sets or deletes the global config file GetGlobalConfigFile `apm_config.json`.\\
+⍝ If `new` is empty the global vars `GLOBAL_CONFIG_FILE` is deleted. If `new is
+⍝ not empty it's used to set `GLOBAL_CONFIG_FILE`.\\
+⍝ Returns the former setting of an empty vector.
  :If 2=⎕NC'GLOBAL_CONFIG_FILE'
      r←GLOBAL_CONFIG_FILE
  :Else

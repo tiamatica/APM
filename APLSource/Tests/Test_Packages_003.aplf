@@ -1,0 +1,45 @@
+ R←Test_Packages_003(stopFlag batchFlag);⎕TRAP;rc;msg;cfg;tidyUp;uri;dir;srcA;srcB;dist;lines;ns;zipfileB;zipfileA
+⍝ Load  PackageA that depends on packageB
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ dir←getTempDir ⍬
+ srcA srcB dist←(⊂dir,'/'),¨'srcA' 'srcB' 'dist'
+ 3 ⎕MKDIR⊢srcA srcB dist
+
+ ⍝ create PackageB
+ lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
+ (⊂lines)⎕NPUT srcB,'/Test.apln'
+ cfg←⎕NS''
+ cfg.group←'Example'
+ cfg.name←'PackageB'
+ cfg.version←'0.1.0'
+ cfg.source←'Test.apln'
+ (⊂⎕JSON cfg)⎕NPUT srcB,'/apl-package.json'
+ rc msg zipfileB←APM.Pack srcB dist  ⍝ now Pack it
+ →GoToTidyUp 0≠rc
+
+ ⍝ create PackageA
+ lines←':Namespace Test' 'foo←##.PackageB.Test.foo' ':EndNamespace'
+ (⊂lines)⎕NPUT srcA,'/Test.apln'
+ cfg←⎕NS''
+ cfg.group←'Example'
+ cfg.name←'PackageA'
+ cfg.version←'0.1.0'
+ cfg.source←'Test.apln'
+ cfg.dependencies←,⊂'file://',zipfileB
+ (⊂⎕JSON cfg)⎕NPUT srcA,'/apl-package.json'
+ rc msg zipfileA←APM.Pack srcA dist  ⍝ now Pack it
+ →GoToTidyUp 0≠rc
+
+ rc msg cfg←APM.Load'file://',zipfileA
+ →GoToTidyUp 0≠rc
+ ns←⍎cfg.nspath
+ →GoToTidyUp'PackageB' 'Test'≢ns.⎕NL-⍳10
+ →GoToTidyUp'ok'≢ns.Test.foo'ok'
+ R←∆OK
+
+∆TidyUp:
+ ⎕EX⍕ns
+ 3 ⎕NDELETE dir
+ ⍝Done

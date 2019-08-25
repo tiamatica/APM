@@ -1,0 +1,28 @@
+ R←Test_Registry_001(stopFlag batchFlag);⎕TRAP;rc;msg;cfg;tidyUp;uri
+⍝ Add and remove a Registry from the global configuration.
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ tidyUp←0
+ rc msg cfg←APM.ReadGlobalConfig''
+ →GoToTidyUp rc≠0
+ →GoToTidyUp 0≠≢cfg.registries
+
+ uri←'https://apl.registry.com'
+ rc msg cfg←APM.AddRegistry'MyAlias'uri
+ →GoToTidyUp rc≠0
+ tidyUp←1
+
+ rc msg cfg←APM.ReadGlobalConfig''
+ →GoToTidyUp rc≠0
+ →GoToTidyUp uri≢⊃,/cfg.registries.uri
+
+∆TidyUp:
+ :If tidyUp←0
+     rc msg cfg←APM.RemoveRegistry'MyAlias'
+     →PassesIf rc=0
+     →PassesIf 0=≢cfg.registries
+ :EndIf
+
+ R←∆OK
+⍝Done
