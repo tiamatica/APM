@@ -8,7 +8,7 @@
      rc msg cfg←apm.AddRegistry'Firlefanz'uri
      assert rc=0:
 
-     rc msg cfg←apm.Load'Example-Test-0.1.0'
+     rc msg cfg←apm.Load'Example-Test-v0.1.0'
      assert 0=rc:
 
      rc msg cfg←apm.RemoveRegistry'Firlefanz'

@@ -63,7 +63,7 @@
      cfg.name←'Tool'
      cfg.version←'2.0.0'
      cfg.source←'Tool.apln'
-     cfg.dependencies←,⊂'GroupX-Math-1.0.0'
+     cfg.dependencies←,⊂'GroupX-Math-v1.0.0'
      _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
      rc msg←apm.Publish src uri
      assert 0=rc:

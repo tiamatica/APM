@@ -1,0 +1,24 @@
+ BuildDepTree←{
+     ⍝ build dependency tree for package(s) ⍵
+     ⊃{
+         tree←⍵
+         pkg←DropAlias ⍺
+
+         pkg{0=≢⍵:0 ⋄ (⊂⍺)∊⍵.id}tree:tree
+
+         rc msg pkg_dir←Get pkg
+         rc≠0:∘∘∘
+
+         rc msg cfg←ReadConfig pkg_dir
+         rc≠0:∘∘∘
+
+         node←#.⎕NS''
+         node.id←PackageFileName cfg
+         node.dir←pkg_dir
+         node.dependencies←cfg.dependencies
+         tree,←node
+         0=≢cfg.dependencies:tree
+         mask←~tree.id∊⍨DropAlias¨cfg.dependencies
+         ⊃∇/(mask/node.dependencies),⊂tree
+     }/(⊆⍵),⊂⍬
+ }

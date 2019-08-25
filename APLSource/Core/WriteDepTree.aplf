@@ -1,0 +1,11 @@
+ WriteDepTree←{
+     tree←⍺
+     path←⊃1 ⎕NPARTS ⍵,'/'
+     cfg_file←path,DEP_NAME
+     tmp←cfg_file,'.tmp'
+     0::⎕EN(⊃⎕DM)⍬⊣3 ⎕NDELETE temp
+     rc←(⊂⎕JSON⍠'Compact' 0⊢tree)⎕NPUT tmp
+     del←3 ⎕NDELETE cfg_file
+     rc←cfg_file ⎕NMOVE tmp
+     0 ''
+ }

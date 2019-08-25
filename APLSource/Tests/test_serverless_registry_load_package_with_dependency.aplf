@@ -8,7 +8,7 @@
      rc msg cfg←apm.AddRegistry'test'uri
      assert rc=0:
 
-     rc msg cfg←apm.Load'GroupX-Tool-2.0.0'
+     rc msg cfg←apm.Load'GroupX-Tool-v2.0.0'
      assert 0=rc:
      ns←⍎cfg.nspath
      assert('Math' 'Tool')≡ns.⎕NL-⍳10:

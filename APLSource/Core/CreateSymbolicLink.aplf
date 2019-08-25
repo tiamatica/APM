@@ -1,0 +1,6 @@
+ CreateSymbolicLink←{
+     ⍝ create link ⍺ to ⍵
+     os←OS''
+     os≡'W':∘∘∘
+     ⎕SH'ln -s "',⍺,'" "',⍵,'"'
+ }

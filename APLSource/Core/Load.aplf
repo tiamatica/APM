@@ -2,5 +2,5 @@
      ⍵≡0:1 '' ''        ⍝ ¨⍬ case
      rc msg dir←Get ⍵
      0≠rc:rc msg dir
-     LoadSource dir
+     1 LoadSource dir
  }
