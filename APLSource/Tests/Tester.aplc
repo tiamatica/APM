@@ -439,10 +439,9 @@
       :EndIf
     ∇
 
-    ∇ ProcessTestCases(ref ps);width;i;noOf;this;testNo;rc;msg;length
-      width←⌈/⍴¨ps.list
+    ∇ ProcessTestCases(ref ps);i;noOf;this;testNo;rc;msg;length;cw;max;hdr_width;desc
       noOf←≢ps.list
-      length←1+⌈/≢¨ps.list
+      length←2+⌈/≢¨ps.list
       :If ps.guiFlag
           ps.gui.∆n.Grid.Values←(noOf,1↓⍴ps.gui.∆n.Grid.Values)⍴ps.gui.∆n.Grid.Values
           ps.gui.∆n.Grid.CellTypes←(noOf,1↓⍴ps.gui.∆n.Grid.Values)⍴ps.gui.∆n.Grid.CellTypes
@@ -454,6 +453,8 @@
           ps.gui.∆n.Form.on9998←0
           ps.gui.∆n.StartBtn.Active←0
       :EndIf
+      cw←≢max←⍕noOf
+      hdr_width←length+≢'(',max,'/',max,') #  '
       :For i :In ⍳noOf
           this←i⊃ps.list
           testNo←GetTestNo this
@@ -468,12 +469,13 @@
               :If 0>rc
                   ps.returnCodes,←rc
               :EndIf
-              msg←{⍵↓⍨+/∧\' '=⍵}{⍵↓⍨⍵⍳'⍝'}2⊃ref.⎕NR this
-              ShowLog(length↑this),' (',(⍕i),' of ',(⍕noOf),')'
+              msg←{⍵↓⍨+/∧\' '=⍵}{⍵↓⍨⍵⍳'⍝'}2⊃ref.⎕NR this      
+              desc←(⎕PW-hdr_width){⍺<≢⍵:'...',⍨⍵↑⍨⍺-4 ⋄ ⍵}⍣(~ps.guiFlag)⊢msg
+              ¯1 ShowLog(length↑this),'(',(cw 0⍕i),'/',max,') '
               :If rc∊0 1 ¯1
-                  2 ShowLog('*✓'[1+rc∊0 ¯1])this msg
+                  ¯2 ShowLog('*✓'[1+rc∊0 ¯1])(ps.guiFlag/this) desc
               :Else
-                  2 ShowLog'⍝'this msg
+                  ¯2 ShowLog'⍝'this desc
               :EndIf
               :If 0>rc
                   :If 0<ps.errCounter
@@ -585,24 +587,30 @@
     IsScripted←{16::0 ⋄ 1⊣⎕SRC ⍵}
 
 
-    ∇ {r}←{type}ShowLog msg
-    ⍝ `type` may be 1 or 2:
+    ∇ {r}←{type}ShowLog msg;selog
+    ⍝ `type` may be (+/-)1 or 2:
     ⍝ * A 1 means an action message
     ⍝ * A 2 means the result of the execution attempt of a test function.``
+    ⍝ * A negative means message with more to come``
     ⍝ `ps` is a parameter space with `ps.log` being, well, the log.
       r←⍬
       type←{0<⎕NC ⍵:⍎⍵ ⋄ 1}'type'
-      'Invalid type'⎕SIGNAL 11/⍨~(⊂type)∊1 2
+      'Invalid type'⎕SIGNAL 11/⍨~(⊂|type)∊1 2
       :If batchFlag∧0=ps.guiFlag
           ps.log,←{1=≡⍵:⊂⍵ ⋄ '-'∧.=5↑↑⍵:⍵ ⋄ ⊂(1⊃⍵),' ',(2⊃⍵),' ',3⊃⍵}msg
       :ElseIf ps.guiFlag
-          type AddToGui msg
+          (|type)AddToGui msg
           :If type=1
               ps.log,←Nest msg
           :EndIf
       :Else
           ps.log,←{1=≡⍵:⊂⍵ ⋄ (3≠≢⍵)∨'---'≡3↑↑⍵:⍵ ⋄ ⊂(1⊃⍵),' ',(2⊃⍵),' ',(3⊃⍵)}msg
-          ⎕←{1=≡⍵:⍵ ⋄ (3≠≢⍵)∨'---'≡3↑↑⍵:⍪⍵ ⋄ (1⊃⍵),' ',(2⊃⍵),' ',(3⊃⍵)}msg
+          selog←{1=≡⍵:⍵ ⋄ (3≠≢⍵)∨'---'≡3↑↑⍵:⍪⍵ ⋄ (1⊃⍵),' ',(2⊃⍵),' ',(3⊃⍵)}msg
+          :If type<0
+              ⍞←selog,(type=¯2)/⎕UCS 13
+          :Else
+              ⎕←selog
+          :EndIf
       :EndIf
     ∇
 
@@ -733,7 +741,7 @@
       r←1
       :If 1<≢ref←1⊃,msg
          ⍝ For the TabControl we must use the old ('Event' ...) syntax, making it a name rather than a ref fur to bug <01655>
-         →(0=⎕nc'ps')/0
+          →(0=⎕NC'ps')/0
           ref←ps.gui.∆n.TB
       :EndIf
       :If ⍬≢form←{0::⍬ ⋄ 'Form'≡⍵.Type:⍵ ⋄ ∇ ⍵.##}ref
