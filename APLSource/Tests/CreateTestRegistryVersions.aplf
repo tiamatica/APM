@@ -1,0 +1,107 @@
+ CreateTestRegistryVersions←{
+     apm dir←⍺ ⍵
+     _←3 ⎕MKDIR⊢registry←dir,'/registry'
+
+     ⍝ initialise new serverless registry with multiple versions of same package
+     rc msg←apm.CreateRegistry registry
+     assert 0=rc:
+     uri←apm.PathToUri registry
+
+     ⍝ GroupA-Test1-v0.1.0
+     _←3 ⎕MKDIR⊢src←dir,'/Test1'
+     lines←,⊂'Version←{''0.1.0''}'
+     _←(⊂lines)NPUT src,'/Version.aplf'
+     cfg←⎕NS''
+     cfg.group←'GroupA'
+     cfg.name←'Test1'
+     cfg.api←'Version'
+     cfg.version←'0.1.0'
+     cfg.source←'Version.aplf'
+     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     rc msg←apm.Publish src uri
+     assert 0=rc:
+
+     ⍝ GroupA-Test1-v0.1.1
+     lines←,⊂'Version←{''0.1.1''}'
+     _←(⊂lines)NPUT src,'/Version.aplf'
+     cfg.version←'0.1.1'
+     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     rc msg←apm.Publish src uri
+     assert 0=rc:
+
+     ⍝ GroupA-Test1-v0.2.0
+     lines←'r←Version dummy' 'r←''0.2.0'''
+     _←(⊂lines)NPUT src,'/Version.aplf'
+     cfg.version←'0.2.0'
+     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     rc msg←apm.Publish src uri
+     assert 0=rc:
+
+
+     ⍝ GroupB-MyClass1-1.0.0
+     _←3 ⎕MKDIR⊢src←dir,'/MyClass1'
+     lines←,⊂':Class MyClass1'
+     lines,←⊂' ∇ r←Hello name'
+     lines,←⊂' :Access Public Shared'
+     lines,←⊂'   r←name'
+     lines,←⊂' ∇'
+     lines,←⊂':EndClass'
+     _←(⊂lines)NPUT src,'/MyClass1.aplc'
+     cfg←⎕NS''
+     cfg.group←'GroupB'
+     cfg.name←'MyClass1'
+     cfg.api←'MyClass1'
+     cfg.version←'1.0.0'
+     cfg.source←'MyClass1.aplc'
+     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     rc msg←apm.Publish src uri
+     assert 0=rc:
+
+     ⍝ GroupB-MyClass1-1.1.0
+     lines←,⊂':Class MyClass1'
+     lines,←' ∇ r←PS' '   r←⊃⊃⎕CLASS ⎕THIS' ' ∇'
+     lines,←⊂' ∇ r←Hello name'
+     lines,←⊂' :Access Public Shared'
+     lines,←⊂'   r←(PS.Test1 ⍬),name'
+     lines,←⊂' ∇'
+     lines,←⊂':EndClass'
+     _←(⊂lines)NPUT src,'/MyClass1.aplc'
+     cfg.version←'1.1.0'
+     cfg.dependencies←,⊂'GroupA-Test1-v0.1.0'
+     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     rc msg←apm.Publish src uri
+     assert 0=rc:
+
+     ⍝ GroupB-MyClass1-1.1.1
+     lines←,⊂':Class MyClass1'
+     lines,←' ∇ r←PS' '   r←⊃⊃⎕CLASS ⎕THIS' ' ∇'
+     lines,←⊂' ∇ r←Hello name'
+     lines,←⊂' :Access Public Shared'
+     lines,←⊂'   r←(PS.Version ⍬),name'
+     lines,←⊂' ∇'
+     lines,←⊂':EndClass'
+     _←(⊂lines)NPUT src,'/MyClass1.aplc'
+     cfg.version←'1.1.1'
+     cfg.dependencies←,⊂'GroupA-Test1-v0.1.0@Version'
+     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     rc msg←apm.Publish src uri
+     assert 0=rc:
+
+     ⍝ GroupB-MyClass1-1.2.0
+     lines←,⊂':Class MyClass1'
+     lines,←' ∇ r←PS' '   r←⊃⊃⎕CLASS ⎕THIS' ' ∇'
+     lines,←⊂' ∇ r←Hello name'
+     lines,←⊂' :Access Public Shared'
+     lines,←⊂'   r←(PS.Version1 ⍬),(PS.Version2 ⍬),name'
+     lines,←⊂' ∇'
+     lines,←⊂':EndClass'
+     _←(⊂lines)NPUT src,'/MyClass1.aplc'
+     cfg.version←'1.2.0'
+     cfg.dependencies←,⊂'GroupA-Test1-v0.1.0@Version1'
+     cfg.dependencies,←⊂'GroupA-Test1-v0.2.0@Version2'
+     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     rc msg←apm.Publish src uri
+     assert 0=rc:
+
+     0 registry
+ }

@@ -3,19 +3,15 @@
      prj_dir pkg←⍺ ⍵
      rc msg pkg_dir←Get pkg
      rc≠0:rc msg ⍬
-     rc msg cfg←ReadConfig pkg_dir
+
+     rc msg pkg_cfg←ReadConfig pkg_dir
      rc≠0:rc msg ⍬
-     tgt_dir←(⊃1 ⎕NPARTS prj_dir,'/'),'packages/'
-     pkg_fn←PackageFileName cfg
-     rc←3 ⎕MKDIR tgt_dir
-     tgt←tgt_dir,pkg_fn
-     rc←tgt ⎕NCOPY pkg_dir
+
      rc msg prj_cfg←ReadConfig prj_dir
+     rc≠0:rc msg ⍬
+
+     pkg_fn←PackageFileName pkg_cfg
      prj_cfg.dependencies←∪prj_cfg.dependencies,⊂pkg_fn
-
-     ⍝ if package has no dependencies we're done
-     0=≠cfg.dependencies:
-     ⍝ fetch transitive dependencies
-
-     ⍝
+     prj_cfg WriteConfig prj_dir
+     ⍝ Done
  }

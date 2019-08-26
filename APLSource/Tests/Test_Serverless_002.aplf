@@ -1,5 +1,5 @@
  R←Test_Serverless_002(stopFlag batchFlag);⎕TRAP;dir;rc;registry;uri;msg;cfg;ns
-⍝ Loading PackageA that depends on packageB
+⍝ Loading PackageA that depends on PackageB
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←∆Failed
 

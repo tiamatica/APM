@@ -1,0 +1,6 @@
+ ReadDepTree←{
+     cfg_file←(⊃1 ⎕NPARTS ⍵,'/'),DEP_NAME
+     ~⎕NEXISTS cfg_file:1 'Dep tree file missing'⍬
+     tree←⎕JSON⊃⎕NGET cfg_file
+     0 ''tree
+ }

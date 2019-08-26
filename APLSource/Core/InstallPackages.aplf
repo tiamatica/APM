@@ -1,5 +1,5 @@
  InstallPackages←{
-     ⍝ Install packages in folder ⍵
+     ⍝ Install packages in project folder ⍵
      prj_dir←⊃1 ⎕NPARTS ⍵,'/'
      rc msg cfg←ReadConfig prj_dir
      tree←BuildDepTree cfg.dependencies
@@ -10,8 +10,5 @@
 
      tgts←pkgs_dir∘,¨tree.id
      r←tree.dir CreateSymbolicLink¨tgts
-     rcs msgs cfgs←↓⍉↑LoadSource¨tgts
-     ∨/rcs≠0:1 'Failed loading sources'
-     tree.(name nspath api)←cfgs.(name nspath api)
-     rc2←tree LinkPackages cfg
+     0 ''
  }

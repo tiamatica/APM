@@ -1,9 +1,10 @@
  InitPackage←{
      ⍺←⎕NS''
+     cfg←⍺
      path←⊃1 ⎕NPARTS ⍵,'/'
      cfg_file←path,CFG_NAME
      ⎕NEXISTS cfg_file:1 'Package definition already exists'⍬
-     cfg←InitPackageConfig''
-     _←'cfg'⍺.⎕NS(⍺.⎕NL-2)∩cfg.⎕NL-2
-     cfg WriteConfig path
+     dflt←InitPackageConfig''
+     _←'dflt'⎕NS(⊂'cfg.'),¨(cfg.⎕NL-2)∩dflt.⎕NL-2
+     dflt WriteConfig path
  }

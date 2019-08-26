@@ -3,6 +3,7 @@
      ⊃{
          tree←⍵
          pkg←DropAlias ⍺
+         0=≢pkg:tree
 
          pkg{0=≢⍵:0 ⋄ (⊂⍺)∊⍵.id}tree:tree
 
