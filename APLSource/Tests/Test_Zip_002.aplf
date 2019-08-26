@@ -19,8 +19,8 @@
  →GoToTidyUp 3≠≢list
 
  list←'full'ZIP.list targetFile
- →GoToTidyUp 0=≢list
- →GoToTidyUp 2≠≡list
+ →GoToTidyUp 4≠≢list
+ →GoToTidyUp ¯2≠≡list
 
  R←∆OK
 

@@ -18,7 +18,7 @@
  →GoToTidyUp uri≢⊃,/cfg.registries.uri
 
 ∆TidyUp:
- :If tidyUp←0
+ :If tidyUp
      rc msg cfg←APM.RemoveRegistry'MyAlias'
      →PassesIf rc=0
      →PassesIf 0=≢cfg.registries
