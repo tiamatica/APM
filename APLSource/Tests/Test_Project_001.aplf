@@ -35,6 +35,6 @@
 
 ∆TidyUp:
  ⎕EX⍕ns
- APM.RemoveRegistry'test'
+ _←APM.RemoveRegistry'test'
  3 ⎕NDELETE dir
 ⍝Done
