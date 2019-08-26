@@ -1,9 +1,10 @@
  Pack←{
  ⍝ source → folder to create package from\\
  ⍝ target → folder to put package in\\
- ⍝ ← is two element vector:\\
+ ⍝ ← is two element vector:
  ⍝ 1. rc  ← 0 if OK, error otherwise
- ⍝ 2. pkg ← path to package file created or potentially error message in case rc≠0
+ ⍝ 2. msg ← empty or potentially a message in case rc is not 0
+ ⍝ 2. pkg ← path to package file created
 
      source target←⊃¨1 ⎕NPARTS ⍵,¨'/'
 

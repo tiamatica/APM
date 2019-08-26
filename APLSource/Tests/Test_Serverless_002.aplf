@@ -1,0 +1,27 @@
+ R←Test_Serverless_002(stopFlag batchFlag);⎕TRAP;dir;rc;registry;uri;msg;cfg;ns
+⍝ Loading PackageA that depends on packageB
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ dir←getTempDir ⍬
+ rc registry←APM CreateTestRegistry dir
+ →PassesIf rc=0
+
+ uri←APM.PathToUri registry
+ rc msg cfg←APM.AddRegistry'test'uri
+ →PassesIf rc=0
+
+ rc msg cfg←APM.Load'GroupX-Tool-v2.0.0'
+ →GoToTidyUp 0≠rc
+ ns←⍎cfg.nspath
+ →GoToTidyUp('Math' 'Tool')≢ns.⎕NL-⍳10
+ →GoToTidyUp 42≢ns.Tool.inc 41
+
+∆TidyUp:
+ ⎕EX⍕ns
+ rc msg cfg←APM.RemoveRegistry'test'
+ →FailsIf 0≠rc
+ 3 ⎕NDELETE dir
+
+ R←∆OK
+⍝Done
