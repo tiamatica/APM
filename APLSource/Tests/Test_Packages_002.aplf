@@ -1,0 +1,31 @@
+ R←Test_Packages_002(stopFlag batchFlag);⎕TRAP;dir;src;dist;lines;cfg;rc;msg;zipfile;res
+⍝ Load single package
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ dir←getTempDir ⍬
+ src dist←(⊂dir,'/'),¨'src' 'dist'
+ rc←3 ⎕MKDIR src dist
+ assert rc∧.=1
+ lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
+ (⊂lines)⎕NPUT src,'/Test.apln'
+ cfg←⎕NS''
+ cfg.group←'Example'
+ cfg.name←'Test'
+ cfg.version←'0.1.0'
+ cfg.source←'Test.apln'
+ (⊂⎕JSON⍠'Compact' 0⊢cfg)⎕NPUT src,'/apl-package.json'
+
+ rc msg zipfile←APM.Pack src dist  ⍝ now Pack it
+ →GoToTidyUp 0≠rc
+
+ →GoToTidyUp zipfile≢dist,'/',cfg.group,'-',cfg.name,'-v',cfg.version,'.zip'
+
+ →GoToTidyUp 0=⎕NEXISTS zipfile
+ res←APM.ZIP.list zipfile
+ →GoToTidyUp 2≠≢res
+ R←∆OK
+
+∆TidyUp:
+ 3 ⎕NDELETE zipfile
+⍝Done

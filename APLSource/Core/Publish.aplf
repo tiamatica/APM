@@ -9,7 +9,7 @@
      rc msg cfg←ReadGlobalConfig''
      uri←cfg{
          0=≢⍺.registries:⍵
-         ⍺.registries.uri⊃⍨⍺.registries.alias⍳⊂⍵
+         (⍺.registries.alias⍳⊂⍵)⊃⍺.registries.uri,⊂⍵
      }registry
      type←'file://'
      type≢(≢type)↑uri:1 'Only file URI supported'

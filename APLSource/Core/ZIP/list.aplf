@@ -1,3 +1,17 @@
  list←{
-     ⎕SH'unzip -l ',⍵
+ ⍝ Returns list of files found in ⍵ as a vector of text vectors.\\
+ ⍝ In case ⍺ is "full" the full, formatted table of the "unzip" command is returned.
+     ⍺←''
+     ~(⊂⍺)∊⍬'' 'full':'Invalid left argument: either empty or "full"'⎕SIGNAL 11
+     r←⎕SH BIN,'unzip -l ',⍵
+     tm←↑r
+     mask←2</'-'=' ',3⌷↑tm
+     tmc←2↓¯1⊖tm⌿⍨~∧/tm∊' -'
+     tbl←mask⊂⍤1⊢tmc
+     tblc←' '{1↓¯1↓⍺{⍵/⍨~(2⍴⍺)⍷⍵}⍺,⍵,⍺}¨tbl
+     hdr←1⌷tblc
+     lc nc←hdr⍳'Length' 'Name'
+     tblc[;lc]←(⊂'Length'),{2 1⊃⎕VFI ⍵}¨1↓tblc[;lc]
+     ⍺≡'full':tblc
+     1↓tblc[;nc]
  }
