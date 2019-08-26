@@ -1,0 +1,14 @@
+ InstallPackages←{
+     ⍝ Install packages in project folder ⍵
+     prj_dir←⊃1 ⎕NPARTS ⍵,'/'
+     rc msg cfg←ReadConfig prj_dir
+     tree←BuildDepTree cfg.dependencies
+     rc msg←tree WriteDepTree prj_dir
+     pkgs_dir←prj_dir,'packages/'
+     rc←3 ⎕NDELETE pkgs_dir
+     rc←3 ⎕MKDIR pkgs_dir
+
+     tgts←pkgs_dir∘,¨tree.id
+     r←tree.dir CreateSymbolicLink¨tgts
+     0 ''
+ }

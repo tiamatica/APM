@@ -1,0 +1,17 @@
+ AddPackage←{
+     ⍝ add package ⍵ to project folder ⍺
+     prj_dir pkg←⍺ ⍵
+     rc msg pkg_dir←Get pkg
+     rc≠0:rc msg ⍬
+
+     rc msg pkg_cfg←ReadConfig pkg_dir
+     rc≠0:rc msg ⍬
+
+     rc msg prj_cfg←ReadConfig prj_dir
+     rc≠0:rc msg ⍬
+
+     pkg_fn←PackageFileName pkg_cfg
+     prj_cfg.dependencies←∪prj_cfg.dependencies,⊂pkg_fn
+     prj_cfg WriteConfig prj_dir
+     ⍝ Done
+ }

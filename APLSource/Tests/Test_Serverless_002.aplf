@@ -1,5 +1,5 @@
  R←Test_Serverless_002(stopFlag batchFlag);⎕TRAP;dir;rc;registry;uri;msg;cfg;ns
-⍝ Loading PackageA that depends on packageB
+⍝ Loading PackageA that depends on PackageB
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←∆Failed
 
@@ -11,7 +11,7 @@
  rc msg cfg←APM.AddRegistry'test'uri
  →PassesIf rc=0
 
- rc msg cfg←APM.Load'GroupX-Tool-2.0.0'
+ rc msg cfg←APM.Load'GroupX-Tool-v2.0.0'
  →GoToTidyUp 0≠rc
  ns←⍎cfg.nspath
  →GoToTidyUp('Math' 'Tool')≢ns.⎕NL-⍳10

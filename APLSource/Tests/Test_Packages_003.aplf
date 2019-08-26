@@ -1,5 +1,5 @@
  R←Test_Packages_003(stopFlag batchFlag);⎕TRAP;rc;msg;cfg;tidyUp;uri;dir;srcA;srcB;dist;lines;ns;zipfileB;zipfileA
-⍝ Load  PackageA that depends on packageB
+⍝ Load PackageA that depends on PackageB
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←∆Failed
 

@@ -1,0 +1,21 @@
+ LinkPackages←{
+     tree cfg←⍺ ⍵
+     setRef←{
+         name←⍺{0<≢⍺:⍺ ⋄ ⍵}⍵.name
+         _←⍺⍺⍎name,'←',⍵.(nspath,'.',api)
+         0
+     }
+     rc←{
+         node←⍵
+         0=≢node.dependencies:0
+         ns←⍎node.nspath
+         alias←GetAlias¨node.dependencies
+         _←alias(ns setRef)¨tree[tree.id⍳DropAlias¨node.dependencies]
+         0
+     }¨tree
+     ns←⍎{0=≢⍵:'#' ⋄ ⍵ #.⎕NS''}cfg.(1↓∊'.',¨group name~⊂'')
+     alias←GetAlias¨cfg.dependencies
+     _←alias(ns setRef)¨tree[tree.id⍳DropAlias¨cfg.dependencies]
+     0 ''
+     ⍝
+ }

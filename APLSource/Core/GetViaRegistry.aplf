@@ -1,6 +1,6 @@
  GetViaRegistry←{
      uri←⍵
-     group name version←3↑('-'(≠⊆⊢)uri),⊂''
+     group name version←ParsePackageName uri
      rc msg cfg←ReadGlobalConfig''
      0≠rc:rc msg cfg
      0=≢cfg.registries:1 'No registries defined in APM settings file'

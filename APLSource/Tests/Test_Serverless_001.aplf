@@ -11,7 +11,7 @@
  rc msg cfg←APM.AddRegistry'Firlefanz'uri
  →GoToTidyUp rc≠0
 
- rc msg cfg←APM.Load'Example-Test-0.1.0'
+ rc msg cfg←APM.Load'Example-Test-v0.1.0'
  →GoToTidyUp rc≠0
 
  rc msg cfg←APM.RemoveRegistry'Firlefanz'

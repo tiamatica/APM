@@ -1,0 +1,40 @@
+ R←Test_Project_001(stopFlag batchFlag);⎕TRAP;dir;dist;lines;rc;msg;ns;registry;uri;prj_dir;_;pcfg;gcfg;cfg
+⍝ Install a package in a "project" folder
+ ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
+ R←∆Failed
+
+ ns←''
+ dir←getTempDir ⍬
+ rc registry←APM CreateTestRegistryVersions dir
+ →GoToTidyUp 0≠rc
+
+ uri←APM.PathToUri registry
+ rc msg gcfg←APM.AddRegistry'test'uri
+ →GoToTidyUp 0≠rc
+
+ _←3 ⎕MKDIR prj_dir←dir,'/project'
+ (cfg←⎕NS'').name←'ProjectX'
+ rc msg pcfg←cfg APM.InitPackage prj_dir
+ →GoToTidyUp 0≠rc
+
+ rc msg pcfg←prj_dir APM.AddPackage'GroupA-Test1-v0.1.0'
+ →GoToTidyUp 0≠rc
+
+ rc msg←APM.InstallPackages prj_dir
+ →GoToTidyUp 0≠rc
+
+ rc msg←APM.LoadProject prj_dir
+ →GoToTidyUp 0≠rc
+
+ →GoToTidyUp 9≠#.⎕NC cfg.name
+ ns←#.⍎cfg.name
+
+ →GoToTidyUp'0.1.0'≢ns.Test1 ⍬
+
+ R←∆OK
+
+∆TidyUp:
+ ⎕EX⍕ns
+ APM.RemoveRegistry'test'
+ 3 ⎕NDELETE dir
+⍝Done

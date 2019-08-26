@@ -1,0 +1,10 @@
+ CreateSymbolicLink←{
+     ⍝ create link ⍵ to ⍺ (original)
+     os←OS''
+     os≡'W':⍺{
+         r←⎕SH'MKLINK /D "',⍵,'" "',⍺,'"'
+         ⎕NEXISTS ⍵:0
+         0⊣⍵ ⎕NCOPY ⍺
+     }⍵
+     ⎕SH'ln -s "',⍺,'" "',⍵,'"'
+ }

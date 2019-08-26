@@ -1,0 +1,1 @@
+ PackageFileName←{⍵.group,'-',⍵.name,'-v',⍵.version}
