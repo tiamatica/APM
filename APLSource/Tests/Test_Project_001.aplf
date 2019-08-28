@@ -5,7 +5,7 @@
 
  ns←''
  dir←getTempDir ⍬
- rc registry←APM CreateTestRegistryVersions dir
+ rc registry←APM CreateTestRegistryVersions1 dir
  →GoToTidyUp 0≠rc
 
  uri←APM.PathToUri registry
@@ -19,8 +19,11 @@
 
  rc msg pcfg←prj_dir APM.AddPackage'GroupA-Test1-v0.1.0'
  →GoToTidyUp 0≠rc
+ rc msg pcfg←prj_dir APM.AddPackage'GroupA-Test2-v2.3.0'
+ →GoToTidyUp 0≠rc
 
- rc msg←APM.InstallPackages prj_dir
+ ⍝ load using exact mode (default)
+ rc msg←'exact'APM.InstallPackages prj_dir
  →GoToTidyUp 0≠rc
 
  rc msg←APM.LoadProject prj_dir
@@ -30,6 +33,37 @@
  ns←#.⍎cfg.name
 
  →GoToTidyUp'0.1.0'≢ns.Test1 ⍬
+ →GoToTidyUp'2.3.0-0.1.1'≢ns.Test2.Version ⍬
+ ⎕EX¨cfg.name'#._apm'
+
+ ⍝ load using latest mode
+ rc msg←'latest'APM.InstallPackages prj_dir
+ →GoToTidyUp 0≠rc
+
+ rc msg←APM.LoadProject prj_dir
+ →GoToTidyUp 0≠rc
+
+ →GoToTidyUp 9≠#.⎕NC cfg.name
+ ns←#.⍎cfg.name
+
+ →GoToTidyUp'0.1.1'≢ns.Test1 ⍬
+ →GoToTidyUp'2.4.0-0.2.0'≢ns.Test2.Version ⍬
+ ⎕EX¨cfg.name'#._apm'
+
+⍝ load using maxmin mode
+ rc msg←'maxmin'APM.InstallPackages prj_dir
+ →GoToTidyUp 0≠rc
+
+ rc msg←APM.LoadProject prj_dir
+ →GoToTidyUp 0≠rc
+
+ →GoToTidyUp 9≠#.⎕NC cfg.name
+ ns←#.⍎cfg.name
+
+ →GoToTidyUp'0.1.1'≢ns.Test1 ⍬
+ →GoToTidyUp'2.3.0-0.1.1'≢ns.Test2.Version ⍬
+ ⎕EX¨cfg.name'#._apm'
+
 
  R←∆OK
 

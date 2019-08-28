@@ -10,6 +10,7 @@
          rc msg pkg_dir←Get pkg
          rc≠0:∘∘∘
 
+    ⍝     rc msg cfg←List pkg,'^'/⍨mode≡'latest'
          rc msg cfg←ReadConfig pkg_dir
          rc≠0:∘∘∘
 

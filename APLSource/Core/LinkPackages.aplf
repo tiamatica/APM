@@ -2,7 +2,7 @@
      tree cfg←⍺ ⍵
      setRef←{
          name←⍺{0<≢⍺:⍺ ⋄ ⍵}⍵.name
-         _←⍺⍺⍎name,'←',⍵.(nspath,'.',api)
+         _←⍺⍺⍎name,'←',⍵.(1↓∊'.',¨nspath api~⊂'')
          0
      }
      rc←{

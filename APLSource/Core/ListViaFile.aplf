@@ -7,6 +7,13 @@
      rc msg index←GetRegistryIndex path
      0≠rc:rc msg index
      mask←∨/pattern⍷⍕↑index.(group,'-',name,'-v',version)
+    ⍝  v↓⍨←-latest←'^'=⊃⌽v
+    ⍝  vm←latest{
+    ⍝      ⍺∧'0'=⊃⍵:⍵↓⍨-'.'⍳⍨⌽⍵
+    ⍝      ⍺:⍵↑⍨¯1+⍵⍳'.'
+    ⍝      ⍵
+    ⍝  }v
+
      pkgs←mask/index
      0 ''pkgs
  }
