@@ -15,7 +15,9 @@
      }¨tree
      ns←⍎{0=≢⍵:'#' ⋄ ⍵ #.⎕NS''}cfg.(1↓∊'.',¨group name~⊂'')
      alias←GetAlias¨cfg.dependencies
-     _←alias(ns setRef)¨tree[tree.id⍳DropAlias¨cfg.dependencies]
+     deps←⊃⍪/tree,¨⍪¨tree.orig_ids
+     _←alias(ns setRef)¨deps[deps[;2]⍳DropAlias¨cfg.dependencies;1]
+
      0 ''
      ⍝
  }

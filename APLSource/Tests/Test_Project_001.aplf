@@ -50,8 +50,8 @@
  →GoToTidyUp'2.4.0-0.2.0'≢ns.Test2.Version ⍬
  ⎕EX¨cfg.name'#._apm'
 
-⍝ load using maxmin mode
- rc msg←'maxmin'APM.InstallPackages prj_dir
+⍝ load using minimum version selection mode
+ rc msg←'mvs'APM.InstallPackages prj_dir
  →GoToTidyUp 0≠rc
 
  rc msg←APM.LoadProject prj_dir

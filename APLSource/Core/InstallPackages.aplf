@@ -11,6 +11,8 @@
      rc←3 ⎕MKDIR pkgs_dir
 
      tgts←pkgs_dir∘,¨tree.id
-     r←tree.dir CreateSymbolicLink¨tgts
+     rcs msgs src_dirs←↓⍉↑Get¨tree.id
+     ∨/rcs≠0:1 'Failed getting packages'
+     r←src_dirs CreateSymbolicLink¨tgts
      0 ''
  }

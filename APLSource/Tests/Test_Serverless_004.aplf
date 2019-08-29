@@ -14,12 +14,12 @@
  →GoToTidyUp rc≠0
  →GoToTidyUp 3≠≢packs
 
- rc msg packs←'TestReg'APM.List'v0.1'
+ rc msg packs←'TestReg'APM.List'Test-v0.1'
  →GoToTidyUp rc≠0
  →GoToTidyUp 1≠≢packs
  →GoToTidyUp'0.1.0'≢⊃packs.version
 
- rc msg packs←'TestReg'APM.List'v0.2'
+ rc msg packs←'TestReg'APM.List'Test-v0.2'
  →GoToTidyUp rc≠0
  →GoToTidyUp 2≠≢packs
  →GoToTidyUp'0.2.1'≢⊃⌽packs.version

@@ -1,0 +1,5 @@
+ ParseVersion←{
+     ver suf←{(⍵↑⍨i-1)(⍵↓⍨i←⍵⍳'-')}⍵
+     b n←'.'⎕VFI ver
+     ∧/3↑b:(3↑n),⊂suf
+ }
