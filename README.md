@@ -4,7 +4,7 @@
 
 ## Summary
 
-This document aims to define what an APL Package is and how a manager can be implemented to deal with such packages. In it's simplest form an implementation can be server-less and simply deal with packages directly without a supporting registry. However, when designing the solution we recommended to keep in mind an eventual APL Package server (registry server).
+This document aims to define what an APL Package is and how a manager can be implemented to deal with such packages. In its simplest form an implementation can be server-less and simply deal with packages directly without a supporting registry. However, when designing the solution we recommended to keep in mind an eventual APL Package server (registry server).
 
 ## The Package
 
