@@ -6,7 +6,17 @@
      path←(≢type)↓uri
      rc msg index←GetRegistryIndex path
      0≠rc:rc msg index
-     mask←∨/pattern⍷⍕↑index.(group,'-',name,'-v',version)
+     g n v←ParsePackageName pattern
+     mask←index{
+         g n v←⍵
+         0=≢g,n,v:0
+         0=≢g,v:∨/(↑⍺.(group name))∊⊂n
+         m1←0<≢¨g n
+         m2←(m1∘/¨⍺.(group name))∊⊂m1/g n
+         0=≢v:m2
+         m2∧⊣/v⍷↑⍺.version
+     }g n v
      pkgs←mask/index
+     0=≢pkgs:1 'Package not found'⍬
      0 ''pkgs
  }

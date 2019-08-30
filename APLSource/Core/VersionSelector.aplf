@@ -1,0 +1,18 @@
+ VersionSelector←{
+    ⍝ resolve version to be used given
+    ⍝ ⍵ ←→ version requested (prefixed ^ for latest)
+    ⍝ ⍺ ←→ versions available
+    ⍝ ← ←→ resolved version or '' if not found
+     latest←'^'≡⊃⍵
+     (~latest)∧(⊂⍵)∊⍺:⍵
+     ~latest:''
+
+     vr←ParseVersion 1↓⍵
+     vsn←↑ParseVersion¨vs←⍺
+     order←⍒(¯1↓[2]vsn),'⍵'@{⍵∊⊂''}⊢/vsn
+     vso vsno←(⊂order)∘⌷¨vs vsn
+     cols←⍳1+0=⊃vr
+     min←(,⊂3↑vr)⍸3↑¨↓vsno
+     max←(↓vsno[;cols])∊⊂vr[cols]
+     ⊃(min∧max)/vso
+ }

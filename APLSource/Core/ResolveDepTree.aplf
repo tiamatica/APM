@@ -1,0 +1,46 @@
+ ResolveDepTree←{
+     ⍝ build dependency tree for package(s) ⍵
+     ⍺←'exact'
+     mode←⍺
+     findDeps←{
+         tree←⍵
+         pid←DropAlias ⍺
+         0=≢pid:tree
+
+         tree_ids←{0=≢⍵:'' ⋄ ⊃,/⍵.((⊂id),orig_ids)}tree
+         (⊂pid)∊tree_ids:tree
+
+         g n v←ParsePackageName pid
+         vreq←v,⍨'^'/⍨mode≡'latest'
+         rc msg pkgs←List g,'-',n
+         version←pkgs.version VersionSelector vreq
+         0=≢version:∘∘∘
+
+         pkg←pkgs⊃⍨pkgs.version⍳⊂version
+         npid←PackageFileName pkg
+         (⊂npid)∊tree_ids:tree{
+             n←⍺[⍺.id⍳⍵[1]]
+             n.orig_ids,←⍵[2]
+             ⍺
+         }npid pid
+
+         node←#.⎕NS''
+         node.id←npid
+         node.orig_ids←,⊂pid
+         node.dependencies←pkg.dependencies
+         tree,←node
+         0=≢pkg.dependencies:tree
+         mask←~tree.id∊⍨DropAlias¨pkg.dependencies
+         ⊃∇/(mask/node.dependencies),⊂tree
+     }
+     tree←⊃findDeps/(⊆⍵),⊂⍬
+     mode≢'mvs':tree
+     tbl←↑ParsePackageName¨tree.id
+     new_deps←⊃⍪/tbl[;1 2]{
+         1=≢⍵:⊂⍵[;2],⊂1↓∊'-',¨⍺,⊂'v',⊃⍵
+         vns←⍵[;1]∘VersionSelector¨'^',¨⍵[;1]
+         ⊂⍵[;2],⍪1↓¨,/'-',¨⍺,⍤1⊢⍪'v',¨vns
+     }⌸tbl[;,3],⍳≢tbl
+     tree[new_deps[;1]].id←⊢/new_deps
+     tree
+ }

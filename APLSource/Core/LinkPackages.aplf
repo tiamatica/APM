@@ -2,7 +2,7 @@
      tree cfg←⍺ ⍵
      setRef←{
          name←⍺{0<≢⍺:⍺ ⋄ ⍵}⍵.name
-         _←⍺⍺⍎name,'←',⍵.(nspath,'.',api)
+         _←⍺⍺⍎name,'←',⍵.(1↓∊'.',¨nspath api~⊂'')
          0
      }
      rc←{
@@ -13,9 +13,13 @@
          _←alias(ns setRef)¨tree[tree.id⍳DropAlias¨node.dependencies]
          0
      }¨tree
-     ns←⍎{0=≢⍵:'#' ⋄ ⍵ #.⎕NS''}cfg.(1↓∊'.',¨group name~⊂'')
      alias←GetAlias¨cfg.dependencies
-     _←alias(ns setRef)¨tree[tree.id⍳DropAlias¨cfg.dependencies]
-     0 ''
+     deps←⊃⍪/tree,¨⍪¨tree.orig_ids
+     refs←alias{
+         name←⍺{0<≢⍺:⍺ ⋄ ⍵}⍵.name
+         name,'←',⍵.(1↓∊'.',¨nspath api~⊂'')
+     }¨deps[deps[;2]⍳DropAlias¨cfg.dependencies;1]
+
+     0 ''refs
      ⍝
  }

@@ -1,0 +1,74 @@
+ CreateTestRegistryVersions1←{
+     apm dir←⍺ ⍵
+     _←3 ⎕MKDIR⊢registry←dir,'/registry'
+
+     ⍝ initialise new serverless registry with multiple versions of same package
+     rc msg←apm.CreateRegistry registry
+     assert 0=rc:
+     uri←apm.PathToUri registry
+
+     ⍝ GroupA-Test1-v0.1.0
+     _←3 ⎕MKDIR⊢src←dir,'/Test1'
+     lines←,⊂'Version←{''0.1.0''}'
+     _←(⊂lines)NPUT src,'/Version.aplf'
+     cfg←⎕NS''
+     cfg.group←'GroupA'
+     cfg.name←'Test1'
+     cfg.api←'Version'
+     cfg.version←'0.1.0'
+     cfg.source←'Version.aplf'
+     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     rc msg←apm.Publish src uri
+     assert 0=rc:
+
+     ⍝ GroupA-Test1-v0.1.1
+     lines←,⊂'Version←{''0.1.1''}'
+     _←(⊂lines)NPUT src,'/Version.aplf'
+     cfg.version←'0.1.1'
+     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     rc msg←apm.Publish src uri
+     assert 0=rc:
+
+     ⍝ GroupA-Test1-v0.2.0
+     lines←'r←Version dummy' 'r←''0.2.0'''
+     _←(⊂lines)NPUT src,'/Version.aplf'
+     cfg.version←'0.2.0'
+     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     rc msg←apm.Publish src uri
+     assert 0=rc:
+
+
+     ⍝ GroupA-Test2-v2.3.0
+     _←3 ⎕MKDIR⊢src←dir,'/Test2'
+     lines←,⊂'Version←{''2.3.0-'',Test1 ⍵}'
+     _←(⊂lines)NPUT src,'/Version.aplf'
+     cfg←⎕NS''
+     cfg.group←'GroupA'
+     cfg.name←'Test2'
+     cfg.version←'2.3.0'
+     cfg.source←'Version.aplf'
+     cfg.dependencies←,⊂'GroupA-Test1-v0.1.1'
+     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     rc msg←apm.Publish src uri
+     assert 0=rc:
+
+     ⍝ GroupA-Test2-v2.3.1
+     lines←,⊂'Version←{''2.3.1-'',Test1 ⍵}'
+     _←(⊂lines)NPUT src,'/Version.aplf'
+     cfg.version←'2.3.1'
+     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     rc msg←apm.Publish src uri
+     assert 0=rc:
+
+     ⍝ GroupA-Test2-v2.4.0
+     lines←'r←Version dummy' 'r←''2.4.0-'',Test1 ⍬'
+     _←(⊂lines)NPUT src,'/Version.aplf'
+     cfg.dependencies←,⊂'GroupA-Test1-v0.2.0'
+     cfg.version←'2.4.0'
+     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     rc msg←apm.Publish src uri
+     assert 0=rc:
+
+
+     0 registry
+ }

@@ -67,7 +67,7 @@
      lines,←⊂':EndClass'
      _←(⊂lines)NPUT src,'/MyClass1.aplc'
      cfg.version←'1.1.0'
-     cfg.dependencies←,⊂'GroupA-Test1-v0.1.0'
+     cfg.dependencies←,⊂'GroupA-Test1-v0.1.1'
      _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
      rc msg←apm.Publish src uri
      assert 0=rc:
@@ -82,7 +82,7 @@
      lines,←⊂':EndClass'
      _←(⊂lines)NPUT src,'/MyClass1.aplc'
      cfg.version←'1.1.1'
-     cfg.dependencies←,⊂'GroupA-Test1-v0.1.0@Version'
+     cfg.dependencies←,⊂'GroupA-Test1-v0.1.1@Version'
      _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
      rc msg←apm.Publish src uri
      assert 0=rc:

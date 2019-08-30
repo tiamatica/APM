@@ -1,4 +1,4 @@
- Get←{
+ GetPackage←{
      uri←⍵
      ⊃'file://'⍷uri:GetViaFile uri
      ⊃≢'^http[s]*://'⎕S 0⊣uri:GetViaHTTP uri

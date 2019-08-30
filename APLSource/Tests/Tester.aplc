@@ -16,8 +16,9 @@
 ⍝ * `RunBatchTests`
 ⍝ * `RunBatchTestsInDebugMode`
 ⍝ * `RunDebug`
-⍝ * `RunThese`\\
-⍝ All `Run*` functions return a **shy** result vedctor with two- or three elements:
+⍝ * `RunThese`
+⍝ * `RunGUI`\\
+⍝ All `Run*` functions return a **shy** result vector with two elements excepts `RunGUI`:
 ⍝ 1. Is a return code which has one of three values:
 ⍝    * 0 means all executed, all okay.
 ⍝    * 1 means that some test cases failed or crashed.
@@ -28,12 +29,10 @@
 ⍝    this vector. In addition there is a summary at the end of the vector, reporting
 ⍝    how many test cases got executed, how many failed/broke or were not executed
 ⍝    and for what reason.\\
-⍝ 3. Some function also return a reference poiting to the GUI `Tester` might present
-⍝    to the user. You can interact with the GUI once the test cases are all processed:
-⍝    via the contect menu you can edit, re-run or re-run with a stop vector.\\
-⍝    `Run` and `RunBatchTests` are desiigned to run unde program control, therefore
-⍝    they do not provide a GUI.\\
-⍝    Note that `⎕WA` gets rid of the GUI.\\
+⍝ `RunGUI` also returns a reference poiting to the GUI `Tester` might present
+⍝ to the user. You can interact with the GUI once the test cases are all processed:
+⍝ via the context menu you can edit, re-run or re-run with a stop vector.\\
+⍝ Note that `⎕WA` gets rid of the GUI in case the ref is not assigned.\\
 ⍝ ## Misc
 ⍝ This class is part of the APLTree Open Source project.\\
 ⍝ Home page: <https://github.com/aplteam/Tester>\\
@@ -46,14 +45,17 @@
 
     ∇ r←Version
       :Access Public shared
-      r←(Last⍕⎕THIS)'4.1.1.34' '2019-08-24'
+      r←(Last⍕⎕THIS)'5.0.0.34' '2019-08-30'
     ∇
 
     ∇ History
       :Access Public shared
-      ⍝ * 4.1.1
+      ⍝ * 5.0.0
+      ⍝   * New function `RunGUI` introduced which is the only way now to invoke the (Windows-only) GUI.
+      ⍝   * `RunDebug` and `RunThese` both are not running the GUI any more.
+      ⍝   * All `Run*` functions now return a two-element vector except `RunGUI`.
       ⍝   * Bug fixes:
-      ⍝     ( `E` crashed under some circumstances.
+      ⍝     `E` crashed under some circumstances.
       ⍝   * ...
       ⍝ * 4.1.0
       ⍝   * Now compatibale with acre 6.
@@ -107,10 +109,33 @@
       (rc log ref2Gui)←refToTestNamespace Run__ flags,(⊂⍬),guiFlag
     ∇
 
-    ∇ {(rc log ref2Gui)}←{x}RunDebug refToTestNamespace;flags;rc;stopAt;stop;⎕ML;⎕IO
+    ∇ {(rc log)}←{x}RunDebug refToTestNamespace;flags;rc;stopAt;stop;⎕ML;⎕IO
     ⍝ Runs all test cases in `refToTestNamespace` **without** error trapping.
-    ⍝ If a test case encounters an invalid result it stops. Use this function
-    ⍝ to investigate the details after `Run` detected a problem.\\
+    ⍝ If a test case encounters an invalid result it stops.\\
+    ⍝ See also `RunGUI` which does the same but with a GUI.
+    ⍝ Use this function to investigate the details after `Run` detected a problem.
+    ⍝ This will work only if you use a particualar strategy when checking results
+    ⍝ in a test case; see <http://aplwiki.com/Tester> for details.
+      :Access Public Shared
+      ⎕IO←1 ⋄ ⎕ML←3
+      stop←0 ⋄ stopAt←⊂⍬
+      :If 0<⎕NC'x'
+          :If 0>x
+              stopAt←|x
+              stop←1
+          :Else
+              stop←x
+          :EndIf
+      :EndIf
+      flags←0 1 0,stop,stopAt,0
+      (rc log)←2↑refToTestNamespace Run__ flags
+    ∇
+
+    ∇ {(rc log ref2Gui)}←{x}RunGUI refToTestNamespace;flags;rc;stopAt;stop;⎕ML;⎕IO
+    ⍝ Runs all test cases in `refToTestNamespace` **without** error trapping.
+    ⍝ If a test case encounters an invalid result it stops.\\
+    ⍝ See also `RunDebug` which does the same but without a GUI.
+    ⍝ Use this function to investigate the details after `Run` detected a problem.
     ⍝ This will work only if you use a particualar strategy when checking results
     ⍝ in a test case; see <http://aplwiki.com/Tester> for details.
       :Access Public Shared
@@ -142,7 +167,7 @@
       :Access Public Shared
       ⎕IO←1 ⋄ ⎕ML←3
       flags←0 1 0 0
-      (rc log ref2Gui)←refToTestNamespace Run__ flags,(⊂these),1
+      (rc log ref2Gui)←refToTestNamespace Run__ flags,(⊂these),0
     ∇
 
     ∇ EditAll refToTestNamespace;list
@@ -282,7 +307,7 @@
       ps.(log trapFlag debugFlag batchFlag stopAt testCaseNos errCounter failedCounter guiFlag)←''trapFlag debugFlag batchFlag stopAt testCaseNos 0 0 guiFlag
       ps.guiFlag∧←'Win'≡GetOperatingSystem ⍬  ⍝ Windows only, it at all
       ref2Gui←⍬
-      :If debugFlag∨ps.guiFlag
+      :If ps.guiFlag
           ref2Gui←ps.gui←ref CreateGui ⎕NS''
       :EndIf
       ShowLog{'--- Test framework "Tester" version ',(2⊃⍵),' from ',(3⊃⍵),' ----'}Version
@@ -469,11 +494,11 @@
               :If 0>rc
                   ps.returnCodes,←rc
               :EndIf
-              msg←{⍵↓⍨+/∧\' '=⍵}{⍵↓⍨⍵⍳'⍝'}2⊃ref.⎕NR this      
+              msg←{⍵↓⍨+/∧\' '=⍵}{⍵↓⍨⍵⍳'⍝'}2⊃ref.⎕NR this
               desc←(⎕PW-hdr_width){⍺<≢⍵:'...',⍨⍵↑⍨⍺-4 ⋄ ⍵}⍣(~ps.guiFlag)⊢msg
               ¯1 ShowLog(length↑this),'(',(cw 0⍕i),'/',max,') '
               :If rc∊0 1 ¯1
-                  ¯2 ShowLog('*✓'[1+rc∊0 ¯1])(ps.guiFlag/this) desc
+                  ¯2 ShowLog('*✓'[1+rc∊0 ¯1])(ps.guiFlag/this)desc
               :Else
                   ¯2 ShowLog'⍝'this desc
               :EndIf
@@ -590,8 +615,8 @@
     ∇ {r}←{type}ShowLog msg;selog
     ⍝ `type` may be (+/-)1 or 2:
     ⍝ * A 1 means an action message
-    ⍝ * A 2 means the result of the execution attempt of a test function.``
-    ⍝ * A negative means message with more to come``
+    ⍝ * A 2 means the result of the execution attempt of a test function.
+    ⍝ * A negative means message with more to come
     ⍝ `ps` is a parameter space with `ps.log` being, well, the log.
       r←⍬
       type←{0<⎕NC ⍵:⍎⍵ ⋄ 1}'type'
@@ -734,6 +759,7 @@
       ref←1⊃,msg
       ⎕NQ ref 9998
       ref.∆n.∆Closed←1
+      ⍝Done
     ∇
 
     ∇ r←OnKeyPress msg;ref;key;form
@@ -854,6 +880,18 @@
 ⍝ 3. A reference pointing to the GUI created by `Tester`.
           ref←{9=#.⎕NC ⍵:# ⋄ 9=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC ⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9=##.⎕NC ⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
           r←debugFlag ref.Tester.RunDebug ⎕THIS
+        ∇
+
+        ∇ {r}←RunGUI debugFlag;ref
+          :Access Public Shared
+⍝ Run all test cases with a GUI and the DEBUG flag on.\\
+⍝ The result:
+⍝ If `debugFlag` is 1 then `RunDebug` stops just before executing any specific test case.\\
+⍝ 1. A return code. 0 means all test cases passed successfully.
+⍝ 2. A vector of text vector with the log. The log contains detailed information about what was carried out.
+⍝ 3. A reference pointing to the GUI created by `Tester`.
+          ref←{9=#.⎕NC ⍵:# ⋄ 9=({⎕ML←1 ⋄ ⊃⍵}⎕RSI).⎕NC ⍵:{⎕ML←1 ⋄ ⊃⍵}⎕RSI ⋄ 9=##.⎕NC ⍵:## ⋄ 'Cannot find "Tester"'⎕SIGNAL 6}'Tester'
+          r←debugFlag ref.Tester.RunGUI ⎕THIS
         ∇
 
         ∇ {r}←RunBatchTestsInDebugMode;ref
@@ -1146,10 +1184,10 @@
           ⎕ML←1
           force←⎕THIS≡{⎕ML←1 ⋄ ⊃⍵}(1↓⎕RSI),⊂''
           r←0 2⍴' '
-          list←'Run' 'RunDebug' 'RunThese' 'RunBatchTests' 'RunBatchTestsInDebugMode' 'E' 'L' 'G' 'FailsIf' 'PassesIf'
-          list,←'GoToTidyUp' 'RenameTestFnsTo' 'ListHelpers' '∆OK' '∆Failed' '∆NoBatchTest' '∆Inactive' '∆NoAcreTests'
-          list,←'∆WindowsOnly' '∆LinuxOnly' '∆MacOnly' '∆LinuxOrMacOnly' '∆LinuxOrWindowsOnly' '∆MacOrWindowsOnly'
-          list,←'FindSpecialString' '∆NotApplicable' '∆InvalidAplVersion'
+          list←'Run' 'RunDebug' 'RunThese' 'RunBatchTests' 'RunBatchTestsInDebugMode' 'RunGUI' 'E' 'L' 'G' 'FailsIf'
+          list,←'PassesIf' 'GoToTidyUp' 'RenameTestFnsTo' 'ListHelpers' 'FindSpecialString'
+          list,←'∆OK' '∆Failed' '∆NoBatchTest' '∆Inactive' '∆NoAcreTests' '∆WindowsOnly' '∆LinuxOnly' '∆MacOnly' '∆LinuxOrMacOnly'
+          list,←'∆LinuxOrWindowsOnly' '∆MacOrWindowsOnly' '∆NotApplicable' '∆InvalidAplVersion'
           list←,¨list
           :If 'Tester.Helpers'≢{⍵↑⍨-+/∧\2>+\⌽'.'=⍵}⍕⊃⎕RSI
               list/⍨←force∨0<⊃∘⎕NC¨list   ⍝ List only those that are around
