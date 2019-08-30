@@ -1,6 +1,6 @@
 # Dependency tree
 
-When creating a project with dependencies on packages from package registries, the project needs to specify the fully qualified names (Group-Name-Version) of the dpendencies in a config file (`apl-package.json`?). A companion file (`apl-dep-tree.json`?) is generated that defines the resolved package paths on disk as well as aliases requested.
+When creating a project with dependencies on packages from package registries, the project needs to specify the fully qualified names (Group-Name-Version) of the dpendencies in a config file (`apl-package.json`?). A companion file (`apl-package-tree.json`?) is generated that defines the resolved package paths on disk as well as aliases requested.
 
 ## Example
 
@@ -19,7 +19,7 @@ The project defines the dependency in its `apl-package.json` file and specifies 
 }
 ```
 
-APM resolves the dependencies recursively and logs them to file (`apl-dep-tree.json`):
+APM resolves the dependencies recursively and logs them to file (`apl-package-tree.json`):
 
 ```json
 [

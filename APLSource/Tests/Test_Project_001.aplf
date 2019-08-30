@@ -13,7 +13,7 @@
  →GoToTidyUp 0≠rc
 
  _←3 ⎕MKDIR prj_dir←dir,'/project'
- rc msg pcfg←cfg APM.InitPackage prj_dir
+ rc msg pcfg←APM.InitPackage prj_dir
  →GoToTidyUp 0≠rc
 
  rc msg pcfg←prj_dir APM.AddPackage'GroupA-Test1-v0.1.0'

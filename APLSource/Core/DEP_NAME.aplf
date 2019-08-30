@@ -1,2 +1,2 @@
  r←DEP_NAME
- r←'apl-dep-tree.json'
+ r←'apl-package-tree.json'
