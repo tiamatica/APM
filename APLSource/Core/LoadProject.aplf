@@ -7,7 +7,7 @@
 
      tgts←pkgs_dir∘,¨tree.id
      rcs msgs cfgs←↓⍉↑LoadSource¨tgts
-     ∨/rcs≠0:1 'Failed loading sources'
+     ∨/rcs≠0:1 'Failed loading sources'⍬
      tree.(name nspath api)←cfgs.(name nspath api)
      tree LinkPackages cfg
  }

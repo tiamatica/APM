@@ -1,4 +1,4 @@
- BuildDepTree←{
+ ResolveDepTree←{
      ⍝ build dependency tree for package(s) ⍵
      ⍺←'exact'
      mode←⍺

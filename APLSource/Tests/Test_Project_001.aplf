@@ -1,4 +1,4 @@
- R←Test_Project_001(stopFlag batchFlag);⎕TRAP;dir;dist;lines;rc;msg;ns;registry;uri;prj_dir;_;pcfg;gcfg;cfg
+ R←Test_Project_001(stopFlag batchFlag);⎕TRAP;dir;dist;lines;rc;msg;ns;registry;uri;prj_dir;_;pcfg;gcfg;cfg;refs
 ⍝ Install a package in a "project" folder
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←∆Failed
@@ -23,46 +23,55 @@
  →GoToTidyUp 0≠rc
 
  ⍝ load using exact mode (default)
- rc msg←'exact'APM.InstallPackages prj_dir
+ rc msg←'exact'APM.EstablishDepTree prj_dir
  →GoToTidyUp 0≠rc
 
- rc msg←APM.LoadProject prj_dir
+ rc msg←APM.InstallPackages prj_dir
  →GoToTidyUp 0≠rc
 
- →GoToTidyUp 9≠#.⎕NC cfg.name
- ns←#.⍎cfg.name
+ rc msg refs←APM.LoadProject prj_dir
+ →GoToTidyUp 0≠rc
+
+ ns←⎕NS''
+ ns⍎¨refs
 
  →GoToTidyUp'0.1.0'≢ns.Test1 ⍬
  →GoToTidyUp'2.3.0-0.1.1'≢ns.Test2.Version ⍬
- ⎕EX¨cfg.name'#._apm'
+ ⎕EX'#._apm'
 
  ⍝ load using latest mode
- rc msg←'latest'APM.InstallPackages prj_dir
+ rc msg←'latest'APM.EstablishDepTree prj_dir
  →GoToTidyUp 0≠rc
 
- rc msg←APM.LoadProject prj_dir
+ rc msg←APM.InstallPackages prj_dir
  →GoToTidyUp 0≠rc
 
- →GoToTidyUp 9≠#.⎕NC cfg.name
- ns←#.⍎cfg.name
+ rc msg refs←APM.LoadProject prj_dir
+ →GoToTidyUp 0≠rc
+
+ ns←⎕NS''
+ ns⍎¨refs
 
  →GoToTidyUp'0.1.1'≢ns.Test1 ⍬
  →GoToTidyUp'2.4.0-0.2.0'≢ns.Test2.Version ⍬
- ⎕EX¨cfg.name'#._apm'
+ ⎕EX'#._apm'
 
 ⍝ load using minimum version selection mode
- rc msg←'mvs'APM.InstallPackages prj_dir
+ rc msg←'mvs'APM.EstablishDepTree prj_dir
  →GoToTidyUp 0≠rc
 
- rc msg←APM.LoadProject prj_dir
+ rc msg←APM.InstallPackages prj_dir
  →GoToTidyUp 0≠rc
 
- →GoToTidyUp 9≠#.⎕NC cfg.name
- ns←#.⍎cfg.name
+ rc msg refs←APM.LoadProject prj_dir
+ →GoToTidyUp 0≠rc
+
+ ns←⎕NS''
+ ns⍎¨refs
 
  →GoToTidyUp'0.1.1'≢ns.Test1 ⍬
  →GoToTidyUp'2.3.0-0.1.1'≢ns.Test2.Version ⍬
- ⎕EX¨cfg.name'#._apm'
+ ⎕EX'#._apm'
 
 
  R←∆OK

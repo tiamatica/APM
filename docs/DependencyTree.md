@@ -19,7 +19,7 @@ The project defines the dependency in its `apl-package.json` file and specifies 
 }
 ```
 
-APM resolves the dependencies recursively and logs them to file (`apl-dep-tree,json`):
+APM resolves the dependencies recursively and logs them to file (`apl-dep-tree.json`):
 
 ```json
 [
