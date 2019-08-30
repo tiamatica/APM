@@ -4,6 +4,6 @@
      mode←⍺
      prj_dir←⊃1 ⎕NPARTS ⍵,'/'
      rc msg cfg←ReadConfig prj_dir
-     tree←mode ResolveDepTree cfg.dependencies
+     tree←mode ResolveDepTree cfg.(dependencies,devDependencies)
      tree WriteDepTree prj_dir
  }

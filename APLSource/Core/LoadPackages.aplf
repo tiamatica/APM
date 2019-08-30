@@ -1,4 +1,4 @@
- LoadProject←{
+ LoadPackages←{
      ⍝ Load project in folder ⍵
      prj_dir←⊃1 ⎕NPARTS ⍵,'/'
      rc msg cfg←ReadConfig prj_dir
