@@ -21,7 +21,7 @@ The files are zipped up and named after the package name and version as defined 
 
 ### Config file
 
-The config file should be a structured file (JSON?). It should have a standard name (eg. `apm-package.json`) and define the following properties:
+The config file should be a structured file (JSON?). It should have a standard name (eg. `apl-package.json`) and define the following properties:
 
   * name
   * group
