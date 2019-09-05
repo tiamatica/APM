@@ -1,5 +1,5 @@
  Initial RunAll;test_cfg
- APM←##.Core
+ APM←##.Core                                    ⍝ Requiered by the test cases
  test_cfg←(getTempDir''),'/apm_config.json'
- ∆OLD_REG_CONFIG←APM.SetGlobalConfigFile test_cfg
+ ∆OLD_REG_CONFIG←##.Core.SetGlobalConfigFilename test_cfg
 ⍝Done

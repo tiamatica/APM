@@ -1,12 +1,18 @@
  Publish←{
+⍝ Publish a package.\\
+⍝ 1. Creates a zip file for the package in a Temp folder
+⍝ 2. Checks for uniqueness of the given package/version combination.
+⍝ 3. Moves the zip file into the Registry
+⍝ 4. Updates the Registry index
+⍝ `⍵` must be a two-item vector:
+⍝ 1. `source` → folder to create package from
+⍝ 2. `registry` → registry to publish package to (alias or uri)
+⍝ Result:
+⍝ 1. `rc`  ← 0 if OK, error otherwise
+⍝ 2. `msg` ← empty or additional information
      source registry←⍵
-     ⍝ source → folder to create package from.\\
-     ⍝ registry → registry to publish package to (alias or uri).\\
-     ⍝ Result:
-     ⍝ 1. rc  ← 0 if OK, error otherwise
-     ⍝ 2. msg ← result
-
      rc msg cfg←ReadGlobalConfig''
+     0≠rc:rc((⊂'Problem reading the global config file:'),⊆msg)
      uri←cfg{
          0=≢⍺.registries:⍵
          (⍺.registries.alias⍳⊂⍵)⊃⍺.registries.uri,⊂⍵
@@ -17,7 +23,7 @@
 
      ⍝ Package
      rc msg zipfile←Pack source(GetTempDir)
-     0≠rc:rc zipfile
+     0≠rc:rc msg
      rc msg cfg←ReadConfig source
      0≠rc:rc msg
      rc msg ind←GetRegistryIndex path

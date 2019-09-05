@@ -17,7 +17,7 @@
      cfg.api←'Version'
      cfg.version←'0.1.0'
      cfg.source←'Version.aplf'
-     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
      rc msg←apm.Publish src uri
      assert 0=rc:
 
@@ -25,7 +25,7 @@
      lines←,⊂'Version←{''0.1.1''}'
      _←(⊂lines)NPUT src,'/Version.aplf'
      cfg.version←'0.1.1'
-     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
      rc msg←apm.Publish src uri
      assert 0=rc:
 
@@ -33,7 +33,7 @@
      lines←'r←Version dummy' 'r←''0.2.0'''
      _←(⊂lines)NPUT src,'/Version.aplf'
      cfg.version←'0.2.0'
-     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
      rc msg←apm.Publish src uri
      assert 0=rc:
 
@@ -48,7 +48,7 @@
      cfg.version←'2.3.0'
      cfg.source←'Version.aplf'
      cfg.dependencies←,⊂'GroupA-Test1-v0.1.1'
-     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
      rc msg←apm.Publish src uri
      assert 0=rc:
 
@@ -56,7 +56,7 @@
      lines←,⊂'Version←{''2.3.1-'',Test1 ⍵}'
      _←(⊂lines)NPUT src,'/Version.aplf'
      cfg.version←'2.3.1'
-     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
      rc msg←apm.Publish src uri
      assert 0=rc:
 
@@ -65,10 +65,9 @@
      _←(⊂lines)NPUT src,'/Version.aplf'
      cfg.dependencies←,⊂'GroupA-Test1-v0.2.0'
      cfg.version←'2.4.0'
-     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
      rc msg←apm.Publish src uri
      assert 0=rc:
-
 
      0 registry
  }

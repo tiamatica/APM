@@ -1,2 +1,2 @@
  r←CacheDir
- r←(AppData''),'/cache'
+ r←GetAppDataFolder'cache'

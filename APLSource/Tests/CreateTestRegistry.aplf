@@ -15,7 +15,7 @@
      cfg.name←'Test'
      cfg.version←'0.1.0'
      cfg.source←'Test.apln'
-     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
      rc msg←apm.Publish src uri
      assert 0=rc:
 
@@ -27,7 +27,7 @@
      cfg.name←'Test'
      cfg.version←'0.2.0'
      cfg.source←'Test.apln'
-     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
      rc msg←apm.Publish src uri
      assert 0=rc:
 
@@ -39,7 +39,7 @@
      cfg.name←'Test'
      cfg.version←'0.2.1'
      cfg.source←'Test.apln'
-     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
      rc msg←apm.Publish src uri
      assert 0=rc:
 
@@ -51,7 +51,7 @@
      cfg.name←'Math'
      cfg.version←'1.0.0'
      cfg.source←'add.aplf'
-     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
      rc msg←apm.Publish src uri
      assert 0=rc:
 
@@ -64,7 +64,7 @@
      cfg.version←'2.0.0'
      cfg.source←'Tool.apln'
      cfg.dependencies←,⊂'GroupX-Math-v1.0.0'
-     _←(⊂⎕JSON cfg)NPUT src,'/apl-package.json'
+     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
      rc msg←apm.Publish src uri
      assert 0=rc:
 

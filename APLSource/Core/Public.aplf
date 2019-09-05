@@ -1,2 +1,11 @@
  r←Public
- r←'AddRegistry' 'CreateRegistry'
+ r←''
+ r,←⊂'AddRegistry'
+ r,←⊂'CreateRegistry'
+⍝ r,←⊂'Load'
+⍝ r,←⊂'Pack'
+ r,←⊂'GetGlobalConfigFilename'
+ r,←⊂'Publish'
+ r,←⊂'ReadGlobalConfig'
+ r,←⊂'SetGlobalConfigFilename'
+⍝Done

@@ -1,4 +1,4 @@
  Cleanup
- APM.SetGlobalConfigFile ∆OLD_REG_CONFIG
- ⎕EX'∆OLD_REG_CONFIG'
+ APM.SetGlobalConfigFilename ∆OLD_REG_CONFIG
+ ⎕EX¨'∆OLD_REG_CONFIG' 'APM'
 ⍝Done

@@ -1,0 +1,20 @@
+ {noOf}←{deleteFlag}EstablishPublicMethodsIn ref
+⍝ Establishes pointers to all public functions in `ref`.
+⍝ What is a public function is defined by the function `Public`.\\
+⍝ A typical call would be:\\
+⍝ ```
+⍝ #.APM.Core.EstablishPublicMethodsIn ⎕SE
+⍝ ```
+⍝ That would create a namespace `APM` in `⎕SE` and populate it with pointers.\\
+⍝ The optional argument `deleteFlag` defaults to 0. When this is a scalar 1 `ref.APM` is re-created.\\
+⍝ Returns the number of function pointers in `ref.APM`.
+ deleteFlag←1≡{0<⎕NC ⍵:⍎⍵ ⋄ 0}'deleteFlag'
+ {}ref.{⎕EX'APM'}⍣deleteFlag⊣⍬
+ {}ref.{⍵ ⎕NS''}⍣(⊃0=ref.⎕NC'APM')⊣'APM'
+ ref.APM.⎕EX ref.APM.⎕NL 3 4
+ (⍕⎕THIS)∘ref.APM.{⍎⍵,'←',⍺,'.',⍵}¨Public
+ noOf←≢ref.APM.⎕NL 3 4
+ 'ZIP'ref.APM.⎕NS''
+ ((⍕⎕THIS),'.ZIP')∘ref.APM.ZIP.{⍎⍵,'←',⍺,'.',⍵}¨ZIP.Public
+ noOf+←≢ref.APM.ZIP.⎕NL 3 4
+⍝Done

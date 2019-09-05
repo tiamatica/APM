@@ -1,10 +1,15 @@
  ReadGlobalConfig←{
-     cfg_file←GetGlobalConfigFile
+⍝ Reads the global config file returned by `GetGlobalConfigFilename`.
+⍝ Result:
+⍝ 1. `rc`  ← 0 if OK, error otherwise
+⍝ 2. `msg` ← empty or additional information if `rc` is not 0
+⍝ 3. namespace with configuration parameters
+     cfg_file←GetGlobalConfigFilename
      cfg←#.⎕NS''
      ⍝ set up defaults
      cfg.registries←⍬
      cfg.filename←cfg_file
-     ~⎕NEXISTS cfg_file:0 ''cfg⊣(⊂⎕JSON cfg)⎕NPUT cfg_file
+     ~⎕NEXISTS cfg_file:0 ''cfg⊣(⊂JSON cfg)⎕NPUT cfg_file
      ⍝ load in actual
      _←'cfg'⎕NS ⎕JSON⊃⎕NGET cfg_file
  ⍝TODO⍝      _←cfg.⎕DF'Registry-config:',cfg_file   Bug <01656>

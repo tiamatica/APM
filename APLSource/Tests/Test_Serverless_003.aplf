@@ -19,7 +19,7 @@
  cfg.name←'Test'
  cfg.version←'0.1.0'
  cfg.source←'Test.apln'
- (⊂⎕JSON cfg)⎕NPUT src,'/apl-package.json'
+ (⊂APM.JSON cfg)⎕NPUT src,'/',APM.CFG_NAME
 
  rc msg←APM.Publish src('file://',registry)  ⍝ now Publish it
  →GoToTidyUp 0≠rc

@@ -1,9 +1,0 @@
- r←GetGlobalConfigFile
-⍝ Returns either the value of the variable `GLOBAL_CONFIG_FILE` if it exists and is not empty
-⍝ or the default for the global APM config file `apm_config.json`.
- :If 2=⎕NC'GLOBAL_CONFIG_FILE'
- :AndIf 0≠≢GLOBAL_CONFIG_FILE  ⍝ gil: redundant as this is a private property and setter doesn't allow empty
-     r←GLOBAL_CONFIG_FILE
- :Else
-     r←(AppData''),'/apm_config.json'
- :EndIf

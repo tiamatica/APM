@@ -1,5 +1,5 @@
  R←Test_Packages_001(stopFlag batchFlag);⎕TRAP;dir;src;dist;lines;cfg;rc;msg;zipfile;ns
-⍝ Pack a single file
+⍝ Pack a single file and load it
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←∆Failed
 
@@ -15,7 +15,7 @@
  cfg.name←'PackageB'
  cfg.version←'0.1.0'
  cfg.source←'Test.apln'
- (⊂⎕JSON cfg)⎕NPUT src,'/apl-package.json'
+ (⊂APM.JSON cfg)⎕NPUT src,'/',APM.CFG_NAME
  rc msg zipfile←APM.Pack src dist  ⍝ now Pack it
  →PassesIf 0=rc
  →PassesIf 0<≢zipfile

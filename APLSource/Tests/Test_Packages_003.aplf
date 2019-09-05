@@ -15,7 +15,7 @@
  cfg.name←'PackageB'
  cfg.version←'0.1.0'
  cfg.source←'Test.apln'
- (⊂⎕JSON cfg)⎕NPUT srcB,'/apl-package.json'
+ (⊂APM.JSON cfg)⎕NPUT srcB,'/',APM.CFG_NAME
  rc msg zipfileB←APM.Pack srcB dist  ⍝ now Pack it
  →GoToTidyUp 0≠rc
 
@@ -28,7 +28,7 @@
  cfg.version←'0.1.0'
  cfg.source←'Test.apln'
  cfg.dependencies←,⊂'file://',zipfileB
- (⊂⎕JSON cfg)⎕NPUT srcA,'/apl-package.json'
+ (⊂APM.JSON cfg)⎕NPUT srcA,'/',APM.CFG_NAME
  rc msg zipfileA←APM.Pack srcA dist  ⍝ now Pack it
  →GoToTidyUp 0≠rc
 

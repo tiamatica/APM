@@ -1,0 +1,15 @@
+ {r}←SetGlobalConfigFilename new
+⍝ Sets or deletes the full path of the global config file.\\
+⍝ If `new` is empty the global vars `GLOBAL_CONFIG_FILE` is deleted.
+⍝ If `new` is _not_ empty it's used to set `GLOBAL_CONFIG_FILE`.\\
+⍝ Returns the former setting or an empty vector.
+ :If 2=⎕NC'GLOBAL_CONFIG_FILE'
+     r←GLOBAL_CONFIG_FILE
+ :Else
+     r←''
+ :EndIf
+ :If 0=≢new
+     ⎕EX'GLOBAL_CONFIG_FILE'
+ :Else
+     GLOBAL_CONFIG_FILE←new
+ :EndIf
