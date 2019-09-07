@@ -1,0 +1,6 @@
+ Index←{
+     req←⍵
+     r←⎕NS''
+     r.packages←req.URI,'/pacakges'
+     req ReturnJSON r
+ }

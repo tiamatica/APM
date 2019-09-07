@@ -1,0 +1,6 @@
+ ReturnJSON←{
+     res←Rumba.NewResponse ⍺
+     res.ContentType←'application/json; charset=utf-8'
+     res.Content←1 ⎕JSON ⍵
+     res
+ }

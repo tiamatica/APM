@@ -1,0 +1,7 @@
+ HandleV1←{
+     req←⍵
+     seg←2↓req.Segments
+     0=≢seg:Index req
+
+     req Rumba.Respond 404 0
+ }

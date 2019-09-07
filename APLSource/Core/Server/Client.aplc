@@ -1,0 +1,118 @@
+:Class Client
+    ⎕ML←⎕IO←1
+
+    :Field Public Instance HOST
+    :Field Public Instance PORT
+    :Field Public Instance URI
+    :Field Public Instance SECURE
+    :Field Public Instance TOKEN
+    :Field Private Shared R
+
+    ∇ Init
+      :Access Public Instance
+      :Implements Constructor
+      HOST←'localhost'
+      PORT←8008
+      URI←'/api/v1'
+      TOKEN←'secret'
+      SECURE←0
+      PS←(⊃⊃⎕CLASS ⎕THIS).##
+      R←PS.Rumba
+     ⍝
+    ∇
+
+    ∇ (rc data)←{payload}Request arg;m;req;c;res
+      :Access Public Instance
+      c←Client HOST PORT
+      :If 0=⎕NC'payload'
+          payload←⊢
+      :EndIf
+      req←payload NewRequest arg
+      res←c R.SendAndReceive req
+      rc data←res.StatusCode res.Content
+      :If res.StatusCode=200
+      :AndIf res.ContentType.Subtype≡'json'
+          data←#.⎕JSON res.Content
+      :EndIf
+    ∇
+
+      Client←{
+          h p←⍵
+          c←R.NewClient 0
+          c.Host←h
+          c.Port←p
+          ~SECURE:c
+          c.Secure←1
+          c.X509←⎕NEW R.##.Conga.X509Cert
+          c
+      }
+
+    ∇ req←{payload}NewRequest arg;url;cmd;qp
+      url cmd←2↑(⊆arg),⊂'GET'
+      req←R.NewRequest 0
+      req.URI←URI,url
+      req.Method←cmd
+      req.Headers←,⊂'Authorization'('Bearer ',TOKEN)
+      req.Headers,←⊂'Accept' 'application/json'
+      :If 0≠⎕NC'payload'
+          :If cmd≡'GET'
+              qp←R.PercentEncode∘⍕¨{1=⍴⍴⍵:⍉⍪⍵ ⋄ ⍵}payload
+              req.URI,←'?',1↓⊃,/{'&',⍺,'=',⍵}/qp
+          :Else
+              req.Headers,←⊂'Content-Type' 'application/json'
+              req.Content←ToJSON payload
+          :EndIf
+      :EndIf
+    ∇
+
+    ∇ (rc data)←Index
+      :Access Public Instance
+      rc data←Request''
+    ∇
+
+    ∇ (rc data)←PackageGet id
+      :Access Public Instance
+      rc data←Request'/packages/',⍕id
+    ∇
+
+    ∇ (rc data)←PackagePublish rec
+      :Access Public Instance
+      rc data←rec Request('/packages/',⍕rec._id)'PUT'
+    ∇
+
+    ∇ (rc data)←PackagesGet parms
+      :Access Public Instance
+      rc data←parms Request'/packages'
+    ∇
+
+    lc←819⌶
+      FromJSON←{
+          t←{11::⍵ ⋄ 'UTF-8'⎕UCS ⎕UCS ⍵}⍵
+          11::0 ⎕JSON t
+          (7159⌶)t
+      }
+      ToJSON←{
+          t←{11::1 ⎕JSON ⍵ ⋄ (7160⌶)⍵}⍵
+          ⎕UCS'UTF-8'⎕UCS t
+      }
+
+      Base64←{⎕IO ⎕ML←0 1             ⍝ Base64 encoding and decoding as used in MIME.
+     
+          chars←'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+          bits←{,⍉(⍺⍴2)⊤⍵}                   ⍝ encode each element of ⍵ in ⍺ bits,
+                                       ⍝   and catenate them all together
+          part←{((⍴⍵)⍴⍺↑1)⊂⍵}                ⍝ partition ⍵ into chunks of length ⍺
+     
+          0=2|⎕DR ⍵:2∘⊥∘(8∘↑)¨8 part{(-8|⍴⍵)↓⍵}6 bits{(⍵≠64)/⍵}chars⍳⍵
+                                       ⍝ decode a string into octets
+     
+          four←{                             ⍝ use 4 characters to encode either
+              8=⍴⍵:'=='∇ ⍵,0 0 0 0           ⍝   1,
+              16=⍴⍵:'='∇ ⍵,0 0               ⍝   2
+              chars[2∘⊥¨6 part ⍵],⍺          ⍝   or 3 octets of input
+          }
+          cats←⊃∘(,/)∘((⊂'')∘,)              ⍝ catenate zero or more strings
+          cats''∘four¨24 part 8 bits ⍵
+      }
+
+:EndClass

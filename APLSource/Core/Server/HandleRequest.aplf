@@ -1,0 +1,9 @@
+ HandleRequest←{
+     req←⍵
+
+     req.Authorization←req Rumba.GetHeaderValue'Authorization'
+     '/api/v1'≡req.URI:HandleV1 req
+     res←⎕NS←''
+
+     req ReturnJSON res
+ }

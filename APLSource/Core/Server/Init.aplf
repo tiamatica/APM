@@ -1,0 +1,4 @@
+ Init;rc
+ Rumba←#.CarlisleGroup.Rumba.Core
+ rc←Rumba.InitConga''
+⍝ Done

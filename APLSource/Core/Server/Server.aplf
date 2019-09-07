@@ -1,0 +1,12 @@
+ Server←{
+     port←⍵
+     s←Rumba.NewServer 0
+     s.Port←port
+     s.LogHTTP←1
+     s.Context←⎕THIS
+     s.OnRequest←'HandleRequest'
+     s.DisplayRequests←1
+     s.Trap←0
+     _←s Rumba.Start 0
+     s
+ }
