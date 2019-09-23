@@ -15,6 +15,5 @@
  ⍝TODO⍝      _←cfg.⎕DF'Registry-config:',cfg_file   Bug <01656>
      0=≢cfg.registries:0 ''cfg
  ⍝TODO⍝      _←cfg.registries.⎕DF cfg.registries.⍙  Bug <01656>
-     _←cfg.registries.⎕EX'⍙'
      0 ''cfg
  }
