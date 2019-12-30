@@ -12,7 +12,7 @@
 
          g n v←ParsePackageName pid
          vreq←v,⍨'^'/⍨mode≡'latest'
-         rc msg pkgs←List g,'-',n
+         (rc msg pkgs)←List g,'-',n
          version←pkgs.version VersionSelector vreq
          0=≢version:∘∘∘
 

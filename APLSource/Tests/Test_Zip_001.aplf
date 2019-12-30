@@ -1,7 +1,7 @@
  R←Test_Zip_001(stopFlag batchFlag);⎕TRAP;ZIP;sourceDir;targetDir;targetFile;rc;msg;list
 ⍝ Zip a directory with three files in it and then unzip it again.
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
  ZIP←##.Core.ZIP
 
  sourceDir←getTempDir ⍬
@@ -12,18 +12,18 @@
  (⊂'This test file 3')⎕NPUT(sourceDir,'/test3.txt')1
  list←{⊃,/1↓⎕NPARTS ⍵}¨⊃0 ⎕NINFO⍠('Wildcard' 1)⊣sourceDir,'/*'
  rc msg←(sourceDir list)ZIP.zip targetFile
- →GoToTidyUp 0≠rc
- →GoToTidyUp 0≠≢msg
+ →T.GoToTidyUp 0≠rc
+ →T.GoToTidyUp 0≠≢msg
  3 ⎕NDELETE sourceDir
  3 ⎕MKDIR sourceDir
  list←⊃0 ⎕NINFO⍠('Wildcard' 1)⊣sourceDir,'/*'
- →GoToTidyUp 0≠≢list
+ →T.GoToTidyUp 0≠≢list
  assert 1=1 ⎕NINFO sourceDir
  rc←sourceDir ZIP.unzip targetFile
  list←⊃0 ⎕NINFO⍠('Wildcard' 1)⊣sourceDir,'/*'
- →GoToTidyUp 3≠≢list
+ →T.GoToTidyUp 3≠≢list
 
- R←∆OK
+ R←T._OK
 
 ∆TidyUp:
  3 ⎕NDELETE¨sourceDir targetFile

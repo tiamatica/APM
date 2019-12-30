@@ -3,7 +3,7 @@
      _←3 ⎕MKDIR⊢src registry←(⊂dir,'/'),¨'src' 'registry'
 
      ⍝ initialise new serverless registry
-     rc msg←apm.CreateRegistry registry
+     (rc msg)←apm.CreateRegistry registry
      assert 0=rc:
      uri←apm.PathToUri registry
 
@@ -16,7 +16,7 @@
      cfg.version←'0.1.0'
      cfg.source←'Test.apln'
      _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     rc msg←apm.Publish src uri
+     (rc msg)←apm.Publish src uri
      assert 0=rc:
 
      ⍝ Example-Test-0.2.0
@@ -28,7 +28,7 @@
      cfg.version←'0.2.0'
      cfg.source←'Test.apln'
      _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     rc msg←apm.Publish src uri
+     (rc msg)←apm.Publish src uri
      assert 0=rc:
 
      ⍝ Example-Test-0.2.1
@@ -40,7 +40,7 @@
      cfg.version←'0.2.1'
      cfg.source←'Test.apln'
      _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     rc msg←apm.Publish src uri
+     (rc msg)←apm.Publish src uri
      assert 0=rc:
 
      ⍝ GroupX-Math-1.0.0
@@ -52,7 +52,7 @@
      cfg.version←'1.0.0'
      cfg.source←'add.aplf'
      _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     rc msg←apm.Publish src uri
+     (rc msg)←apm.Publish src uri
      assert 0=rc:
 
      ⍝ GroupX-Tool-2.0.0
@@ -65,7 +65,7 @@
      cfg.source←'Tool.apln'
      cfg.dependencies←,⊂'GroupX-Math-v1.0.0'
      _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     rc msg←apm.Publish src uri
+     (rc msg)←apm.Publish src uri
      assert 0=rc:
 
      0 registry

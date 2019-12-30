@@ -1,6 +1,6 @@
  CreateRegistry←{
 ⍝ Creates a brand new APM registry.\\
-⍝ The path provided (`⍵`) may or may not exist but must be empty.
+⍝ `⍵` must either not exist or be an empty folder.\\
 ⍝ An empty file `index.json` is injected and a sub folder `packages` created.
      path←⍵
      rc←3 ⎕MKDIR path

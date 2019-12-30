@@ -1,1 +1,4 @@
- NPUT←{⍺ ⎕NPUT ⍵ 1}
+ NPUT←{
+ ⍝ We want this to be tracable, so not a one-liner
+     ⍺ ⎕NPUT ⍵ 1
+ }

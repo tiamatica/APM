@@ -1,7 +1,7 @@
  R←Test_Zip_002(stopFlag batchFlag);⎕TRAP;ZIP;sourceDir;targetDir;targetFile;rc;msg;list
 ⍝ Zip a directory with three files in it and then list the contents.
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
  ZIP←##.Core.ZIP
 
  sourceDir←getTempDir ⍬
@@ -12,17 +12,17 @@
  (⊂'This test file 3')⎕NPUT(sourceDir,'/test3.txt')1
  list←{⊃,/1↓⎕NPARTS ⍵}¨⊃0 ⎕NINFO⍠('Wildcard' 1)⊣sourceDir,'/*'
  rc msg←(sourceDir list)ZIP.zip targetFile
- →GoToTidyUp 0≠rc
- →GoToTidyUp 0≠≢msg
+ →T.GoToTidyUp 0≠rc
+ →T.GoToTidyUp 0≠≢msg
 
  list←ZIP.list targetFile
- →GoToTidyUp 3≠≢list
+ →T.GoToTidyUp 3≠≢list
 
  list←'full'ZIP.list targetFile
- →GoToTidyUp 4≠≢list
- →GoToTidyUp ¯2≠≡list
+ →T.GoToTidyUp 4≠≢list
+ →T.GoToTidyUp ¯2≠≡list
 
- R←∆OK
+ R←T._OK
 
 ∆TidyUp:
  3 ⎕NDELETE¨sourceDir targetFile

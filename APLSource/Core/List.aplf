@@ -1,11 +1,11 @@
  List←{
      ⍺←''
      alias pattern←⍺ ⍵
-     rc msg cfg←ReadGlobalConfig''
+     (rc msg cfg)←ReadGlobalConfig''
      0≠rc:rc msg''
-     0=≢cfg.registries:1 'No registries configured' ⍬
+     0=≢cfg.registries:1 'No registries configured'⍬
      registries←alias{0=≢⍺:⍵ ⋄ ⍵/⍨⍵.alias∊⊂⍺}cfg.registries
-     0=≢registries:1 'Registry alias not found' ⍬
+     0=≢registries:1 'Registry alias not found'⍬
      res←registries{
          ⊃'file://'⍷⍺.uri:⍺.uri ListViaFile ⍵
          {≢'^http[s]*://'⎕S 0⊣⍵}⍺:⍺ ListViaHTTP ⍵

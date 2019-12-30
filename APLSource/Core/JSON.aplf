@@ -1,15 +1,5 @@
  JSON←{
 ⍝ `⍵` is a namespace with variables, for example for config parameters.\\
-⍝ `←` is JSON but nicely formatted; `⎕JSON` returns just a single line.
-     CR←⎕UCS 13
-     json←1 ⎕JSON ⍵
-     (open close)←json[1,≢json]
-     json←¯1↓1↓json
-     json←'"[^"]*"' ','⎕R(,¨'&'CR)⍠('Greedy' 0)⊣json
-     json←↑{1↓¨⍵⊂⍨⍵=CR}CR,json
-     json←{{1↓¨⍵⊂⍨⍵=CR}CR,'"[^"]*"' ':'⎕R(,¨'&'(':',CR))⍠('Greedy' 0)⊣⍵}¨↓json
-     json←{⍵↓⍨-+/∧\' '=⌽⍵}¨↓⍕↑json
-     json←{((¯1↓⍵),¨','),¯1↑⍵}⍣(1<≢json)⊣json
-     json←(⊂,open),json,(⊂,close)
-     json
+⍝ `←` is JSON but nicely formatted.
+     1 ⎕JSON⍠('Compact' 0)⊣⍵
  }

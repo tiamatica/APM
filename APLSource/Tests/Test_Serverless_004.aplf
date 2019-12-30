@@ -1,32 +1,32 @@
  R←Test_Serverless_004(stopFlag batchFlag);⎕TRAP;dir;rc;registry;msg;cfg;packs
 ⍝ List packages
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
 
  dir←getTempDir ⍬
  rc registry←APM CreateTestRegistry dir
- →GoToTidyUp rc≠0
+ →T.GoToTidyUp rc≠0
 
  rc msg cfg←APM.AddRegistry'TestReg'(APM.PathToUri registry)
- →GoToTidyUp rc≠0
+ →T.GoToTidyUp rc≠0
 
  rc msg packs←'TestReg'APM.List'Example'
- →GoToTidyUp rc≠0
- →GoToTidyUp 3≠≢packs
+ →T.GoToTidyUp rc≠0
+ →T.GoToTidyUp 3≠≢packs
 
  rc msg packs←'TestReg'APM.List'Test-v0.1'
- →GoToTidyUp rc≠0
- →GoToTidyUp 1≠≢packs
- →GoToTidyUp'0.1.0'≢⊃packs.version
+ →T.GoToTidyUp rc≠0
+ →T.GoToTidyUp 1≠≢packs
+ →T.GoToTidyUp'0.1.0'≢⊃packs.version
 
  rc msg packs←'TestReg'APM.List'Test-v0.2'
- →GoToTidyUp rc≠0
- →GoToTidyUp 2≠≢packs
- →GoToTidyUp'0.2.1'≢⊃⌽packs.version
+ →T.GoToTidyUp rc≠0
+ →T.GoToTidyUp 2≠≢packs
+ →T.GoToTidyUp'0.2.1'≢⊃⌽packs.version
 
  rc msg cfg←APM.RemoveRegistry'TestReg'
- →GoToTidyUp rc≠0
- R←∆OK
+ →T.GoToTidyUp rc≠0
+ R←T._OK
 
 ∆TidyUp:
  3 ⎕NDELETE dir

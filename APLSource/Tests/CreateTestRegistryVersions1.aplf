@@ -3,7 +3,7 @@
      _←3 ⎕MKDIR⊢registry←dir,'/registry'
 
      ⍝ initialise new serverless registry with multiple versions of same package
-     rc msg←apm.CreateRegistry registry
+     (rc msg)←apm.CreateRegistry registry
      assert 0=rc:
      uri←apm.PathToUri registry
 
@@ -18,7 +18,7 @@
      cfg.version←'0.1.0'
      cfg.source←'Version.aplf'
      _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     rc msg←apm.Publish src uri
+     (rc msg)←apm.Publish src uri
      assert 0=rc:
 
      ⍝ GroupA-Test1-v0.1.1
@@ -26,7 +26,7 @@
      _←(⊂lines)NPUT src,'/Version.aplf'
      cfg.version←'0.1.1'
      _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     rc msg←apm.Publish src uri
+     (rc msg)←apm.Publish src uri
      assert 0=rc:
 
      ⍝ GroupA-Test1-v0.2.0
@@ -34,7 +34,7 @@
      _←(⊂lines)NPUT src,'/Version.aplf'
      cfg.version←'0.2.0'
      _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     rc msg←apm.Publish src uri
+     (rc msg)←apm.Publish src uri
      assert 0=rc:
 
 
@@ -49,7 +49,7 @@
      cfg.source←'Version.aplf'
      cfg.dependencies←,⊂'GroupA-Test1-v0.1.1'
      _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     rc msg←apm.Publish src uri
+     (rc msg)←apm.Publish src uri
      assert 0=rc:
 
      ⍝ GroupA-Test2-v2.3.1
@@ -57,7 +57,7 @@
      _←(⊂lines)NPUT src,'/Version.aplf'
      cfg.version←'2.3.1'
      _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     rc msg←apm.Publish src uri
+     (rc msg)←apm.Publish src uri
      assert 0=rc:
 
      ⍝ GroupA-Test2-v2.4.0
@@ -66,7 +66,7 @@
      cfg.dependencies←,⊂'GroupA-Test1-v0.2.0'
      cfg.version←'2.4.0'
      _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     rc msg←apm.Publish src uri
+     (rc msg)←apm.Publish src uri
      assert 0=rc:
 
      0 registry

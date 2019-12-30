@@ -1,7 +1,7 @@
  R←Test_Serverless_003(stopFlag batchFlag);⎕TRAP;dir;src;registry;rc;msg;lines;cfg
 ⍝ Publish package
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
- R←∆Failed
+ R←T._Failed
 
  dir←getTempDir ⍬
  src registry←(⊂dir,'/'),¨'src' 'registry'
@@ -9,7 +9,7 @@
 
  ⍝ initialise new serverless registry
  rc msg←APM.CreateRegistry registry
- →GoToTidyUp 0≠rc
+ →T.GoToTidyUp 0≠rc
 
  ⍝ create a package
  lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
@@ -22,8 +22,8 @@
  (⊂APM.JSON cfg)⎕NPUT src,'/',APM.CFG_NAME
 
  rc msg←APM.Publish src('file://',registry)  ⍝ now Publish it
- →GoToTidyUp 0≠rc
- R←∆OK
+ →T.GoToTidyUp 0≠rc
+ R←T._OK
 
 ∆TidyUp:
  3 ⎕NDELETE dir

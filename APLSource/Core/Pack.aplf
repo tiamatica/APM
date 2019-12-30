@@ -9,7 +9,7 @@
      source target←⊃¨1 ⎕NPARTS ⍵,¨'/'
 
      ⍝ Check source has config
-     rc msg cfg←ReadConfig source
+     (rc msg cfg)←ReadConfig source
      rc≠0:rc msg cfg
 
      ⍝ validate config
@@ -20,6 +20,7 @@
      zipfile←target,cfg.group,'-',cfg.name,'-v',cfg.version,'.zip'
      files←∪cfg.files,cfg.source CFG_NAME
 
-     r←source files ZIP.zip zipfile
+     (rc msg)←source files ZIP.zip zipfile
+     rc≠0:rc=0
      0 ''zipfile
  }

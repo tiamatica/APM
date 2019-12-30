@@ -10,8 +10,8 @@
 ⍝ Result:
 ⍝ 1. `rc`  ← 0 if OK, error otherwise
 ⍝ 2. `msg` ← empty or additional information
-     source registry←⍵
-     rc msg cfg←ReadGlobalConfig''
+     (source registry)←⍵
+     (rc msg cfg)←ReadGlobalConfig''
      0≠rc:rc((⊂'Problem reading the global config file:'),⊆msg)
      uri←cfg{
          0=≢⍺.registries:⍵
@@ -22,11 +22,11 @@
      path←UriToPath uri
 
      ⍝ Package
-     rc msg zipfile←Pack source(GetTempDir)
+     (rc msg zipfile)←Pack source(GetTempDir)
      0≠rc:rc msg
-     rc msg cfg←ReadConfig source
+     (rc msg cfg)←ReadConfig source
      0≠rc:rc msg
-     rc msg ind←GetRegistryIndex path
+     (rc msg ind)←GetRegistryIndex path
      0≠rc:rc msg
 
      ⍝ validate package and ensure uniqueness in registry
