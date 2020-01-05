@@ -1,0 +1,76 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "title": "Schema for apl-project.json files",
+    "type": "object",
+    "properties": {
+        "group": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+            "description": "Name of group that the package belongs to."
+        },
+        "name": {
+            "type": "string",
+            "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+            "description": "Name of the package."
+        },
+        "version": {
+            "type": "string",
+            "pattern": "^([0-9]+)\\.([0-9]+)\\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?(?:\\+[0-9A-Za-z-]+)?$",
+            "description": "Version number following semantic versioning."
+        },
+        "source": {
+            "type": "string",
+            "description": "Path to file or folder containing the source code (default 'src')."
+        },
+        "caseCode" : {
+            "type": "string",
+            "enum": ["on", "off"],
+            "description": "Add case coded extension to file names (default 'off')."
+        },
+        "packageFiles": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Array of file and folder names to be included in package (default is include all)."
+        },
+        "dependencies": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "group": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+                        "description": "Name of group that the package belongs to."
+                    },
+                    "name": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+                        "description": "Name of the package."
+                    },
+                    "version": {
+                        "type": "string",
+                        "pattern": "^([0-9]+)\\.([0-9]+)\\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?(?:\\+[0-9A-Za-z-]+)?$",
+                        "description": "Version number following semantic versioning."
+                    },
+                    "alias": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+                        "description": "Name used to reference this dependency (default is the package name)."
+                    },
+                    "inject": {
+                        "type": "string",
+                        "enum": ["root", "all", "none"],
+                        "description": "Whether to create reference to this dependency in the `root` of the project, in `all` spaces of the project or not at all (`none`). Default is `root`."
+                    }
+                },
+                "required": ["group", "name", "version"]
+            }
+        }
+    },
+    "required": ["group", "name", "version"],
+    "propertyNames": {
+        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+    }
+}

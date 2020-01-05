@@ -1,27 +1,27 @@
-# APL Package Manager - Mark I
+# APL Package Manager - Mark II
 
     Authors: Gilgamesh Athoraya, Kai Jäger
 
 ## Summary
 
-This document aims to define what an APL Package is and how a manager can be implemented to deal with such packages. In its simplest form an implementation can be server-less and simply deal with packages directly without a supporting registry. However, when designing the solution we recommended to keep in mind an eventual APL Package server (registry server).
+This document aims to define what an APL Package is and a manager to deal with such packages. In its simplest form an implementation can work without a server process and simply deal with packages directly without a supporting registry. The complete solution allows interacting with both local registries and served registries (APL Package server).
 
-## The Package
+## 1. The Package
 
-A package is a bundle of files:
+A package is a bundle of files in a folder:
   1. A configuration file describing the package. 
-  1. Source code in a file or folder
+  1. Source code in a file or sub-folder
   1. Optionally other files (resources)
 
 A package name must be:
   1. a valid APL name
   1. consist of nothing but ASCII (**not** ANSI) characters
 
-The files are zipped up and named after the package name and version as defined in the config file (eg. `MyGroup-MyPackage-v1.0.0.zip`).
+A package folder is named after the package group, name and version as defined in the config file (eg. `MyGroup-MyPackage-v1.0.0`).
 
-### Config file
+### 1.1. Config file
 
-The config file should be a structured file (JSON?). It should have a standard name (eg. `apl-package.json`) and define the following properties:
+The config file is a JSON file with the name `apl-project.json`. It defines the following properties:
 
   * name
   * group
@@ -41,21 +41,21 @@ The config file should be a structured file (JSON?). It should have a standard n
   * [issue tracker url]
   * ...
 
-### Source code
+### 1.2. Source code
 
-The source code could be a single file or folder. The format of the source file(s) must be supported by `Link` (or `Acre`?).
+The source code could be a single file or folder. The format of the source file(s) must be supported by `Link`.
 
-## Client
+## 2. Client
 
-The client is mainly responsible for retrieving packages and linking them to the active workspace\|project. 
+The client is mainly responsible for retrieving packages and linking them to the active workspace\|project. Both local registries and served registres are supported. The client has its own configuration file that keeps track of an ordered list of registries used. This simplifies operations by allowing the use of aliases to reference registries or implicit use of top listed registry.
 
-In server-less mode, this would mean fetching a package using a specified URI (local filesystem or inter/intra net). With a registry server, this could be extended to allow for a package to be retrieved by name (`group/package`) and optional version number.
+In local registry mode, this would mean fetching a package using a specified URI (local filesystem or inter/intra net). With a registry server, this could be extended to allow for a package to be retrieved by name (`group/package`) and optional version number.
 
-### Pack (source_path target_path)
+### 2.1. Pack (source_path target_path)
 
 Takes a path to source and target folders. Inspects the `source_path` folder and validates that it contains the required files for a package (as defined above). If all ok, it then proceeds to add the required files (everything in source folder unless otherwise specified by the `files` property in the config file) to a zip archive. The zip file is named as defined above and placed in `target_path`.
 
-### Load (target_space uri)
+### 2.2. Load (target_space uri)
 
 This method simply loads a package and its dependencies into the active workspace and creates a reference to it in the target_space. Nothing persists between sessions as the state is not saved to file.
 
@@ -75,11 +75,11 @@ Finally, a reference to the direct dependency (the package added explicitly, not
 
 `#.package←#.group.package.v1_2_0_alpha`
 
-### Load (uri project_space) - (only with Acre project)
+### 2.3. Load (uri project_space) - (only with Acre project)
 
 As for `Load (uri)` but the package is added as a dependency in the project's config file to ensure it persists and is loaded next time the project is opened (handled by Acre?). Also, the reference to the package is created in the project space instead of the root.
 
-### Publish (source_path registry_uri)
+### 2.4. Publish (source_path registry_uri)
 
 First calls `Pack` to generate a package bundle and then posts it to the provided `registry_uri`. This could be either a serverless registry or registry server.
 
@@ -87,15 +87,15 @@ First calls `Pack` to generate a package bundle and then posts it to the provide
 
 * If registry_uri is using the http scheme (starting with `https://`) then the client will connect to server, authenticate and post the package.
 
-## Serverless registry
+## 3. Local registry
 
-With a serverless registry all operations (eg. searching, listing and publishing) are executed by the client.
+With a local registry all operations (eg. searching, listing and publishing) are executed by the client.
 
 The folder structure of the registry is as follows:
 
 ```bash
 registry/
-  index.json
+  index/
   packages/
     GroupA/
       PackageA/
@@ -107,46 +107,11 @@ registry/
         GroupB-PackageB-v0.9.1.zip
 ```
 
-### index.json
+### 3.1. index
 
-The index file is a structured list of a subset of the content of each of the `apl-project.json` files in the registry. 
+The index folder contains key metadata about the packages stored in the registry in a form optimised for handling typical operations, such as building dependency trees and searching packages. The inforamtion is extracted from the packages and the index can therefore be rebuilt if corrupted.
 
-```json
-[
-  {
-    "group": "GroupA",
-    "name": "PackageA",
-    "version": "1.0.0",
-    "dependencies": [
-      "GroupB-PackageB-0.9.10",
-      "GroupC-PackageC-4.3.9",
-      "GroupC-PackageC-5.0.0"
-    ]
-  },
-  {
-    "group": "GroupB",
-    "name": "PackageB",
-    "version": "0.9.10",
-    "dependencies": []
-  },
-  {
-    "group": "GroupC",
-    "name": "PackageC",
-    "version": "4.3.9",
-    "dependencies": [
-      "GroupB-PackageB-0.9.8"
-    ]
-  },
-  {
-    "group": "GroupC",
-    "name": "PackageC",
-    "version": "5.0.0",
-    "dependencies": []
-  }
-]
-```
-
-### apl-project.json
+### 3.2. apl-project.json
 
 The `apl-project.json` file is a structured file describing the package and its dependencies. 
 
@@ -176,7 +141,8 @@ The `apl-project.json` file is a structured file describing the package and its 
   ]
 }
 ```
-## Cache
+
+## 4. Cache
 
 When loading a package it is:
 
@@ -184,7 +150,7 @@ When loading a package it is:
 1. unpacked into temp folder
 1. content validated?
 1. moved to cache
-1. if installing in acre project, linked to project folder
+1. if installing in project, linked to project folder
 
 ```bash
 /path/to/appdata/apm
