@@ -1,2 +1,2 @@
  r←CFG_NAME
- r←'apl-package.json'
+ r←'apl-project.json'
