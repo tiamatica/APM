@@ -4,6 +4,6 @@
      tmp←cfg_file,'.tmp'
      rc←(⊂JSON cfg)⎕NPUT tmp
      del←3 ⎕NDELETE cfg_file
-     rc←cfg_file ⎕NMOVE tmp
+     noOf←cfg_file ⎕NMOVE tmp
      0 ''cfg
  }

@@ -6,14 +6,12 @@
 ⍝ 3. namespace with configuration parameters
      cfg_file←GetGlobalConfigFilename
      cfg←#.⎕NS''
-     ⍝ set up defaults
+   ⍝ set up defaults
      cfg.registries←⍬
      cfg.filename←cfg_file
      ~⎕NEXISTS cfg_file:0 ''cfg⊣(⊂JSON cfg)⎕NPUT cfg_file
-     ⍝ load in actual
+   ⍝ load in actual
      _←'cfg'⎕NS ⎕JSON⊃⎕NGET cfg_file
- ⍝TODO⍝      _←cfg.⎕DF'Registry-config:',cfg_file   Bug <01656>
-     0=≢cfg.registries:0 ''cfg
- ⍝TODO⍝      _←cfg.registries.⎕DF cfg.registries.⍙  Bug <01656>
+     0=≢cfg.registries:0 ''cfg    ⍝TODO⍝ Check this and the next line!
      0 ''cfg
  }
