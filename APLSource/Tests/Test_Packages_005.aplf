@@ -3,10 +3,6 @@
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
 
- :If 1   ⍝TODO⍝
-     →0,R←T._Inactive
- :EndIf
-
  dir←getTempDir ⍬
  srcA srcB dist←(⊂dir,'/'),¨'srcA' 'srcB' 'dist'
  3 ⎕MKDIR⊢srcA srcB dist

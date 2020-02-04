@@ -1,5 +1,5 @@
  InitPackageConfig←{
-     ⍝ Initialise a package config
+⍝ Initialise a package config namespace
      cfg←#.⎕NS''
      cfg.group←''
      cfg.name←''

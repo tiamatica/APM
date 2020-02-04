@@ -10,8 +10,8 @@
 
      ⍝ unzip in temp folder and validate package content
      temp←GetTempDir,'/',filename,'-',GetMD5 path
-     rc←temp ZIP.unzip path
-     ⍝ rc ?!   ⍝TODO⍝
+     rc msg←temp ZIP.unzip path
+     0≠rc:rc msg
      0=≢alias:0 ''temp
 
      cache←CacheDir

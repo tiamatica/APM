@@ -10,7 +10,7 @@
  ⍝ create Package
  lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
  (⊂lines)⎕NPUT src,'/Test.apln'
- cfg←⎕NS''
+ cfg←APM.InitPackageConfig ⍬
  cfg.group←'Example'
  cfg.name←'PackageB'
  cfg.version←'0.1.0'

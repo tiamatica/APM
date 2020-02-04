@@ -10,7 +10,7 @@
      cfg.nspath←PackageSpacePath cfg
      9=⎕NC cfg.nspath:0 ''cfg
 
-     rc←LoadDependencies⍣doDep⊢cfg
+     (rc msg)←LoadDependencies⍣doDep⊢cfg
      ⍝TODO⍝ rc?!
 
      src←dir,'/',cfg.source

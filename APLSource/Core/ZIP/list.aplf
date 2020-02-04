@@ -1,6 +1,7 @@
  list←{
  ⍝ Returns list of files found in ⍵ as a vector of text vectors.\\
  ⍝ In case ⍺ is "full" the full, formatted table of the "unzip" command is returned.
+ ⍝ To be replace by a .NET core solution one day  ⍝TODO⍝
      ⍺←''
      ~(⊂⍺)∊⍬'' 'full':'Invalid left argument: either empty or "full"'⎕SIGNAL 11
      r←⎕SH BIN,'unzip -l ',⍵

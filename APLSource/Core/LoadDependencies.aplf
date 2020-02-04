@@ -1,11 +1,13 @@
  LoadDependencies←{
      cfg←⍵
-     0=≢cfg.dependencies:0
+     0=≢cfg.(dependencies,devDependencies):0
      ns←⍎cfg.nspath ⎕NS''
-     _←ns{
+     rc msg←↓⍉↑ns{
          rc msg dc←Load ⍵
-         rc≠0:∘∘∘   ⍝TODO⍝
-         ⍺⍎dc.(name,'←',nspath)
-     }¨cfg.dependencies
-     0
+         rc≠0:rc('Loading dependency ',⍵,' failed: ',msg)
+         _←⍺⍎dc.(name,'←',nspath)
+         0 ''
+     }¨cfg.(dependencies,devDependencies)
+     rc∧.=0:0 ''
+     1(⊃{'Error loading ',(3⊃⍵),', rc=',(⍕1⊃⍵)'; ',2⊃⍵}/(0≠rc)∘/¨rc msg cfg.dependencies)
  }

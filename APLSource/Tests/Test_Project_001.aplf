@@ -1,12 +1,12 @@
  R←Test_Project_001(stopFlag batchFlag);⎕TRAP;dir;dist;lines;rc;msg;ns;registry;uri;prj_dir;_;pcfg;gcfg;cfg;refs
-⍝ Install a package in a "project" folder
+⍝ Install packages into a "project" folder
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
 
  ns←''
  dir←getTempDir ⍬
  rc registry←APM CreateTestRegistryVersions1 dir
- →T.GoToTidyUp 0≠rc
+ assert 0=rc
 
  uri←APM.PathToUri registry
  rc msg gcfg←APM.AddRegistry'test'uri
@@ -21,8 +21,7 @@
  rc msg pcfg←prj_dir APM.AddPackage'GroupA-Test2-v2.3.0'
  →T.GoToTidyUp 0≠rc
 
- ⍝ load using exact mode (default)
- rc msg←'exact'APM.EstablishDepTree prj_dir
+ rc msg←APM.EstablishDepTree prj_dir
  →T.GoToTidyUp 0≠rc
 
  rc msg←APM.InstallPackages prj_dir
@@ -36,47 +35,12 @@
 
  →T.GoToTidyUp'0.1.0'≢ns.Test1 ⍬
  →T.GoToTidyUp'2.3.0-0.1.1'≢ns.Test2.Version ⍬
- ⎕EX'#._apm'
-
- ⍝ load using latest mode
- rc msg←'latest'APM.EstablishDepTree prj_dir
- →T.GoToTidyUp 0≠rc
-
- rc msg←APM.InstallPackages prj_dir
- →T.GoToTidyUp 0≠rc
-
- rc msg refs←APM.LoadPackages prj_dir
- →T.GoToTidyUp 0≠rc
-
- ns←⎕NS''
- ns⍎¨refs
-
- →T.GoToTidyUp'0.1.1'≢ns.Test1 ⍬
- →T.GoToTidyUp'2.4.0-0.2.0'≢ns.Test2.Version ⍬
- ⎕EX'#._apm'
-
-⍝ load using minimum version selection mode
- rc msg←'mvs'APM.EstablishDepTree prj_dir
- →T.GoToTidyUp 0≠rc
-
- rc msg←APM.InstallPackages prj_dir
- →T.GoToTidyUp 0≠rc
-
- rc msg refs←APM.LoadPackages prj_dir
- →T.GoToTidyUp 0≠rc
-
- ns←⎕NS''
- ns⍎¨refs
-
- →T.GoToTidyUp'0.1.1'≢ns.Test1 ⍬
- →T.GoToTidyUp'2.3.0-0.1.1'≢ns.Test2.Version ⍬
- ⎕EX'#._apm'
-
 
  R←T._OK
 
 ∆TidyUp:
- ⎕EX⍕ns
+ :Trap 6 ⋄ ⎕EX⍕ns ⋄ :EndTrap
+ ⎕EX'#._apm'
  _←APM.RemoveRegistry'test'
  3 ⎕NDELETE dir
 ⍝Done

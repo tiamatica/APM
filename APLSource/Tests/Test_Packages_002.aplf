@@ -1,4 +1,4 @@
- R←Test_Packages_002(stopFlag batchFlag);⎕TRAP;dir;src;dist;lines;cfg;rc;msg;zipfile;res
+ R←Test_Packages_002(stopFlag batchFlag);⎕TRAP;dir;src;dist;lines;cfg;rc;msg;zipfile;res;expected
 ⍝ Pack single file and check the resulting ZIP file
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
@@ -9,7 +9,7 @@
  assert rc∧.=1
  lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
  (⊂lines)⎕NPUT src,'/Test.apln'
- cfg←⎕NS''
+ cfg←APM.InitPackageConfig ⍬
  cfg.group←'Example'
  cfg.name←'Test'
  cfg.version←'0.1.0'
@@ -19,11 +19,12 @@
  rc msg zipfile←APM.Pack src dist  ⍝ now Pack it
  →T.GoToTidyUp 0≠rc
 
- →T.GoToTidyUp zipfile≢dist,'/',cfg.group,'-',cfg.name,'-v',cfg.version,'.zip'
+ expected←dist,'/',cfg.group,'-',cfg.name,'-v',cfg.version,'.zip'
+ →T.GoToTidyUp zipfile≢expected
 
  →T.GoToTidyUp 0=⎕NEXISTS zipfile
  res←APM.ZIP.list zipfile
- →T.GoToTidyUp 2≠≢res
+ →T.GoToTidyUp 2≠≢res               ⍝ Single file package plus its config file
  R←T._OK
 
 ∆TidyUp:

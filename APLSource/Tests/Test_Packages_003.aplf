@@ -10,7 +10,7 @@
  ⍝ create PackageB
  lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
  (⊂lines)⎕NPUT srcB,'/Test.apln'
- cfg←⎕NS''
+ cfg←APM.InitPackageConfig''
  cfg.group←'Example'
  cfg.name←'PackageB'
  cfg.version←'0.1.0'
@@ -40,6 +40,6 @@
  R←T._OK
 
 ∆TidyUp:
- ⎕EX⍕ns
+ :Trap 6 ⋄ ⎕EX⍕ns ⋄ :EndTrap
  3 ⎕NDELETE dir
  ⍝Done

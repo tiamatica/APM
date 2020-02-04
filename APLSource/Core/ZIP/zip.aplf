@@ -7,6 +7,7 @@
 ⍝ Returns a two-element vector:
 ⍝ 1. rc: 0 for success and 1 otherwise
 ⍝ 2. msg: '' in case rc is 0 and potentailly a message otherwise
+⍝ To be replace by a .NET core solution one day  ⍝TODO⍝
      root_dir src_files←⍺
      {22::1 ⋄ 1≠1 ⎕NINFO ⍵}root_dir:1 'source directory does not exist'
      ~∧/bool←⎕NEXISTS(⊂root_dir,'/'),¨src_files:1((⍕+/~bool),' File',((1<+/~bool)/'s'),' do',((1=+/~bool)/'es'),' not exist')
