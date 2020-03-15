@@ -6,10 +6,10 @@
 ⍝ `C:\Users\<<⎕AN>>\AppData\Local/apm'      ←→ GetAppDataFolder ''
 ⍝ `C:\Users\<<⎕AN>>\AppData\Local/apm/foo'  ←→ GetAppDataFolder 'foo'
      add←{((0≠≢⍵)/'/'),⍵}⍵
-     p v←2↑'.'⎕WG'APLVersion'
-     w l←'WL'∊''⍴p
+     (p v)←2↑'.'⎕WG'APLVersion'
+     (w l)←'WL'∊''⍴p
      d←'/apm'
-     h lad←2 ⎕NQ'.' 'GetEnvironment'('HOME' 'LOCALAPPDATA')
+     (h lad)←2 ⎕NQ'.' 'GetEnvironment'('HOME' 'LOCALAPPDATA')
      w:lad,d,add            ⍝ windows
 
      as←'/Library/Application Support'  ⍝ special mac folder

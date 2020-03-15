@@ -6,21 +6,17 @@
  ⍝ 2. msg ← empty or potentially a message in case rc is not 0
  ⍝ 2. pkg ← path to package file created
 
-     source target←⊃¨1 ⎕NPARTS ⍵,¨'/'
+     (source target)←⊃¨1 ⎕NPARTS ⍵,¨'/'
 
      ⍝ Check source has config
-     (rc msg cfg)←ReadConfig source
-     rc≠0:rc msg cfg
+     cfg←ReadConfig source
 
-     ⍝ validate config
-     rc msg←ValidateConfig cfg
-     rc≠0:rc msg
+     _←ValidateConfig cfg
 
      ⍝ Pack into target folder.
      zipfile←target,cfg.group,'-',cfg.name,'-v',cfg.version,'.zip'
      files←∪cfg.files,cfg.source CFG_NAME
 
-     (rc msg)←source files ZIP.zip zipfile
-     rc≠0:rc=0
-     0 ''zipfile
+     _←source files ZIP.zip zipfile
+     zipfile
  }

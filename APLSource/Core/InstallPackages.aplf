@@ -1,16 +1,14 @@
  InstallPackages←{
      ⍝ Install packages in project folder ⍵
      prj_dir←⊃1 ⎕NPARTS ⍵,'/'
-     rc msg tree←ReadDepTree prj_dir
-     rc≠0:rc msg
+     tree←ReadDepTree prj_dir
 
      pkgs_dir←prj_dir,'packages/'
-     rc←3 ⎕NDELETE pkgs_dir
-     rc←3 ⎕MKDIR pkgs_dir
+     _←3 ⎕NDELETE pkgs_dir
+     _←3 ⎕MKDIR pkgs_dir
 
      tgts←pkgs_dir∘,¨tree.id
-     rcs msgs src_dirs←↓⍉↑GetPackage¨tree.id
-     ∨/rcs≠0:1 'Failed getting packages'
-     r←src_dirs CreateSymbolicLink¨tgts
-     0 ''
+     src_dirs←GetPackage¨tree.id
+     _←src_dirs CreateSymbolicLink¨tgts
+     0
  }

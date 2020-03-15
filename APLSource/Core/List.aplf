@@ -1,16 +1,14 @@
  List←{
      ⍺←''
-     alias pattern←⍺ ⍵
-     (rc msg cfg)←ReadGlobalConfig''
-     0≠rc:rc msg''
-     0=≢cfg.registries:1 'No registries configured'⍬
+     alias←⍺
+     pattern←⍵
+     cfg←ReadGlobalConfig''
+     _←'No registries configured'Assert 0<≢cfg.registries
      registries←alias{0=≢⍺:⍵ ⋄ ⍵/⍨⍵.alias∊⊂⍺}cfg.registries
-     0=≢registries:1 'Registry alias not found'⍬
-     res←registries{
+     _←'Registry alias not found'Assert 0<≢registries
+     packs←registries{
          ⊃'file://'⍷⍺.uri:⍺.uri ListViaFile ⍵
          {≢'^http[s]*://'⎕S 0⊣⍵}⍺:⍺ ListViaHTTP ⍵
      }¨⊂pattern
-     rcs←⊃¨res
-     packs←⊃,/(0=⊃¨res)/3⊃¨res    ⍝TODO⍝  ????  Errors are just silently ignored
-     0 ''packs
+     ⊃,/packs
  }

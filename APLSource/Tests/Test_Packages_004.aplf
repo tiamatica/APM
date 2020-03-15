@@ -27,7 +27,7 @@
  →T.GoToTidyUp 0≠rc
  →T.GoToTidyUp 0=≢zipfile
 
- rc msg cfg←APM.Load'file://',zipfile
+ (rc msg cfg)←APM.Load'file://',zipfile
  →T.GoToTidyUp 0≠rc
  ns←⍎cfg.nspath
  →T.GoToTidyUp(,⊂'Test')≢ns.⎕NL-⍳10

@@ -1,13 +1,9 @@
  ValidateConfig←{
      cfg←⍵
      req←'group' 'name' 'version'
-     ~∧/req∊cfg.⎕NL-2:1 'Missing required fields'
-
-     r msg←ValidateName cfg.group
-     r≠0:r('group: ',msg)
-     r msg←ValidateName cfg.name
-     r≠0:r('name: ',msg)
-     r msg←ValidateVersion cfg.version
-     r≠0:r('version: ',msg)
-     0 ''
+     _←'Missing required fields'Assert∧/req∊cfg.⎕NL-2
+     _←ValidateName cfg.group
+     _←ValidateName cfg.name
+     _←ValidateVersion cfg.version
+     0
  }

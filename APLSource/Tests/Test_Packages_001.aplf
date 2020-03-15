@@ -1,10 +1,10 @@
- R←Test_Packages_001(stopFlag batchFlag);⎕TRAP;dir;src;dist;lines;cfg;rc;msg;zipfile;ns
+ R←Test_Packages_001(stopFlag batchFlag);⎕TRAP;dir;src;dist;lines;cfg;zipfile;ns
 ⍝ Pack a single file and load it
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
 
  dir←getTempDir ⍬
- src dist←(⊂dir,'/'),¨'src' 'dist'
+ (src dist)←(⊂dir,'/'),¨'src' 'dist'
  3 ⎕MKDIR src dist
 
  ⍝ create Package
@@ -16,12 +16,10 @@
  cfg.version←'0.1.0'
  cfg.source←'Test.apln'
  (⊂APM.JSON cfg)⎕NPUT src,'/',APM.CFG_NAME
- rc msg zipfile←APM.Pack src dist  ⍝ now Pack it
- →T.PassesIf 0=rc
+ zipfile←APM.Pack src dist  ⍝ now Pack it
  →T.PassesIf 0<≢zipfile
 
- rc msg cfg←APM.Load'file://',zipfile
- →T.GoToTidyUp 0≠rc
+ cfg←APM.Load'file://',zipfile
  ns←⍎cfg.nspath
  →T.GoToTidyUp(,⊂'Test')≢ns.⎕NL-⍳10
  →T.GoToTidyUp'ok'≢ns.Test.foo'ok'

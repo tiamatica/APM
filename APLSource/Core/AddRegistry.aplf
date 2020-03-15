@@ -1,26 +1,18 @@
- (rc msg cfg)←AddRegistry(alias uri);reg
+ cfg←AddRegistry(alias uri);reg;rc;msg
  ⍝ Adds registry ⍵ to config file.\\
  ⍝ Returns a three-item vector with:
  ⍝ 1. return code, 0=okay
  ⍝ 2. empty vector or possibly additional information
  ⍝ 3. namespace or, in case rc is not 0, and error message
- (rc msg cfg)←ReadGlobalConfig''
- :If 0=rc
-     reg←⎕NS''
-     reg.(alias uri)←alias uri
+ cfg←ReadGlobalConfig''
+ reg←⎕NS''
+ reg.(alias uri)←alias uri
  ⍝TODO⍝      reg.⎕DF'Registry:',alias   ⍝ We cannot do this because of bug <01656>
-     :If 0=≢cfg.registries
-         cfg.registries←,reg
-     :Else
-         :If (⊂reg.alias)∊cfg.registries.alias
-             rc←1
-             msg←'Duplicate alias'
-         :Else
-             cfg.registries,←reg
-         :EndIf
-     :EndIf
-     :If 0=rc
-         (rc msg cfg)←WriteGlobalConfig cfg
-     :EndIf
+ :If 0=≢cfg.registries
+     cfg.registries←,reg
+ :Else
+     'Duplicate alias'Asser~(⊂reg.alias)∊cfg.registries.alias
+     cfg.registries,←reg
  :EndIf
+ cfg←WriteGlobalConfig cfg
 ⍝Done

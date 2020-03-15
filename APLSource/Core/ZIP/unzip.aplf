@@ -1,6 +1,6 @@
  unzip←{
 ⍝ Unzip ⍵ into ⍺
      _←⎕SH BIN,'unzip -o -q ',⍵,' -d ',⍺
-     0 ''
+     1:shy←0
 ⍝ To be replace by a .NET core solution one day  ⍝TODO⍝
  }

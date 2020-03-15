@@ -1,14 +1,14 @@
  ListViaFile←{
-     uri pattern←⍺ ⍵
+     uri←⍺
+     pattern←⍵
      type←'file://'
-     0=⊃type⍷uri:1 'Only file URI supported.'
+     _←'Only file URI supported'Assert 0<⊃type⍷uri
 
      path←(≢type)↓uri
-     rc msg index←GetRegistryIndex path
-     0≠rc:rc msg index
-     g n v←ParsePackageName pattern
+     index←GetRegistryIndex path
+     (g n v)←ParsePackageName pattern
      mask←index{
-         g n v←⍵
+         (g n v)←⍵
          0=≢g,n,v:0
          0=≢g,v:∨/(↑⍺.(group name))∊⊂n
          m1←0<≢¨g n
@@ -17,6 +17,6 @@
          m2∧⊣/v⍷↑⍺.version
      }g n v
      pkgs←mask/index
-     0=≢pkgs:1 'Package not found'⍬
-     0 ''pkgs
+     _←'Package not found'Assert 0<≢pkgs
+     pkgs
  }

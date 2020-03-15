@@ -1,8 +1,8 @@
  ReadConfig←{
      cfg_file←⍵,'/',CFG_NAME
-     ~⎕NEXISTS cfg_file:1 'Config file missing'⍬
+     ~⎕NEXISTS cfg_file:'Config file missing'Assert 0
      cfg←InitPackageConfig''
      ⍝ load in actual
      _←'cfg'⎕NS ⎕JSON⊃⎕NGET cfg_file
-     0 ''cfg
+     cfg
  }

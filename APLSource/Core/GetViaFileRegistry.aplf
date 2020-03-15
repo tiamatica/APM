@@ -2,22 +2,21 @@
 ⍝ Load PathToUri zipfile
      registry←⍺
      reg_root←UriToPath registry.uri
-     g n v←⍵
-     rc msg index←GetRegistryIndex reg_root
-     0≠rc:rc msg ⍬
+     (g n v)←⍵
+     index←GetRegistryIndex reg_root
      mask←index{
-         g n v←⍵
+         (g n v)←⍵
          0=≢g,n,v:0
          0=≢g,v:⍺.name∊⊂n
          0=≢v:⍺.(group name)∊⊂g n
          (⍺.(group name)∊⊂g n)∧⊣/v⍷↑⍺.version
      }g n v
      pkgs←mask/index
-     0=≢pkgs:1 'Package not found'⍬
+     _←'Package not found'Assert 0≠≢pkgs
      vc←3↑2⊃'.'⎕VFI v
      vs←{3↑2⊃'.'⎕VFI ⍵}¨pkgs.version
      mask2←(,⊂vc)⍸vs
-     ~∨/mask2:1 'Package not found'⍬
+     _←'Package not found'Assert∨/mask2
      pkg←(⊃⍒mask2/vs)⊃mask2/pkgs
      zippath←reg_root,'/packages/',pkg.group,'/',pkg.name,'/'
      zipfile←zippath,pkg.group,'-',pkg.name,'-v',pkg.version,'.zip'

@@ -3,7 +3,7 @@
      ⍝ ← ←→ group name version
      parts←'-'(≠⊆⊢),⍵
      mask←{∧/('v'≡⊃⍵),1↓⍵∊⎕D,'.'}¨parts
-     g n←¯2↑(⊂''),parts/⍨∧\~mask
+     (g n)←¯2↑(⊂''),parts/⍨∧\~mask
      v←2↓∊'-',¨parts/⍨∨\mask
      g n v
  }

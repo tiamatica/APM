@@ -1,6 +1,5 @@
  Load←{
-     ⍵≡0:1 '' ''        ⍝ ¨⍬ case
-     rc msg dir←GetPackage ⍵
-     0≠rc:rc msg dir
+     ⍵≡0:''
+     dir←GetPackage ⍵
      1 LoadSource dir
  }

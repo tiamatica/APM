@@ -4,23 +4,19 @@
  R←T._Failed
 
  tidyUp←0
- rc msg cfg←APM.ReadGlobalConfig''
- →T.GoToTidyUp rc≠0
+ cfg←APM.ReadGlobalConfig''
  →T.GoToTidyUp 0≠≢cfg.registries
 
  uri←'https://apl.registry.com'
- rc msg cfg←APM.AddRegistry'MyAlias'uri
- →T.GoToTidyUp rc≠0
+ cfg←APM.AddRegistry'MyAlias'uri
  tidyUp←1
 
- rc msg cfg←APM.ReadGlobalConfig''
- →T.GoToTidyUp rc≠0
+ cfg←APM.ReadGlobalConfig''
  →T.GoToTidyUp uri≢⊃,/cfg.registries.uri
 
 ∆TidyUp:
  :If tidyUp
-     rc msg cfg←APM.RemoveRegistry'MyAlias'
-     →T.PassesIf rc=0
+     cfg←APM.RemoveRegistry'MyAlias'
      →T.PassesIf 0=≢cfg.registries
  :EndIf
 

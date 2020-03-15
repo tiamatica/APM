@@ -1,5 +1,5 @@
  ValidateVersion←{
-     ~0 2∊⍨10|⎕DR ⍵:1 'Expected string'
-     0=≢'^\d+\.\d+\.\d+(?:-\w+)?$'⎕S 0⊢⍵:1 'Failed matching pattern'
-     0 ''
+     _←'Expected string'Assert 0 2∊⍨10|⎕DR ⍵
+     _←'Failed matching pattern'Assert 0≠≢'^\d+\.\d+\.\d+(?:-\w+)?$'⎕S 0⊢⍵
+     0
  }

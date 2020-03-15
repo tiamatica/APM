@@ -2,8 +2,8 @@
      cfg_file←GetGlobalConfigFilename
      cfg←⍵
      tmp←cfg_file,'.tmp'
-     rc←(⊂JSON cfg)⎕NPUT tmp
+     _←(⊂JSON cfg)⎕NPUT tmp
      del←3 ⎕NDELETE cfg_file
      noOf←cfg_file ⎕NMOVE tmp
-     0 ''cfg
+     cfg
  }

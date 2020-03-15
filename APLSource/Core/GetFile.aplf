@@ -11,11 +11,10 @@
      ⍝ unzip in temp folder and validate package content
      temp←GetTempDir,'/',key
      rc←temp ZIP.unzip path
-
+     0≠rc:'Problem with ZIP'Assert 0
      ⍝ if all well, move to cache
      _←3 ⎕MKDIR cache
      _←3 ⎕NDELETE pkg_dir
-     rc2←pkg_dir ⎕NMOVE temp
-
-     0 pkg_dir
+     _←pkg_dir ⎕NMOVE temp
+     pkg_dir
  }

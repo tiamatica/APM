@@ -1,11 +1,10 @@
  GetViaRegistry←{
      uri←⍵
-     group name version←ParsePackageName uri
-     rc msg cfg←ReadGlobalConfig''
-     0≠rc:rc msg cfg
-     0=≢cfg.registries:1 'No registries defined in APM settings file'⍬
+     (group name version)←ParsePackageName uri
+     cfg←ReadGlobalConfig''
+     _←'No registries defined in APM settings file'Assert 0<≢cfg.registries
      cfg.registries{
-         0=≢⍺:1 'Package not found in any of the registries defined'⍬
+         _←'Package not found in any of the registries defined'Assert 0<≢⍺
          registry←⊃⍺    ⍝
          type←'file://'
          type≡(≢type)↑registry.uri:registry GetViaFileRegistry ⍵

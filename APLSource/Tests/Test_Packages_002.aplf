@@ -1,4 +1,4 @@
- R←Test_Packages_002(stopFlag batchFlag);⎕TRAP;dir;src;dist;lines;cfg;rc;msg;zipfile;res;expected
+ R←Test_Packages_002(stopFlag batchFlag);⎕TRAP;dir;src;dist;lines;cfg;zipfile;res;expected;rc
 ⍝ Pack single file and check the resulting ZIP file
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
@@ -16,9 +16,7 @@
  cfg.source←'Test.apln'
  (⊂⎕JSON⍠'Compact' 0⊢cfg)⎕NPUT src,'/',APM.CFG_NAME
 
- rc msg zipfile←APM.Pack src dist  ⍝ now Pack it
- →T.GoToTidyUp 0≠rc
-
+ zipfile←APM.Pack src dist  ⍝ now Pack it
  expected←dist,'/',cfg.group,'-',cfg.name,'-v',cfg.version,'.zip'
  →T.GoToTidyUp zipfile≢expected
 

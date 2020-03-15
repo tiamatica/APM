@@ -2,6 +2,6 @@
      uri←⍵
      ⊃'file://'⍷uri:GetViaFile uri
      ⊃≢'^http[s]*://'⎕S 0⊣uri:GetViaHTTP uri
-     0 1 2 3∊⍨+/'-'=uri:GetViaRegistry uri
-     1 'URI pattern not supported' ''
+     _←'URI pattern not supported'Assert 0 1 2 3∊⍨+/'-'=uri
+     GetViaRegistry uri
  }

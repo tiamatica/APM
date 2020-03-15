@@ -3,7 +3,7 @@
  ⍝ In case ⍺ is "full" the full, formatted table of the "unzip" command is returned.
  ⍝ To be replace by a .NET core solution one day  ⍝TODO⍝
      ⍺←''
-     ~(⊂⍺)∊⍬'' 'full':'Invalid left argument: either empty or "full"'⎕SIGNAL 11
+     _←'Invalid left argument: must be either empty or "full"'##.Assert(⊂⍺)∊⍬'' 'full'
      r←⎕SH BIN,'unzip -l ',⍵
      tm←↑r
      mask←2</'-'=' ',3⌷↑tm

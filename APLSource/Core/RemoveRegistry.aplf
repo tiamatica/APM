@@ -1,7 +1,6 @@
  RemoveRegistry←{
-     rc msg cfg←ReadGlobalConfig''
-     0≠rc:rc msg cfg
-     0=≢cfg.registries:0 ''⍬
+     cfg←ReadGlobalConfig''
+     0=≢cfg.registries:0
      cfg.registries/⍨←cfg.registries.alias≢¨⊂⍵
      WriteGlobalConfig cfg
  }

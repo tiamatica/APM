@@ -1,5 +1,6 @@
  LinkPackages←{
-     tree cfg←⍺ ⍵
+     tree←⍺
+     cfg←⍵
      setRef←{
          name←⍺{0<≢⍺:⍺ ⋄ ⍵}⍵.name
          _←⍺⍺⍎name,'←',⍵.(1↓∊'.',¨nspath api~⊂'')
@@ -19,7 +20,5 @@
          name←⍺{0<≢⍺:⍺ ⋄ ⍵}⍵.name
          name,'←',⍵.(1↓∊'.',¨nspath api~⊂'')
      }¨deps[deps[;2]⍳DropAlias¨cfg.dependencies;1]
-
-     0 ''refs
-     ⍝
+     refs
  }

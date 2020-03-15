@@ -16,8 +16,7 @@
  cfg.version←'0.1.0'
  cfg.source←'Test.apln'
  (⊂APM.JSON cfg)⎕NPUT srcB,'/',APM.CFG_NAME
- rc msg zipfileB←APM.Pack srcB dist  ⍝ now Pack it
- →T.GoToTidyUp 0≠rc
+ zipfileB←APM.Pack srcB dist  ⍝ now Pack it
 
  ⍝ create PackageA
  lines←':Namespace Test' 'foo←##.PackageB.Test.foo' ':EndNamespace'
@@ -29,11 +28,9 @@
  cfg.source←'Test.apln'
  cfg.dependencies←,⊂'file://',zipfileB
  (⊂APM.JSON cfg)⎕NPUT srcA,'/',APM.CFG_NAME
- rc msg zipfileA←APM.Pack srcA dist  ⍝ now Pack it
- →T.GoToTidyUp 0≠rc
+ zipfileA←APM.Pack srcA dist  ⍝ now Pack it
 
- rc msg cfg←APM.Load'file://',zipfileA
- →T.GoToTidyUp 0≠rc
+ cfg←APM.Load'file://',zipfileA
  ns←⍎cfg.nspath
  →T.GoToTidyUp'PackageB' 'Test'≢ns.⎕NL-⍳10
  →T.GoToTidyUp'ok'≢ns.Test.foo'ok'

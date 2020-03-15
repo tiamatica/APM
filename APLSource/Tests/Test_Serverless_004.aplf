@@ -1,4 +1,4 @@
- R←Test_Serverless_004(stopFlag batchFlag);⎕TRAP;dir;rc;registry;msg;cfg;packs
+ R←Test_Serverless_004(stopFlag batchFlag);⎕TRAP;dir;registry;cfg;packs
 ⍝ List packages
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
@@ -7,25 +7,20 @@
  rc registry←APM CreateTestRegistry dir
  →T.GoToTidyUp rc≠0
 
- rc msg cfg←APM.AddRegistry'TestReg'(APM.PathToUri registry)
- →T.GoToTidyUp rc≠0
+ cfg←APM.AddRegistry'TestReg'(APM.PathToUri registry)
 
- rc msg packs←'TestReg'APM.List'Example'
- →T.GoToTidyUp rc≠0
+ packs←'TestReg'APM.List'Example'
  →T.GoToTidyUp 3≠≢packs
 
- rc msg packs←'TestReg'APM.List'Test-v0.1'
- →T.GoToTidyUp rc≠0
+ packs←'TestReg'APM.List'Test-v0.1'
  →T.GoToTidyUp 1≠≢packs
  →T.GoToTidyUp'0.1.0'≢⊃packs.version
 
- rc msg packs←'TestReg'APM.List'Test-v0.2'
- →T.GoToTidyUp rc≠0
+ packs←'TestReg'APM.List'Test-v0.2'
  →T.GoToTidyUp 2≠≢packs
  →T.GoToTidyUp'0.2.1'≢⊃⌽packs.version
 
- rc msg cfg←APM.RemoveRegistry'TestReg'
- →T.GoToTidyUp rc≠0
+ cfg←APM.RemoveRegistry'TestReg'
  R←T._OK
 
 ∆TidyUp:

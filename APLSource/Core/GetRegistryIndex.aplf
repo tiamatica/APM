@@ -1,4 +1,4 @@
  GetRegistryIndex←{
      ind←⎕JSON⊃⎕NGET ⍵,'/index.json'
-     0 ''ind
+     ind
  }

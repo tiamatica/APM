@@ -3,7 +3,7 @@
      cfg←⍺
      path←⊃1 ⎕NPARTS ⍵,'/'
      cfg_file←path,CFG_NAME
-     ⎕NEXISTS cfg_file:1 'Package definition already exists'⍬
+     _←'Package definition already exists'Assert~⎕NEXISTS cfg_file
      dflt←InitPackageConfig''
      _←'dflt'⎕NS(⊂'cfg.'),¨(cfg.⎕NL-2)∩dflt.⎕NL-2
      dflt WriteConfig path

@@ -2,7 +2,7 @@
      ⍝ Resolve dependency tree and save it in project folder ⍵
      mode←'exact'               ⍝ Fixed: we don't support other strategies
      prj_dir←⊃1 ⎕NPARTS ⍵,'/'
-     rc msg cfg←ReadConfig prj_dir
+     cfg←ReadConfig prj_dir
      tree←mode ResolveDepTree cfg.(dependencies,devDependencies)
      tree WriteDepTree prj_dir
  }

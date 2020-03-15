@@ -1,15 +1,12 @@
  AddPackage←{
-     ⍝ add package ⍵ to project folder ⍺
-     prj_dir pkg_id←⍺ ⍵
-
-     rc msg prj_cfg←ReadConfig prj_dir
-     rc≠0:rc msg ⍬
-
-     rc msg pkgs←List pkg_id
-     rc≠0:rc msg ⍬
+⍝ Add package ⍵ to project folder ⍺
+     prj_dir←⍺
+     pkg_id←⍵
+     prj_cfg←ReadConfig prj_dir
+     pkgs←List pkg_id
      pkg←pkgs{
          1=≢⍺:⊃⍺
-         g n v←ParsePackageName ⍵
+         (g n v)←ParsePackageName ⍵
          version←⍺.version VersionSelector'^',v
          ⍺⊃⍨⍺.version⍳⊂version
      }pkg_id
@@ -17,5 +14,4 @@
      pkg_fn←PackageFileName pkg
      prj_cfg.dependencies←∪prj_cfg.dependencies,⊂pkg_fn
      prj_cfg WriteConfig prj_dir
-     ⍝ Done
  }

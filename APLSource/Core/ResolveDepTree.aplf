@@ -10,11 +10,11 @@
          tree_ids←{0=≢⍵:'' ⋄ ⊃,/⍵.((⊂id),orig_ids)}tree
          (⊂pid)∊tree_ids:tree
 
-         g n v←ParsePackageName pid
+         (g n v)←ParsePackageName pid
          vreq←v,⍨'^'/⍨mode≡'latest'
-         (rc msg pkgs)←List g,'-',n
+         pkgs←List g,'-',n
          version←pkgs.version VersionSelector vreq
-         0=≢version:∘∘∘
+         0=≢version:Assert 0
 
          pkg←pkgs⊃⍨pkgs.version⍳⊂version
          npid←PackageFileName pkg

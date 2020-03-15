@@ -5,8 +5,8 @@
      path←⍵
      rc←3 ⎕MKDIR path
      files←⊃⎕NINFO⍠1⊢path,'/*'
-     0≠≢files:1 'Path provided must be empty'
-     rc←(⊂'[]')⎕NPUT path,'/index.json'
-     rc←3 ⎕MKDIR path,'/packages'
-     0 ''
+     _←'Path provided must be empty'Assert 0=≢files
+     _←(⊂'[]')⎕NPUT path,'/index.json'
+     _←3 ⎕MKDIR path,'/packages'
+     0
  }

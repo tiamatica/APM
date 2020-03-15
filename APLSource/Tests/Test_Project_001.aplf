@@ -9,26 +9,19 @@
  assert 0=rc
 
  uri←APM.PathToUri registry
- rc msg gcfg←APM.AddRegistry'test'uri
- →T.GoToTidyUp 0≠rc
+ gcfg←APM.AddRegistry'test'uri
 
  _←3 ⎕MKDIR prj_dir←dir,'/project'
- rc msg pcfg←APM.InitPackage prj_dir
- →T.GoToTidyUp 0≠rc
+ pcfg←APM.InitPackage prj_dir
 
- rc msg pcfg←prj_dir APM.AddPackage'GroupA-Test1-v0.1.0'
- →T.GoToTidyUp 0≠rc
- rc msg pcfg←prj_dir APM.AddPackage'GroupA-Test2-v2.3.0'
- →T.GoToTidyUp 0≠rc
+ pcfg←prj_dir APM.AddPackage'GroupA-Test1-v0.1.0'
+ pcfg←prj_dir APM.AddPackage'GroupA-Test2-v2.3.0'
 
- rc msg←APM.EstablishDepTree prj_dir
- →T.GoToTidyUp 0≠rc
+ {}APM.EstablishDepTree prj_dir
 
- rc msg←APM.InstallPackages prj_dir
- →T.GoToTidyUp 0≠rc
+ {}APM.InstallPackages prj_dir
 
- rc msg refs←APM.LoadPackages prj_dir
- →T.GoToTidyUp 0≠rc
+ refs←APM.LoadPackages prj_dir
 
  ns←⎕NS''
  ns⍎¨refs
