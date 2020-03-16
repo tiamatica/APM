@@ -18,7 +18,7 @@
      mask2←(,⊂vc)⍸vs
      _←'Package not found'Assert∨/mask2
      pkg←(⊃⍒mask2/vs)⊃mask2/pkgs
-     zippath←reg_root,'/packages/',pkg.group,'/',pkg.name,'/'
+     zippath←reg_root,'/packages/',pkg.group,'/',pkg.name,'/',pkg.version,'/'
      zipfile←zippath,pkg.group,'-',pkg.name,'-v',pkg.version,'.zip'
      registry.alias GetViaFile PathToUri zipfile
  }

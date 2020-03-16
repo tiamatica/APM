@@ -3,5 +3,5 @@
      _←(⊂JSON ⍺)⎕NPUT tmp
      _←3 ⎕NDELETE tgt
      _←tgt ⎕NMOVE tmp
-     0
+     1:shy←0
  }

@@ -1,11 +1,10 @@
- R←Test_Serverless_001(stopFlag batchFlag);⎕TRAP;dir;registry;cfg;uri
+ R←Test_Serverless_001(stopFlag batchFlag);⎕TRAP;dir;cfg;uri;registry
 ⍝ Load single package
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
 
  dir←getTempDir ⍬
- rc registry←APM CreateTestRegistry dir
- →T.GoToTidyUp rc≠0
+ registry←APM CreateTestRegistry dir
 
  uri←APM.PathToUri registry
  cfg←APM.AddRegistry'Firlefanz'uri

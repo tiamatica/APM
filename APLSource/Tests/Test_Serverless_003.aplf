@@ -1,4 +1,4 @@
- R←Test_Serverless_003(stopFlag batchFlag);⎕TRAP;dir;src;registry;rc;msg;lines;cfg
+ R←Test_Serverless_003(stopFlag batchFlag);⎕TRAP;dir;src;registry;rc;msg;body;cfg
 ⍝ Publish package
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
@@ -12,8 +12,8 @@
  →T.GoToTidyUp 0≠rc
 
  ⍝ create a package
- lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
- (⊂lines)⎕NPUT src,'/Test.apln'
+ body←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
+ (⊂body)⎕NPUT src,'/Test.apln'
  cfg←⎕NS''
  cfg.group←'Example'
  cfg.name←'Test'

@@ -1,15 +1,16 @@
- R←Test_Packages_001(stopFlag batchFlag);⎕TRAP;dir;src;dist;lines;cfg;zipfile;ns
+ R←Test_Packages_001(stopFlag batchFlag);⎕TRAP;dir;src;dist;body;cfg;zipfile;ns
 ⍝ Pack a single file and load it
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
 
  dir←getTempDir ⍬
  (src dist)←(⊂dir,'/'),¨'src' 'dist'
+ src,←'/v0.1.0'
  3 ⎕MKDIR src dist
 
- ⍝ create Package
- lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
- (⊂lines)⎕NPUT src,'/Test.apln'
+⍝ create Package
+ body←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
+ (⊂body)⎕NPUT src,'/Test.apln'
  cfg←APM.InitPackageConfig ⍬
  cfg.group←'Example'
  cfg.name←'PackageB'
@@ -17,7 +18,7 @@
  cfg.source←'Test.apln'
  (⊂APM.JSON cfg)⎕NPUT src,'/',APM.CFG_NAME
  zipfile←APM.Pack src dist  ⍝ now Pack it
- →T.PassesIf 0<≢zipfile
+ →T.GoToTidyUp 0≥≢zipfile
 
  cfg←APM.Load'file://',zipfile
  ns←⍎cfg.nspath
@@ -26,6 +27,6 @@
  R←T._OK
 
 ∆TidyUp:
- ⎕EX⍕ns
+ :Trap 6 ⋄ ⎕EX⍕ns ⋄ :EndTrap
  3 ⎕NDELETE dir
 ⍝Done

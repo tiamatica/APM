@@ -7,5 +7,5 @@
      _←(⊂⎕JSON⍠'Compact' 0⊢tree)⎕NPUT tmp
      del←3 ⎕NDELETE cfg_file
      _←cfg_file ⎕NMOVE tmp
-     0
+     1:shy←0
  }

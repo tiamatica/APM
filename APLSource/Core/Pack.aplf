@@ -1,22 +1,12 @@
  Pack←{
  ⍝ source → folder to create package from\\
  ⍝ target → folder to put package in\\
- ⍝ ← is two element vector:
- ⍝ 1. rc  ← 0 if OK, error otherwise
- ⍝ 2. msg ← empty or potentially a message in case rc is not 0
- ⍝ 2. pkg ← path to package file created
-
+ ⍝ ← is path to package file created
      (source target)←⊃¨1 ⎕NPARTS ⍵,¨'/'
-
-     ⍝ Check source has config
-     cfg←ReadConfig source
-
+     cfg←ReadConfig source                                                  ⍝ Check source has config
      _←ValidateConfig cfg
-
-     ⍝ Pack into target folder.
-     zipfile←target,cfg.group,'-',cfg.name,'-v',cfg.version,'.zip'
+     zipfile←target,cfg.group,'-',cfg.name,'-v',cfg.version,'.zip'          ⍝ Pack into target folder.
      files←∪cfg.files,cfg.source CFG_NAME
-
      _←source files ZIP.zip zipfile
      zipfile
  }

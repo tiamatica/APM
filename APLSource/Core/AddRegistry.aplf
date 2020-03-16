@@ -1,9 +1,6 @@
  cfg←AddRegistry(alias uri);reg;rc;msg
  ⍝ Adds registry ⍵ to config file.\\
- ⍝ Returns a three-item vector with:
- ⍝ 1. return code, 0=okay
- ⍝ 2. empty vector or possibly additional information
- ⍝ 3. namespace or, in case rc is not 0, and error message
+ ⍝ Returns config namespace
  cfg←ReadGlobalConfig''
  reg←⎕NS''
  reg.(alias uri)←alias uri
@@ -11,7 +8,7 @@
  :If 0=≢cfg.registries
      cfg.registries←,reg
  :Else
-     'Duplicate alias'Asser~(⊂reg.alias)∊cfg.registries.alias
+     'Duplicate alias'Assert~(⊂reg.alias)∊cfg.registries.alias
      cfg.registries,←reg
  :EndIf
  cfg←WriteGlobalConfig cfg

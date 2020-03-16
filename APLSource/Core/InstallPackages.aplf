@@ -10,5 +10,5 @@
      tgts←pkgs_dir∘,¨tree.id
      src_dirs←GetPackage¨tree.id
      _←src_dirs CreateSymbolicLink¨tgts
-     0
+     1:shy←0
  }

@@ -4,8 +4,7 @@
  R←T._Failed
 
  dir←getTempDir ⍬
- rc registry←APM CreateTestRegistry dir
- →T.GoToTidyUp rc≠0
+ registry←APM CreateTestRegistry dir
 
  cfg←APM.AddRegistry'TestReg'(APM.PathToUri registry)
 
@@ -21,6 +20,7 @@
  →T.GoToTidyUp'0.2.1'≢⊃⌽packs.version
 
  cfg←APM.RemoveRegistry'TestReg'
+
  R←T._OK
 
 ∆TidyUp:

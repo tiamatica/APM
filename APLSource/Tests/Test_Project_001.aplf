@@ -1,12 +1,11 @@
- R←Test_Project_001(stopFlag batchFlag);⎕TRAP;dir;dist;lines;rc;msg;ns;registry;uri;prj_dir;_;pcfg;gcfg;cfg;refs
+ R←Test_Project_001(stopFlag batchFlag);⎕TRAP;dir;dist;body;rc;msg;ns;registry;uri;prj_dir;_;pcfg;gcfg;cfg;refs
 ⍝ Install packages into a "project" folder
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
 
  ns←''
  dir←getTempDir ⍬
- rc registry←APM CreateTestRegistryVersions1 dir
- assert 0=rc
+ registry←APM CreateTestRegistryVersions1 dir
 
  uri←APM.PathToUri registry
  gcfg←APM.AddRegistry'test'uri
@@ -17,9 +16,8 @@
  pcfg←prj_dir APM.AddPackage'GroupA-Test1-v0.1.0'
  pcfg←prj_dir APM.AddPackage'GroupA-Test2-v2.3.0'
 
- {}APM.EstablishDepTree prj_dir
-
- {}APM.InstallPackages prj_dir
+ APM.EstablishDepTree prj_dir
+ APM.InstallPackages prj_dir
 
  refs←APM.LoadPackages prj_dir
 

@@ -7,7 +7,7 @@
      pkg←pkgs{
          1=≢⍺:⊃⍺
          (g n v)←ParsePackageName ⍵
-         version←⍺.version VersionSelector'^',v
+         version←⍺.version VersionSelector'^',v   ⍝TODO⍝
          ⍺⊃⍨⍺.version⍳⊂version
      }pkg_id
 

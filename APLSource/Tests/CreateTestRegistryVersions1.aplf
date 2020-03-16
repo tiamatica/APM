@@ -1,87 +1,80 @@
  CreateTestRegistryVersions1←{
 ⍝ Create two projects and a registry
-     apm dir←⍺ ⍵
+     (APM dir)←⍺ ⍵
      _←3 ⎕MKDIR⊢registry←dir,'/registry'
 
      ⍝ initialise new serverless registry with multiple versions of same package
-     (rc msg)←apm.CreateRegistry registry
-     assert 0=rc:
-     uri←apm.PathToUri registry
+     _←APM.CreateRegistry registry
+     uri←APM.PathToUri registry
 
-     ⍝ GroupA-Test1
+    ⍝ GroupA-Test1
      src←dir,'/package_source/Test1'
-     ⍝ GroupA-Test1-v0.1.0
+    ⍝ GroupA-Test1-v0.1.0
      src2←src,'/v0.1.0'
      _←3 ⎕MKDIR src2
      body←,⊂'Version←{''0.1.0''}'
-     _←(⊂body)NPUT src2,'/Version.aplf'
+     _←(⊂body)⎕NPUT(src2,'/Version.aplf')1
      cfg←⎕NS''
      cfg.group←'GroupA'
      cfg.name←'Test1'
      cfg.api←'Version'
      cfg.version←'0.1.0'
      cfg.source←'Version.aplf'
-     _←(⊂APM.JSON cfg)NPUT src2,'/',APM.CFG_NAME
-     (rc msg)←apm.Publish src2 uri
-     assert 0=rc:
+     _←(⊂APM.JSON cfg)⎕NPUT(src2,'/',APM.CFG_NAME)1
+     _←APM.Publish src2 uri
 
-     ⍝ GroupA-Test1-v0.1.1
+    ⍝ GroupA-Test1-v0.1.1
      src2←src,'/v0.1.1'
      _←3 ⎕MKDIR src2
      body←,⊂'Version←{''0.1.1''}'
-     _←(⊂body)NPUT src2,'/Version.aplf'
+     _←(⊂body)⎕NPUT(src2,'/Version.aplf')1
      cfg.version←'0.1.1'
-     _←(⊂APM.JSON cfg)NPUT src2,'/',APM.CFG_NAME
-     (rc msg)←apm.Publish src2 uri
-     assert 0=rc:
+     _←(⊂APM.JSON cfg)⎕NPUT(src2,'/',APM.CFG_NAME)1
+     _←APM.Publish src2 uri
 
-     ⍝ GroupA-Test1-v0.2.0
+    ⍝ GroupA-Test1-v0.2.0
      src2←src,'/v0.2.0'
      _←3 ⎕MKDIR src2
      body←'r←Version dummy' 'r←''0.2.0'''
-     _←(⊂body)NPUT src2,'/Version.aplf'
+     _←(⊂body)⎕NPUT(src2,'/Version.aplf')1
      cfg.version←'0.2.0'
-     _←(⊂APM.JSON cfg)NPUT src2,'/',APM.CFG_NAME
-     (rc msg)←apm.Publish src2 uri
-     assert 0=rc:
+     _←(⊂APM.JSON cfg)⎕NPUT(src2,'/',APM.CFG_NAME)1
+     _←APM.Publish src2 uri
 
-     ⍝ GroupA-Test2
+    ⍝ GroupA-Test2
      src←dir,'/package_source/Test2'
-     ⍝ GroupA-Test2-v2.3.0
+    ⍝ GroupA-Test2-v2.3.0
      src2←src,'/v2.3.0'
      _←3 ⎕MKDIR src2
      body←,⊂'Version←{''2.3.0-'',Test1 ⍵}'
-     _←(⊂body)NPUT src2,'/Version.aplf'
+     _←(⊂body)⎕NPUT(src2,'/Version.aplf')1
      cfg←⎕NS''
      cfg.group←'GroupA'
      cfg.name←'Test2'
      cfg.version←'2.3.0'
      cfg.source←'Version.aplf'
      cfg.dependencies←,⊂'GroupA-Test1-v0.1.1'
-     _←(⊂APM.JSON cfg)NPUT src2,'/',APM.CFG_NAME
-     (rc msg)←apm.Publish src2 uri
-     assert 0=rc:
+     _←(⊂APM.JSON cfg)⎕NPUT(src2,'/',APM.CFG_NAME)1
+     _←APM.Publish src2 uri
 
-     ⍝ GroupA-Test2-v2.3.1
+    ⍝ GroupA-Test2-v2.3.1
      src2←src,'/v2.3.1'
      _←3 ⎕MKDIR src2
      body←,⊂'Version←{''2.3.1-'',Test1 ⍵}'
-     _←(⊂body)NPUT src2,'/Version.aplf'
+     _←(⊂body)⎕NPUT(src2,'/Version.aplf')1
      cfg.version←'2.3.1'
-     _←(⊂APM.JSON cfg)NPUT src2,'/',APM.CFG_NAME
-     (rc msg)←apm.Publish src2 uri
-     assert 0=rc:
+     _←(⊂APM.JSON cfg)⎕NPUT(src2,'/',APM.CFG_NAME)1
+     _←APM.Publish src2 uri
 
-     ⍝ GroupA-Test2-v2.4.0
+    ⍝ GroupA-Test2-v2.4.0
      src2←src,'/v2.4.0'
      _←3 ⎕MKDIR src2
      body←'r←Version dummy' 'r←''2.4.0-'',Test1 ⍬'
-     _←(⊂body)NPUT src2,'/Version.aplf'
+     _←(⊂body)⎕NPUT(src2,'/Version.aplf')1
      cfg.dependencies←,⊂'GroupA-Test1-v0.2.0'
      cfg.version←'2.4.0'
-     _←(⊂APM.JSON cfg)NPUT src2,'/',APM.CFG_NAME
-     (rc msg)←apm.Publish src2 uri
-     assert 0=rc:
+     _←(⊂APM.JSON cfg)⎕NPUT(src2,'/',APM.CFG_NAME)1
+     _←APM.Publish src2 uri
 
-     0 registry
+     registry
  }

@@ -4,5 +4,5 @@
      prj_dir←⊃1 ⎕NPARTS ⍵,'/'
      cfg←ReadConfig prj_dir
      tree←mode ResolveDepTree cfg.(dependencies,devDependencies)
-     tree WriteDepTree prj_dir
+     1:shy←tree WriteDepTree prj_dir
  }

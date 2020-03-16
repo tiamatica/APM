@@ -1,26 +1,28 @@
- R←Test_Packages_005(stopFlag batchFlag);⎕TRAP;rc;msg;cfg;tidyUp;uri;dir;srcA;srcB;dist;lines;ns;zipfileB;zipfileA
+ R←Test_Packages_005(stopFlag batchFlag);⎕TRAP;rc;msg;cfg;tidyUp;uri;dir;srcA;srcB;dist;body;ns;zipfileB;zipfileA
 ⍝ Load PackageA that depends for development on PackageB
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
 
  dir←getTempDir ⍬
  srcA srcB dist←(⊂dir,'/'),¨'srcA' 'srcB' 'dist'
+ srcB,←'/v0.1.0'
+ srcA,←'/v0.1.0'
  3 ⎕MKDIR⊢srcA srcB dist
 
 ⍝ create PackageB
- lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
- (⊂lines)⎕NPUT srcB,'/Test.apln'
+ body←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
+ (⊂body)⎕NPUT srcB,'/Test.apln'
  cfg←⎕NS''
  cfg.group←'Example'
  cfg.name←'PackageB'
  cfg.version←'0.1.0'
  cfg.source←'Test.apln'
  (⊂APM.JSON cfg)⎕NPUT srcB,'/',APM.CFG_NAME
- zipfileB←APM.Pack srcB dist  ⍝ now Pack it
+ zipfileB←APM.Pack srcB dist
 
 ⍝ create PackageA
- lines←':Namespace Test' 'foo←##.PackageB.Test.foo' ':EndNamespace'
- (⊂lines)⎕NPUT srcA,'/Test.apln'
+ body←':Namespace Test' 'foo←##.PackageB.Test.foo' ':EndNamespace'
+ (⊂body)⎕NPUT srcA,'/Test.apln'
  cfg←⎕NS''
  cfg.group←'Example'
  cfg.name←'PackageA'
@@ -28,7 +30,7 @@
  cfg.source←'Test.apln'
  cfg.devDependencies←,⊂'file://',zipfileB
  (⊂APM.JSON cfg)⎕NPUT srcA,'/',APM.CFG_NAME
- zipfileA←APM.Pack srcA dist  ⍝ now Pack it
+ zipfileA←APM.Pack srcA dist
 
  cfg←APM.Load'file://',zipfileA
  ns←⍎cfg.nspath

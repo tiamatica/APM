@@ -4,8 +4,7 @@
  R←T._Failed
 
  dir←getTempDir ⍬
- rc registry←APM CreateTestRegistry dir
- →T.PassesIf rc=0
+ registry←APM CreateTestRegistry dir
 
  uri←APM.PathToUri registry
  cfg←APM.AddRegistry'test'uri
@@ -15,10 +14,10 @@
  →T.GoToTidyUp('Math' 'Tool')≢ns.⎕NL-⍳10
  →T.GoToTidyUp 42≢ns.Tool.inc 41
 
+ R←T._OK
+
 ∆TidyUp:
- ⎕EX⍕ns
+ :Trap 6 ⋄ ⎕EX⍕ns ⋄ :EndTrap
  cfg←APM.RemoveRegistry'test'
  3 ⎕NDELETE dir
-
- R←T._OK
 ⍝Done

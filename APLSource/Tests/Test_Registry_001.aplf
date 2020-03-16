@@ -14,11 +14,11 @@
  cfg←APM.ReadGlobalConfig''
  →T.GoToTidyUp uri≢⊃,/cfg.registries.uri
 
+ R←T._OK
+
 ∆TidyUp:
  :If tidyUp
      cfg←APM.RemoveRegistry'MyAlias'
      →T.PassesIf 0=≢cfg.registries
  :EndIf
-
- R←T._OK
 ⍝Done

@@ -1,20 +1,21 @@
- R←Test_Packages_002(stopFlag batchFlag);⎕TRAP;dir;src;dist;lines;cfg;zipfile;res;expected;rc
+ R←Test_Packages_002(stopFlag batchFlag);⎕TRAP;dir;src;dist;body;cfg;zipfile;res;expected;rc
 ⍝ Pack single file and check the resulting ZIP file
  ⎕TRAP←(999 'C' '. ⍝ Deliberate error')(0 'N')
  R←T._Failed
 
  dir←getTempDir ⍬
  src dist←(⊂dir,'/'),¨'src' 'dist'
+ src,←'/v0.1.0'
  rc←3 ⎕MKDIR src dist
  assert rc∧.=1
- lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
- (⊂lines)⎕NPUT src,'/Test.apln'
+ body←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
+ (⊂body)⎕NPUT src,'/Test.apln'
  cfg←APM.InitPackageConfig ⍬
  cfg.group←'Example'
  cfg.name←'Test'
  cfg.version←'0.1.0'
  cfg.source←'Test.apln'
- (⊂⎕JSON⍠'Compact' 0⊢cfg)⎕NPUT src,'/',APM.CFG_NAME
+ (⊂APM.JSON cfg)⎕NPUT src,'/',APM.CFG_NAME
 
  zipfile←APM.Pack src dist  ⍝ now Pack it
  expected←dist,'/',cfg.group,'-',cfg.name,'-v',cfg.version,'.zip'

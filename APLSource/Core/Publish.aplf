@@ -7,9 +7,6 @@
 ⍝ `⍵` must be a two-item vector:
 ⍝ 1. `source` → folder to create package from
 ⍝ 2. `registry` → registry to publish package to (alias or uri)
-⍝ Result:
-⍝ 1. `rc`  ← 0 if OK, error otherwise
-⍝ 2. `msg` ← empty or additional information
      (source registry)←⍵
      cfg←ReadGlobalConfig''
      uri←cfg{
@@ -20,12 +17,12 @@
      type≢(≢type)↑uri:1 'Only file URI supported'
      path←UriToPath uri
 
-     ⍝ Package
+    ⍝ Package
      zipfile←Pack source(GetTempDir)
      cfg←ReadConfig source
      ind←GetRegistryIndex path
 
-     ⍝ validate package and ensure uniqueness in registry
+    ⍝ validate package and ensure uniqueness in registry
      exists←ind{
          0=≢⍺:0
          (⊂⍵)∊⍺.(group name version)
@@ -33,7 +30,7 @@
 
      exists:'Version conflict, package versions must be unique'Assert 0
 
-     tgt←path,'/packages/',cfg.group,'/',cfg.name,'/'
+     tgt←path,'/packages/',cfg.group,'/',cfg.name,'/',cfg.version,'/'
      _←3 ⎕MKDIR tgt
      _←tgt ⎕NMOVE zipfile
      pcfg←cfg.⎕NS'group' 'name' 'version' 'dependencies'

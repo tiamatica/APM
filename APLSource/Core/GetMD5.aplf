@@ -1,4 +1,5 @@
  GetMD5←{
+     0=⎕NEXISTS ⍵:'File does not exist'Assert 0
      os←OS''
      os≡'M':⊃⎕SH'md5 -q ',⍵
      os≡'W':2⊃⎕SH'certutil.exe -hashfile ',⍵,' MD5'   ⍝ Tolerates slash in path

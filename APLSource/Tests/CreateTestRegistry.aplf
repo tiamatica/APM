@@ -1,72 +1,84 @@
  CreateTestRegistry←{
-     apm dir←⍺ ⍵
-     _←3 ⎕MKDIR⊢src registry←(⊂dir,'/'),¨'src' 'registry'
+     APM←⍺
+     dir←⍵
+     (src registry)←(⊂dir,'/'),¨'src' 'registry'
+     _←3 ⎕MKDIR⊢src registry
 
-     ⍝ initialise new serverless registry
-     (rc msg)←apm.CreateRegistry registry
-     assert 0=rc:
-     uri←apm.PathToUri registry
+    ⍝ initialise new serverless registry
+     _←APM.CreateRegistry registry
+     uri←APM.PathToUri registry
 
-     ⍝ Example-Test-0.1.0
-     lines←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
-     _←(⊂lines)NPUT src,'/Test.apln'
+    ⍝ Example/Test
+     src2←src,'/Example-Test'
+
+    ⍝ First version
+     src3←src2,'/v0.1.0'
+     _←3 ⎕MKDIR src3
+     body←':Namespace Test' 'foo←{⍵}' ':EndNamespace'
+     _←(⊂body)⎕NPUT(src3,'/Test.apln')1
      cfg←⎕NS''
      cfg.group←'Example'
      cfg.name←'Test'
      cfg.version←'0.1.0'
      cfg.source←'Test.apln'
-     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     (rc msg)←apm.Publish src uri
-     assert 0=rc:
+     _←(⊂APM.JSON cfg)⎕NPUT(src3,'/',APM.CFG_NAME)1
+     _←APM.Publish src3 uri
 
-     ⍝ Example-Test-0.2.0
-     lines←':Namespace Test' 'inc←{⍵-1}' 'dec←{⍵-1}' ':EndNamespace'
-     _←(⊂lines)NPUT src,'/Test.apln'
+    ⍝ Second version
+     src3←src2,'/v0.2.0'
+     _←3 ⎕MKDIR src3
+     body←':Namespace Test' 'inc←{⍵-1}' 'dec←{⍵-1}' ':EndNamespace'
+     _←(⊂body)⎕NPUT(src3,'/Test.apln')1
      cfg←⎕NS''
      cfg.group←'Example'
      cfg.name←'Test'
      cfg.version←'0.2.0'
      cfg.source←'Test.apln'
-     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     (rc msg)←apm.Publish src uri
-     assert 0=rc:
+     _←(⊂APM.JSON cfg)⎕NPUT(src3,'/',APM.CFG_NAME)1
+     _←APM.Publish src3 uri
 
-     ⍝ Example-Test-0.2.1
-     lines←':Namespace Test' 'inc←{⍵+1}' 'dec←{⍵-1}' ':EndNamespace'
-     _←(⊂lines)NPUT src,'/Test.apln'
+    ⍝ Third version
+     src3←src2,'/v0.2.1'
+     _←3 ⎕MKDIR src3
+     body←':Namespace Test' 'inc←{⍵+1}' 'dec←{⍵-1}' ':EndNamespace'
+     _←(⊂body)⎕NPUT(src3,'/Test.apln')1
      cfg←⎕NS''
      cfg.group←'Example'
      cfg.name←'Test'
      cfg.version←'0.2.1'
      cfg.source←'Test.apln'
-     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     (rc msg)←apm.Publish src uri
-     assert 0=rc:
+     _←(⊂APM.JSON cfg)⎕NPUT(src3,'/',APM.CFG_NAME)1
+     _←APM.Publish src3 uri
 
-     ⍝ GroupX-Math-1.0.0
-     lines←,⊂'add←{⍺+⍵}'
-     _←(⊂lines)NPUT src,'/add.aplf'
+    ⍝ GroupX/Math+Tool
+     src2←src,'/GroupX-Math'
+
+    ⍝ "Math", first and only version
+     src3←src2,'/v1.0.0'
+     _←3 ⎕MKDIR src3
+     body←,⊂'add←{⍺+⍵}'
+     _←(⊂body)⎕NPUT(src3,'/add.aplf')1
      cfg←⎕NS''
      cfg.group←'GroupX'
      cfg.name←'Math'
      cfg.version←'1.0.0'
      cfg.source←'add.aplf'
-     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     (rc msg)←apm.Publish src uri
-     assert 0=rc:
+     _←(⊂APM.JSON cfg)⎕NPUT(src3,'/',APM.CFG_NAME)1
+     _←APM.Publish src3 uri
 
-     ⍝ GroupX-Tool-2.0.0
-     lines←':Namespace Tool' 'inc←1∘##.Math.add' ':EndNamespace'
-     _←(⊂lines)NPUT src,'/Tool.apln'
+    ⍝ "Tool", first and only version
+     src3←src2,'/v2.0.0'
+     _←3 ⎕MKDIR src3
+     body←':Namespace Tool' 'inc←1∘##.Math.add' ':EndNamespace'
+     _←(⊂body)⎕NPUT(src3,'/Tool.apln')1
      cfg←⎕NS''
      cfg.group←'GroupX'
      cfg.name←'Tool'
      cfg.version←'2.0.0'
      cfg.source←'Tool.apln'
      cfg.dependencies←,⊂'GroupX-Math-v1.0.0'
-     _←(⊂APM.JSON cfg)NPUT src,'/',APM.CFG_NAME
-     (rc msg)←apm.Publish src uri
-     assert 0=rc:
+     _←(⊂APM.JSON cfg)⎕NPUT(src3,'/',APM.CFG_NAME)1
+     _←APM.Publish src3 uri
 
-     0 registry
+     registry
  }
